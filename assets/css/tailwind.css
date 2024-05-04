@@ -28,4 +28,7 @@ body {
     .testimonial-card{
         @apply flex lg:max-w-md max-w-xs flex-col bg-white rounded-md shadow-xl p-5;
     }
+    .selected{
+        @apply bg-teal-700 text-gray-100
+    }
 }

@@ -39,29 +39,29 @@
                 </header>
                 <div class="lg:px-16 px-5 flex justify-center gap-36 items-center">
                     <ul class="flex flex-col gap-10">
-                        <li class="service-card group">
-                            <img src="/assets/img/consult.svg" alt="consultaion icon" class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700">
+                        <li @click="handleClick(1)" :class="{ selected: selectedService === 1 }" class="service-card group cursor-pointer">
+                            <img src="/assets/img/consult.svg" alt="consultaion icon" :class="{ invert: selectedService === 1 }" class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700">
                             <div class="ml-5">
                                 <h4 class="text-xl font-bold uppercase">consultaion</h4>
                                 <p class="text-sm italic">Speak to your doctor from anywhere</p>
                             </div>
                         </li>
-                        <li class="service-card group">
-                            <img src="/assets/img/train.svg" alt="training icon" class="lg:w-20 w-16 filter invert group-hover:invert-0 transition ease-in-out duration-700 ">
+                        <li @click="handleClick(2)" :class="{ selected: selectedService === 2 }" class="service-card group cursor-pointer">
+                            <img src="/assets/img/train.svg" alt="training icon" :class="{ 'invert-0': selectedService === 2 }" class="lg:w-20 w-16 filter invert group-hover:invert-0 transition ease-in-out duration-700 ">
                             <div class="ml-5">
                                 <h4 class="text-xl font-bold uppercase">training</h4>
                                 <p class="text-sm italic">Fitness is key, Lets get you fit.</p>
                             </div>
                         </li>
-                        <li class="service-card group">
-                            <img src="/assets/img/conference.svg" alt="diagnosis icon" class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700">
+                        <li @click="handleClick(3)" :class="{ selected: selectedService === 3 }" class="service-card group cursor-pointer">
+                            <img src="/assets/img/conference.svg" alt="diagnosis icon" :class="{ invert: selectedService === 3 }" class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700">
                             <div class="ml-5">
                                 <h4 class="text-xl font-bold uppercase">Speaking Engagement</h4>
                                 <p class="text-sm italic">Learn about Public Speaker</p>
                             </div>
                         </li>
                     </ul>
-                    <div class="max-w-2xl hidden lg:block">
+                    <div class="max-w-2xl hidden lg:block" v-if="selectedService === 1">
                         <div>
                             <h4 class="text-5xl font-extrabold">Consultations</h4>
                             <span>with Dr. Dozie</span>
@@ -70,6 +70,28 @@
                             Meet Dr. Dozie, your trusted online healthcare companion. With virtual consultations, Dr. Dozie brings expert medical guidance right to your fingertips. 
                             <br><br>
                             Whether you're seeking advice on a specific issue or simply need a check-up, Dr. Dozie offers convenient, confidential consultations from the comfort of your own home. Take control of your health today and schedule your online consultation with Dr. Dozie.
+                        </p>
+                    </div>
+                    <div class="max-w-2xl hidden lg:block" v-else-if="selectedService === 2">
+                        <div>
+                            <h4 class="text-5xl font-extrabold">Training</h4>
+                            <span>with Dr. Dozie</span>
+                        </div>
+                        <p class="text-lg leading-relaxed mt-8">
+                            Dr. Dozie offers personalized training services designed to help you achieve your fitness goals. From customized workout plans to expert nutritional advice. <br><br>
+                            Her holistic approach empowers you to take charge of your health and transform your lifestyle.
+                            Join us today and embark on a journey to a better you with Dr. Dozie by your side.
+                        </p>
+                    </div>
+                    <div class="max-w-2xl hidden lg:block" v-else-if="selectedService === 3">
+                        <div>
+                            <h4 class="text-5xl font-extrabold">Speaking Engagement</h4>
+                            <span>with Dr. Dozie</span>
+                        </div>
+                        <p class="text-lg leading-relaxed mt-8">
+                            Refine your speaking skills with Dr. Dozie's expert coaching. Gain confidence, captivate audiences, and leave a lasting impression with personalized guidance tailored to your needs. 
+                            <br><br>
+                            Whether you're a seasoned speaker or just starting out, Dr. Dozie's Public Speaking Engagement Service offers practical techniques to help you connect with your audience and deliver your message with impact. From conquering nerves to perfecting your delivery, her coaching will elevate your speaking game and ensure your message resonates loud and clear.
                         </p>
                     </div>
                 </div>
@@ -224,6 +246,12 @@
             {name: 'description', content: 'Embark on a transformative journey with Dr. Dozie. Discover personalized health plans, expert consultations, and vibrant living strategies. Your path to wellness begins here!'}
         ]
     })
+
+    const selectedService = ref(1); // Set default to 1 for Div 1 info
+
+    const handleClick = (serviceNum) => {
+        selectedService.value = serviceNum;
+    };
 </script>
 
 <style scoped>

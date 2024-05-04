@@ -6,7 +6,12 @@
                     <div>
                         <img src="/assets/img/vansfield-logo.png" alt="Vansfield Lifestyle MD logo" class="w-16">
                     </div>
-                    <span class="ml-3 font-serif lg:text-lg uppercase"><span class="lg:text-2xl text-xl">V</span>ansfield <span class="lg:text-2xl text-xl">L</span>ifestyle <span class="lg:text-2xl text-xl">MD</span></span>
+                    <span class="ml-3 font-serif lg:text-lg uppercase lg:flex lg:gap-2">
+                        <div><span class="lg:text-2xl text-xl">V</span>ansfield</div> 
+                        <div>
+                            <span class="lg:text-2xl text-xl">L</span>ifestyle <span class="lg:text-2xl text-xl">MD</span>
+                        </div>
+                    </span>
                 </div>
             </NuxtLink>
             <nav>
