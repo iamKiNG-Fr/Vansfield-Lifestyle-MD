@@ -14,18 +14,18 @@ body {
         @apply p-3 rounded-md bg-white shadow-md h-full;
     }
     .btn{
-        @apply text-gray-900 bg-yellow-400  hover:bg-yellow-300  text-sm font-bold p-2 rounded-md transition ease-in-out duration-700;
+        @apply text-gray-900 bg-yellow-400  hover:bg-yellow-300  lg:text-base text-xs lg:font-bold font-extrabold p-2 rounded-md transition ease-in-out duration-700;
     }
     .service-card{
-        @apply flex bg-yellow-400 hover:bg-teal-700 hover:text-gray-100 rounded-lg px-10  py-5 items-center transition ease-in-out duration-700;
+        @apply flex bg-yellow-400 hover:bg-teal-700 hover:text-gray-100 rounded-lg lg:px-10 px-4  lg:py-5 py-3 items-center transition ease-in-out duration-700;
     }
     .product-card{
-        @apply bg-gray-100 p-6 lg:w-64 max-w-sm text-center rounded-md;
+        @apply bg-gray-100 p-6 lg:w-64 max-w-xs text-center rounded-md;
     }
     .testimonial-cards{
         @apply flex flex-col items-center lg:grid  lg:grid-cols-2 gap-10 lg:justify-items-center max-w-6xl mx-auto;
     }
     .testimonial-card{
-        @apply flex max-w-md flex-col bg-white rounded-md shadow-xl p-5;
+        @apply flex lg:max-w-md max-w-xs flex-col bg-white rounded-md shadow-xl p-5;
     }
 }

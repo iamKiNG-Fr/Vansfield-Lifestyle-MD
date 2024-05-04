@@ -9,19 +9,19 @@
 </template>
 
 <script setup>
-    definePageMeta({
-        layout: 'products'
-    })
+    // definePageMeta({
+    //     layout: 'products'
+    // })
 
-    //fetch products
-    const {data: products} = await useFetch('https://fakestoreapi.com/products')
+    // //fetch products
+    // const {data: products} = await useFetch('https://fakestoreapi.com/products')
 
-    useHead({
-        title: 'Vansfield Merch',
-        meta: [
-            {name: 'description', content: 'Vansfield Merch'}
-        ]
-    })
+    // useHead({
+    //     title: 'Vansfield Merch',
+    //     meta: [
+    //         {name: 'description', content: 'Vansfield Merch'}
+    //     ]
+    // })
 </script>
 
 <style scoped>
