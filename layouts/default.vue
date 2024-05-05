@@ -51,6 +51,7 @@
                 </ul>
             </div>
         </footer>
+        <div class="bg-teal-900 text-gray-400 text-center p-3">Website crafted by <a href="https://www.simplyroyalty.com" target="_blank" class="font-serif text-yellow-400">Royalty</a></div>
     </div>
 </template>
 
