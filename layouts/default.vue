@@ -46,8 +46,8 @@
             <div>
                 <h5 class="uppercase text-lg font-bold mb-4 text-center lg:text-left">Contact</h5>
                 <ul class="flex gap-4 flex-wrap justify-center lg:block">
-                    <li class="hover:text-yellow-400"><a href="mailto:">info@vansfieldlifestylemd.com</a></li>
-                    <li class="hover:text-yellow-400"><a href="tel:">+234 (0) 80 000 0000</a></li>
+                    <li class="hover:text-yellow-400"><a href="mailto:">vansfieldlifestylemd@gmail.com</a></li>
+                    <li class="hover:text-yellow-400"><a href="tel:">+234 (0) 803 450 0963</a></li>
                 </ul>
             </div>
         </footer>
