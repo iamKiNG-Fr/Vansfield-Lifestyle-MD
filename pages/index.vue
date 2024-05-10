@@ -232,8 +232,8 @@
                 </header>
                 <p v-if="responseMsg" class="mt-5 text-gray-100 text-lg">* {{ responseMsg }}</p>
                 <div class="mt-5 box-border flex lg:flex-row flex-col gap-5">
-                    <input type="text" class="lg:w-96 w-60 bg-gray-100 text-2xl rounded-md p-2" v-model="name" placeholder="What's your Name?" required>
-                    <input type="email" class="lg:w-96 w-60 bg-gray-100 text-2xl rounded-md p-2" v-model="email" placeholder="What's your Email?" required>
+                    <input type="text" class="lg:w-96 w-60 bg-gray-100 text-2xl rounded-md p-2" v-model="name" placeholder="What's your Name?" required autocomplete="name"> 
+                    <input type="email" class="lg:w-96 w-60 bg-gray-100 text-2xl rounded-md p-2" v-model="email" placeholder="What's your Email?" required autocomplete="email">
                     <button class="bg-yellow-400 text-xl font-bold py-2 px-4 rounded-md hover:bg-yellow-300">Join</button>
                 </div>
             </form>
@@ -256,13 +256,17 @@
     
     const selectedService = ref(1); // Set default to 1 for Div 1 info
     
+    onBeforeMount( async()=> {
+        await $fetch(`https://vansfield-lifestyle-md-be.onrender.com`, {method: 'GET'})
+    })
+
     const handleClick = (serviceNum) => {
         selectedService.value = serviceNum;
     };
     
     const handleSubmit = async() => {
         try {
-            const {data:msg} = await useFetch(`http://127.0.01:5000/newsletter`, {method: 'POST', body: {name: name.value, email:email.value}}) 
+            const {data:msg} = await $fetch(`https://vansfield-lifestyle-md-be.onrender.com/newsletter`, {method: 'POST', body: {name: name.value, email:email.value}}) 
             // console.log(data);
             responseMsg.value = msg.value.message;
             // console.log(`hmm${responseMsg}`);
