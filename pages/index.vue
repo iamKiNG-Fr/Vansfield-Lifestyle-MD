@@ -271,6 +271,7 @@
             responseMsg.value = response.message;
             // console.log(response.message);
             // console.log(`hmm${responseMsg}`);
+            setTimeout(() => {responseMsg.value= ''}, 5000);
         } catch (error) {
             console.log(error);
         }
