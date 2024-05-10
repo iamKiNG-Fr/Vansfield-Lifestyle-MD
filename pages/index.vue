@@ -266,9 +266,10 @@
     
     const handleSubmit = async() => {
         try {
-            const {data:msg} = await $fetch(`https://vansfield-lifestyle-md-be.onrender.com/newsletter`, {method: 'POST', body: {name: name.value, email:email.value}}) 
+            const response = await $fetch(`https://vansfield-lifestyle-md-be.onrender.com/newsletter`, {method: 'POST', body: {name: name.value, email:email.value}}) 
             // console.log(data);
-            responseMsg.value = msg.value.message;
+            responseMsg.value = response.message;
+            // console.log(response.message);
             // console.log(`hmm${responseMsg}`);
         } catch (error) {
             console.log(error);
