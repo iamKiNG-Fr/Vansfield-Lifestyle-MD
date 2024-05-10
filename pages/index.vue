@@ -230,7 +230,7 @@
                     <h3 class="text-gray-100 lg:text-5xl text-2xl font-bold">Begin your <span class="text-yellow-500">Healthy Lifestyle</span> Journey Here!</h3>
                     <p class="pt-5 text-xl text-gray-100">Join my Email list to stay updated.</p>
                 </header>
-                <p v-if="responseMsg" class="mt-5 text-gray-100 text-lg">* {{ responseMsg }}</p>
+                <p v-if="responseMsg" class="mt-5 text-lg text-yellow-400">* {{ responseMsg }}</p>
                 <div class="mt-5 box-border flex lg:flex-row flex-col gap-5">
                     <input type="text" class="lg:w-96 w-60 bg-gray-100 text-2xl rounded-md p-2" v-model="name" placeholder="What's your Name?" required autocomplete="name"> 
                     <input type="email" class="lg:w-96 w-60 bg-gray-100 text-2xl rounded-md p-2" v-model="email" placeholder="What's your Email?" required autocomplete="email">
