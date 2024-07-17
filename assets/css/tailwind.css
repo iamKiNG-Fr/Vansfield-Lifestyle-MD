@@ -3,18 +3,21 @@
 @tailwind utilities;
 
 body {
-    @apply bg-gray-50 bg-hero-pattern text-gray-900;
+    @apply bg-gray-50 bg-hero-pattern text-gray-900 ;
 }
 
 @layer components {
     .hero-bubble{
-        @apply text-gray-900 bg-yellow-400 lg:text-3xl text-lg py-2 lg:px-10 px-4 rounded-md absolute
+        @apply text-gray-900 bg-yellow-400 lg:text-3xl text-lg py-2 lg:px-10 px-4 rounded-md absolute;
     }
     .card{
-        @apply p-3 rounded-md bg-white shadow-md h-full;
+        @apply p-3 rounded-md bg-white shadow-md h-full ;
     }
     .btn{
         @apply text-gray-900 bg-yellow-400  hover:bg-yellow-300  lg:text-base text-xs lg:font-bold font-extrabold p-2 rounded-md transition ease-in-out duration-700;
+    }
+    .btn2{
+        @apply text-teal-700 hover:text-gray-100 font-bold text-base text-center hover:bg-teal-700 border-teal-700 border-2 rounded-md p-1 mt-2 cursor-pointer transition-colors;
     }
     .service-card{
         @apply flex bg-yellow-400 hover:bg-teal-500 hover:text-gray-100 rounded-lg lg:px-10 px-4  lg:py-5 py-3 items-center transition ease-in-out duration-700;
@@ -30,5 +33,17 @@ body {
     }
     .selected{
         @apply bg-teal-700 text-gray-100
+    }
+    .productscard{
+        @apply grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:px-3 gap-5;
+    }
+    .dropzone{
+        @apply border-teal-700 border-dashed border-2 rounded-xl p-28 mt-4 flex flex-col justify-center items-center transition duration-300 ease-in-out;
+    }
+    .active-dropzone{
+        @apply bg-teal-100 transition duration-300 ease-in-out
+    }
+    #dropInput{
+        @apply hidden
     }
 }
