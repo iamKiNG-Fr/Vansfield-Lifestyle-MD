@@ -25,8 +25,8 @@
     >
       <template #productImage-data="{ row }">
         <img
-          :src="'http://localhost:5000' + row.productImage"
-          alt="Product Image"
+          :src="backend + row.productImage"
+          :alt="row.productName"
           class="w-28 h-28 object-cover rounded-xl mx-auto"
         />
       </template>
