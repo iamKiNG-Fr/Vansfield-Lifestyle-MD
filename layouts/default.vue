@@ -105,6 +105,12 @@ sc
               Dashboard
             </NuxtLink
           >
+          <NuxtLink to="/consultation"
+          class="p-3 w-full text-center">
+          <UIcon name="iconamoon:profile-fill" class="text-2xl mr-2" dynamic/>
+              Book Consultation
+            </NuxtLink
+          >
     
       </div>
     </transition>
