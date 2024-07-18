@@ -57,7 +57,7 @@
               class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
             />
           </div>
-          <div class="flex flex-col pt-8">
+          <!-- <div class="flex flex-col pt-8">
             <label for="" class="font-bold text-lg">Consultation Type</label>
             <select
               name=""
@@ -69,7 +69,7 @@
               <option value="">llo</option>
               <option value="">mate</option>
             </select>
-          </div>
+          </div> -->
           <div class="flex flex-col pt-8">
             <label for="" class="font-bold text-lg">Date</label>
             <input
@@ -102,6 +102,11 @@
                 class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
               />
             </div>
+          </div>
+          <div class="flex flex-col">
+            <label for="details" class="font-bold text-lg mt-8">Talk to us</label>
+            <textarea v-model="formState.details" id="details" rows="3" class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg resize-none"></textarea>
+          
           </div>
 
           <button type="submit" class="btn2 w-full p-3 text-lg mt-7">
@@ -139,6 +144,7 @@ const formState = ref({
   date: "",
   timeFrom: "",
   timeTo: "",
+  details:""
 });
 
 // Get today's date in the format YYYY-MM-DD
@@ -149,9 +155,11 @@ const minDate = today;
 const minTime = "09:00";
 const maxTime = "17:00";
 
+const backend = useRuntimeConfig().public.backendUrl
+
 const submitAppointment = async () => {
   try {
-    await $fetch("http://localhost:5000/appointments", {
+    await $fetch(`${backend}/appointments`, {
       method: "POST",
       body: formState.value,
     });
@@ -165,6 +173,7 @@ const submitAppointment = async () => {
       date: "",
       timeFrom: "",
       timeTo: "",
+      details:""
     };
   } catch (error) {
     console.error("Error submitting appointment:", error);
