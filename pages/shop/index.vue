@@ -63,12 +63,9 @@ const links = [
   },
 ];
 
-const { status } = useAuth();
 const { token, setToken } = useAuthState();
 // console.log('hiu');
 // console.log(token.value);
-console.log(status.value);
-setToken(token.value);
 const backend = useRuntimeConfig().public.backendUrl;
 
 // async function asyncData() {
