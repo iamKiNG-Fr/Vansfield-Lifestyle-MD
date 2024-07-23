@@ -1,31 +1,39 @@
 <template>
   <div>
     <div
-    class="bg-teal-700 lg:text-6xl md:text-3xl text-2xl font-bold text-center text-white leading-tight bg-[url('/plant.jpg')] bg-cover md:bg-top bg-left-bottom md:py-24 sm:px-24 md:px-32 py-10 p-14"
+      class="bg-teal-700 lg:text-6xl md:text-3xl text-2xl font-bold text-center text-white leading-tight bg-[url('/plant.jpg')] bg-cover md:bg-top bg-left-bottom md:py-24 sm:px-24 md:px-32 py-10 p-14"
     >
-    You're one Step <span class="text-yellow-400">Closer to Embracing</span> a
-    Lifestyle of <span class="text-yellow-400">Wellness</span>
-  </div>
-  <UBreadcrumb :links="links" class="m-10 ml-16" />
-    <div class="lg:py-24 lg:px-18 2xl:px-24  md:py-15 md:px-15 p-10">
+      You're one Step <span class="text-yellow-400">Closer to Embracing</span> a
+      Lifestyle of <span class="text-yellow-400">Wellness</span>
+    </div>
+    <UBreadcrumb :links="links" class="m-10 ml-16" />
+    <div class="lg:py-0 lg:px-18 2xl:px-24 md:py-0 md:px-15 p-10">
       <div>
         <h3 class="font-bold text-3xl">+ Products</h3>
         <p class="italic">Healthy Lifestyle starts witha good plan</p>
-        <div class="productscard mt-10" >
-            <div v-for="product in products" :key="product.id">
-              <ProductCard :product="product"/>
-                <!-- {{ product.productName }} -->
-            </div>
+        <div v-if="!products" class="flex gap-8 mt-10 flex-wrap mx-auto">
+          <USkeleton
+            v-for="n in 6"
+            :key="n"
+            class="h-[300px] w-[250px]"
+            :ui="{backgound: 'bg-red-400'}"
+          />
+        </div>
+        <div class="productscard mt-10" v-else>
+          <div v-for="product in products" :key="product.id">
+            <ProductCard :product="product" />
+            <!-- {{ product.productName }} -->
+          </div>
         </div>
       </div>
       <!-- <div class="mt-24">
         <h3 class="font-bold text-3xl">+ Products</h3>
         <p class="italic">Enrich your mind</p>
         <div class="productscard"> -->
-          <!-- <ProductCard />
+      <!-- <ProductCard />
           <ProductCard />
           <ProductCard /> -->
-        <!-- </div>
+      <!-- </div>
       </div> -->
     </div>
   </div>
@@ -41,8 +49,8 @@ definePageMeta({
   // auth: {
   //   unauthenticatedOnly: true,
   // },
-  auth: false
-})
+  auth: false,
+});
 
 const links = [
   {
@@ -52,25 +60,27 @@ const links = [
   {
     label: "Shop",
     icon: "i-heroicons-shopping-cart-20-solid",
-  }
+  },
 ];
 
-const {  status } = useAuth()
-const {token, setToken} = useAuthState()
+const { status } = useAuth();
+const { token, setToken } = useAuthState();
 // console.log('hiu');
 // console.log(token.value);
 console.log(status.value);
-setToken(token.value)
-const backend = useRuntimeConfig().public.backendUrl
+setToken(token.value);
+const backend = useRuntimeConfig().public.backendUrl;
 
 // async function asyncData() {
 //     const response = await $fetch('http://localhost:5000/products', { method: 'get' });
 //     return { products: response.data };
 // }
 
-const {data: products} = await useFetch(`${backend}/products`, { method: "GET", credentials: 'include', headers: token.value ? {Authorization: token.value}:{}});
-
-
+const { data: products} = await useFetch(`${backend}/products`, {
+  method: "GET",
+  credentials: "include",
+  headers: token.value ? { Authorization: token.value } : {},
+});
 </script>
 
 <style scoped></style>

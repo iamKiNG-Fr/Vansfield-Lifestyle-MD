@@ -108,7 +108,7 @@
       </div>
 
       <button type="submit" class="btn2 w-full p-3 text-lg mt-7">
-        Book Now
+        Add Product
       </button>
     </div>
   </form>

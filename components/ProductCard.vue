@@ -41,6 +41,8 @@ const calculatedPrice = computed(() => {
   return productPrice - productOffer;
 });
 
+console.log(product.category);
+
 </script>
 
 <style scoped>

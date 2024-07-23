@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       backendUrl: process.env.NUXT_PUBLIC_BACKEND_URL,
+      paystackPK: process.env.PAYSTACK_PUBLIC_KEY,
     },
   },
   auth: {
@@ -29,7 +30,7 @@ export default defineNuxtConfig({
     head: {
       title: "Vansfield Lifestyle MD",
       meta: [
-        { name: "description", content: "Webapp for vansfirls Lifestyle MD" },
+        { name: "description", content: "Vansfield Lifestyle MD, Your wellness journey begins here" },
       ],
       link: [
         {
