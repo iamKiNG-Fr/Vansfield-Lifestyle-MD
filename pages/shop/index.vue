@@ -11,7 +11,7 @@
       <div>
         <h3 class="font-bold text-3xl">+ Products</h3>
         <p class="italic">Healthy Lifestyle starts witha good plan</p>
-        <div v-if="!products" class="flex gap-8 mt-10 flex-wrap mx-auto">
+        <div v-if="status==='pending'" class="flex gap-8 mt-10 flex-wrap mx-auto">
           <USkeleton
             v-for="n in 6"
             :key="n"
@@ -73,7 +73,7 @@ const backend = useRuntimeConfig().public.backendUrl;
 //     return { products: response.data };
 // }
 
-const { data: products} = await useFetch(`${backend}/products`, {
+const {status, data: products} = await useLazyFetch(`${backend}/products`, {
   method: "GET",
   credentials: "include",
   headers: token.value ? { Authorization: token.value } : {},

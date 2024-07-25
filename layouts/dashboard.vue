@@ -1,4 +1,5 @@
 <template>
+  <NuxtLoadingIndicator height="10" color="#008080"/>
   <div class="">
     <header
       class="flex lg:px-40 px-4 pt-4 pb-8 lg:py-10 py-4 justify-between items-center"

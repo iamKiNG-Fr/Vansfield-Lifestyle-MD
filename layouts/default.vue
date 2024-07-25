@@ -1,6 +1,5 @@
-sc
-
 <template>
+  <NuxtLoadingIndicator height="5" color="#008080" />
   <div class="">
     <header
       class="relative flex lg:px-40 px-4 pt-4 pb- lg:py-10 py-4 justify-between items-center max-[690px]:shadow-lg max-[690px]:bg-gray-100 z-20"
