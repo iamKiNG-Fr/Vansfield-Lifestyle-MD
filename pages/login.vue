@@ -24,7 +24,7 @@
                   type="email"
                   placeholder="Enter your Email"
                   class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
-                  v-model="email"
+                  v-model="email" required
                 />
               </div>
               <div class="flex flex-col pt-8">
@@ -33,10 +33,13 @@
                   type="password"
                   placeholder="Enter your Password"
                   class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
-                  v-model="password"
+                  v-model="password" required
                 />
               </div>
-              <button type="submit" class="btn2 w-full p-3 text-lg mt-7">Login</button>
+            <button type="submit" class="btn2 w-full p-3 text-lg mt-7">
+                <p v-if="!isLoading">Login</p>
+                <UIcon class="animate-spin" name="heroicons:arrow-path-16-solid" dynamic v-else/>
+            </button>
               
             </form>
         </div>
@@ -59,11 +62,13 @@
 
     const email = ref("")
     const password = ref("")
+    const isLoading = ref(false)
 
     const { signIn, status } = useAuth()
     const {token, data} = useAuthState()
     
     const login = async() => {
+        isLoading.value = true
 
         const credentials = {
             email: email.value,
