@@ -1,8 +1,16 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
-  <div>
+  <DeletePopup
+    v-show="isDisplayingDelete"
+    :productName="productNameToPass"
+    :id="productIdToPass"
+    @removeDeletePopup="isDisplayingDelete = false"
+    @deleteProduct="deleteProduct"
+  />
+  <div class="">
     <h2 class="font-bold text-teal-700 text-2xl mb-8">View Products</h2>
     <UTable
+      loading
       :rows="rows"
       :ui="{
         strategy: 'override',
@@ -32,10 +40,7 @@
       </template>
 
       <template #actions-data="{ row }">
-        <UDropdown :items="items(row)"
-        :ui="{
-        }"
-        >
+        <UDropdown :items="items(row)" :ui="{}">
           <UButton
             color="black"
             variant="outline"
@@ -43,7 +48,6 @@
           />
         </UDropdown>
       </template>
-      
     </UTable>
     <div
       class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
@@ -60,10 +64,16 @@
 <script setup>
 definePageMeta({
   layout: "dashboard",
+  middleware: 'verify',
+  role: 'sAdmin' || 'admin'
   // auth: false
 });
 
-const backend = useRuntimeConfig().public.backendUrl
+const isDisplayingDelete = ref(false);
+const productNameToPass = ref("");
+const productIdToPass = ref("");
+
+const backend = useRuntimeConfig().public.backendUrl;
 
 const links = [
   {
@@ -87,43 +97,54 @@ const items = (row) => [
       label: "View",
       icon: "i-heroicons-eye-16-solid",
       click: () => navigateTo(`/shop/${row._id}`),
-    }
+    },
   ],
-  
+
   [
     {
       label: "Delete",
       icon: "i-heroicons-trash-20-solid",
-      click: async () => {
-        try {
-          await $fetch(`${backend}/products/${row._id}`, { method: "DELETE"});
-          products.value = products.value.filter(product => product._id !== row._id);
-        } catch (error) {
-          console.error('Error deleting product:', error);
-        }
-      }
+      click: () => {
+        isDisplayingDelete.value = true;
+        productNameToPass.value = row.productName;
+        productIdToPass.value = row._id;
+      },
     },
   ],
 ];
 
-const {token} =  useAuthState()
+const { token } = useAuthState();
 const page = ref(1);
 const pageCount = 5;
-const products = ref([])
+const products = ref([]);
 
-const fetchProducts = async() =>{
+const fetchProducts = async () => {
   try {
     const data = await $fetch(`${backend}/products`, {
-      method: "get",  headers: token.value ? {Authorization: token.value}:{}
+      method: "get",
+      headers: token.value ? { Authorization: token.value } : {},
     });
-    products.value = data
+    products.value = data;
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+const deleteProduct = async (id) => {
+  try {
+    await $fetch(`${backend}/products/${id}`, { method: "DELETE" });
+    products.value = products.value.filter((product) => product._id !== id);
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  }
+  isDisplayingDelete.value = false;
+};
 
 const rows = computed(() => {
-  return products.value.slice((page.value - 1) * pageCount, page.value * pageCount);
+  return products.value.slice(
+    (page.value - 1) * pageCount,
+    page.value * pageCount
+  );
 });
 
 onMounted(() => {

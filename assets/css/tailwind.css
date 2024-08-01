@@ -46,4 +46,7 @@ body {
     #dropInput{
         @apply hidden
     }
+    .error{
+        @apply text-red-400 italic pb-5
+    }
 }

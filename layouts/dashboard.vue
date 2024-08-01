@@ -1,5 +1,5 @@
 <template>
-  <NuxtLoadingIndicator height="10" color="#008080"/>
+  <NuxtLoadingIndicator :height="10" color="#008080"/>
   <div class="">
     <header
       class="flex lg:px-40 px-4 pt-4 pb-8 lg:py-10 py-4 justify-between items-center"
@@ -22,13 +22,30 @@
           </span>
         </div>
       </NuxtLink>
-      <div class="flex gap-5 font-semibold">
+      <div class="flex gap-5 font-semibold items-center ">
         <NuxtLink to="/">
           Home
         </NuxtLink>
-        <NuxtLink to="/">
-          Account
-        </NuxtLink>
+        <div to="/" @click="showAccountMenu=!showAccountMenu" ref="accountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+          <div class="flex items-center gap-2">
+            <UIcon name="material-symbols:person-2" dynamic /> 
+            <span> {{ user.firstName }} {{ user.lastName }}</span>
+          </div>
+          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showAccountMenu">
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+              <UIcon name="material-symbols:person-edit-rounded" dynamic/>
+              <span>Edit Profile</span>
+            </div>
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+              <UIcon name="material-symbols:history-rounded" dynamic/>
+              <span>Order History</span>
+            </div>
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700" @click="logout">
+              <UIcon name="material-symbols:view-list" dynamic />
+              <span>Log Out</span>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
     <section class="max-w-[1800px] mx-auto p-10">
@@ -148,9 +165,32 @@ useHead({
 const backend = useRuntimeConfig().public.backendUrl
 
 const {signOut} = useAuth()
-const {status} = useAuthState()
+const {status, data} = useAuthState()
 
 const showShopOptions = ref(false)
+const showAccountMenu = ref(false)
+const accountMenu = ref(null)
+
+//user data
+
+const user = data.value
+
+
+// Menu
+
+const handleClickOutside = (event) => {
+  if (accountMenu.value && !accountMenu.value.contains(event.target)) {
+    showAccountMenu.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 
 const logout = async () => {
   await signOut({ callbackUrl: '/' }) // Call Sidebase's signOut for local session handling

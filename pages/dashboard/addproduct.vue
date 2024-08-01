@@ -1,6 +1,6 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
-
+  <SuccessPopup v-if="isDisplayingSuccess" :productName="productName" />
   <div>
     <h2 class="font-bold text-teal-700 text-2xl mb-8">Add Products</h2>
   </div>
@@ -8,6 +8,7 @@
     @submit.prevent="submitNewProduct"
     class="p-10 bg-white mt-10 flex gap-10 justify-center"
   >
+    <p v-if="error" class="error">{{ error }}</p>
     <div class="w-1/2">
       <div class="flex flex-col">
         <label for="productName" class="font-bold text-lg">Product Name</label>
@@ -25,7 +26,11 @@
           class="bg-white px-5 pt-3 pb-1 border-b-4 focus:outline-none border-teal-700 focus:border-yellow-400 font-medium text-lg"
         >
           <option value="" disabled selected>Pick a category</option>
-          <option v-for="category in categories" :key="category._id" :value="category._id">
+          <option
+            v-for="category in categories"
+            :key="category._id"
+            :value="category._id"
+          >
             {{ category.name }}
           </option>
         </select>
@@ -107,8 +112,18 @@
         />
       </div>
 
-      <button type="submit" class="btn2 w-full p-3 text-lg mt-7">
-        Add Product
+      <button
+        type="submit"
+        :disabled="isLoading === true"
+        class="btn2 w-full p-3 text-lg mt-7"
+      >
+        <p v-if="!isLoading">Add Product</p>
+        <UIcon
+          class="animate-spin"
+          name="heroicons:arrow-path-16-solid"
+          dynamic
+          v-else
+        />
       </button>
     </div>
   </form>
@@ -117,6 +132,8 @@
 <script setup>
 definePageMeta({
   layout: "dashboard",
+  middleware: 'verify',
+  role: 'sAdmin' || 'admin'
 });
 
 const backend = useRuntimeConfig().public.backendUrl;
@@ -142,6 +159,9 @@ const offer = ref(0);
 const description = ref("");
 const productImage = ref(null);
 const imagePreview = ref(null);
+const isDisplayingSuccess = ref(false);
+const isLoading = ref(false);
+const error = ref("");
 
 const active = ref(false);
 const toggleActive = () => {
@@ -176,11 +196,11 @@ const handleFile = (file) => {
   }
 };
 
-const categories = ref([])
+const categories = ref([]);
 
-onMounted( async() => {
+onMounted(async () => {
   const categoriesData = await $fetch(`${backend}/category`);
-  categories.value = categoriesData
+  categories.value = categoriesData;
 });
 
 const submitNewProduct = async () => {
@@ -194,15 +214,22 @@ const submitNewProduct = async () => {
     if (productImage.value) {
       formData.append("productImage", productImage.value);
     }
-    console.log(formData);
     const response = await $fetch(`${backend}/products`, {
       method: "POST",
       body: formData,
     });
+    console.log(response.status);
 
-    console.log("Product uploaded successfully:", response);
-    alert(`"${productName.value}" added successfully!`);
+    // console.log("Product uploaded successfully:", response);
+    // alert(`"${productName.value}" added successfully!`);
+    if (response.status == "success") {
+    
+      isDisplayingSuccess.value = true;
+      setTimeout(() => (isDisplayingSuccess.value = false), 5000);
+    
+    }
 
+    //reset form fields
     productName.value = "";
     category.value = "";
     price.value = 0;
@@ -210,8 +237,10 @@ const submitNewProduct = async () => {
     description.value = "";
     productImage.value = null;
     dropzoneFile.value = null;
+    imagePreview.value = null;
   } catch (error) {
     console.error("Error uploading product:", error);
+    error.value = "Failed to add product. Please try again.";
   }
 };
 </script>

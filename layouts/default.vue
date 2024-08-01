@@ -1,8 +1,8 @@
 <template>
-  <NuxtLoadingIndicator height="5" color="#008080" />
+  <NuxtLoadingIndicator :height="5" color="#008080" />
   <div class="">
     <header
-      class="relative flex lg:px-40 px-4 pt-4 pb- lg:py-10 py-4 justify-between items-center max-[690px]:shadow-lg max-[690px]:bg-gray-100 z-20"
+      class=" flex lg:px-40 px-4 pt-4 pb- lg:py-10 py-4 justify-between items-center max-[690px]:shadow-lg max-[690px]:bg-gray-100 z-20"
     >
       <NuxtLink to="/" class="border-none">
         <div class="flex items-center">
@@ -46,7 +46,7 @@
             </p></NuxtLink
           >
         </div>
-        <div v-else>
+        <div v-if="user && (user.role == 'admin' || user.role === 'sAdmin')">
           <NuxtLink to="/dashboard/appointments"
             ><p
               class="font-medium text-gray-500 hover:text-teal-700 hover:font-bold transition duration-300"
@@ -58,8 +58,28 @@
         <NuxtLink to="/consultation"
           ><button class="btn">Book a Consultauion</button></NuxtLink
         >
+        <div to="/" @click="showAccountMenu=!showAccountMenu" v-if="status === 'authenticated'" ref="accountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+          <div class="flex items-center gap-2">
+            <UIcon name="material-symbols:person-2" class="text-2xl" dynamic/> 
+            <span class="font-bold text-center">{{ user.firstName }} {{ user.lastName }}</span>
+          </div>
+          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showAccountMenu">
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+              <UIcon name="material-symbols:person-edit-rounded" dynamic/>
+              <span>Edit Profile</span>
+            </div>
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+              <UIcon name="material-symbols:history-rounded" dynamic/>
+              <span>Order History</span>
+            </div>
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700" @click="logout">
+              <UIcon name="material-symbols:view-list" dynamic />
+              <span>Log Out</span>
+            </div>
+          </div>
+        </div>
       </nav>
-      <div class="min-[690px]:hidden relative">
+      <div class="min-[690px]:hidden relative flex gap-3 items-center">
         <UIcon
           name="material-symbols:menu-rounded"
           @click="toggleMenu"
@@ -67,6 +87,28 @@
           style="font-size: 30px; color: white"
           dynamic
         />
+        <div to="/" @click="showAccountMenu=!showAccountMenu" v-if="status === 'authenticated'" ref="accountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+          <div class="flex items-center gap-2">
+            <UIcon name="material-symbols:person-2" class="text-[20px]" dynamic/> 
+          </div>
+          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showAccountMenu">
+            <div>
+              <span class="font-bold">{{ user.firstName }} {{ user.lastName }}</span>
+            </div>
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+              <UIcon name="material-symbols:person-edit-rounded" dynamic/>
+              <span>Edit Profile</span>
+            </div>
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+              <UIcon name="material-symbols:history-rounded" dynamic/>
+              <span>Order History</span>
+            </div>
+            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700" @click="logout">
+              <UIcon name="material-symbols:view-list" dynamic />
+              <span>Log Out</span>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
     <transition name="slide-down">
@@ -99,7 +141,7 @@
             </NuxtLink
           >
           <NuxtLink to="/dashboard/appointments"
-          class="p-3 w-full text-center" v-else>
+          class="p-3 w-full text-center" v-if="user && (user.role == 'admin' || user.role === 'sAdmin')">
           <UIcon name="material-symbols:space-dashboard" class="text-2xl mr-2" dynamic/>
               Dashboard
             </NuxtLink
@@ -184,8 +226,14 @@
 </template>
 
 <script setup>
-const { status } = useAuthState();
+const { status, data } = useAuthState();
+const {signOut} = useAuth()
 const isMenuOpen = ref(false);
+
+
+//user data
+const user = data.value
+
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
@@ -205,26 +253,53 @@ const scrollToTop = () => {
   });
 };
 
+
+//Logout Logic
+
+
+const logout = async () => {
+  await signOut({ callbackUrl: '/' }) // Call Sidebase's signOut for local session handling
+}
+
+
+
+//Logic for Menu
+
+
+const showAccountMenu = ref(false)
+const accountMenu = ref(null)
+
+const handleClickOutside = (event) => {
+  if (accountMenu.value && !accountMenu.value.contains(event.target)) {
+    showAccountMenu.value = false;
+  }
+};
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
-
+  document.addEventListener('click', handleClickOutside);
+  
   watchEffect(() => {
     const closeMenuHandler = (event) => {
       const dropdown = document.querySelector(".dropdown");
       const header = document.querySelector("header");
-
+      
       if (!dropdown.contains(event.target) && !header.contains(event.target)) {
         isMenuOpen.value = false;
       }
     };
-
+    
     document.addEventListener("click", closeMenuHandler);
-
+    
     // Cleanup event listener when component unmounts
     return () => {
       document.removeEventListener("click", closeMenuHandler);
     };
   });
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
 });
 
 onBeforeUnmount(() => {

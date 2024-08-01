@@ -4,6 +4,7 @@
     <h2 class="font-bold text-teal-700 text-2xl mb-8">Appointments</h2>
     <div v-if="formattedAppointments">
       <UTable
+        
         :rows="formattedAppointments"
         :columns="columns"
         :ui="{
@@ -26,7 +27,6 @@
             />
           </UDropdown>
         </template>
-  
       </UTable>
     </div>
     <div v-else>
@@ -37,11 +37,13 @@
 
 <script setup>
 definePageMeta({
-  layout: "dashboard", 
+  layout: "dashboard",
+  middleware: 'verify',
+  role: 'sAdmin' || 'admin'
   // auth: false
 });
 
-const backend = useRuntimeConfig().public.backendUrl
+const backend = useRuntimeConfig().public.backendUrl;
 
 const links = [
   {
@@ -53,7 +55,6 @@ const links = [
     icon: "i-heroicons-calendar-days-16-solid",
   },
 ];
-
 
 const columns = [
   {
@@ -90,70 +91,57 @@ const columns = [
   },
 ];
 
-// const items = (row) => {
-  //   // Logic to generate items array based on row data
-  //   // Example:
-  //   const itemsArray = [
-    //     { label: 'Edit', icon: 'i-heroicons-pencil-solid-16' },
-    //     { label: 'Delete', icon: 'i-heroicons-x-mark-solid-16' }
-    //   ]
-    //   return itemsArray;
-    // }
-    
-    const items = (row) => [
-      [
-        {
-          label: "Edit",
-          icon: "i-heroicons-pencil-square-20-solid",
-          click: () => console.log("Edit", row.id),
-        }
-      ],
-      [
-        {
-          label: "Delete",
-          icon: "i-heroicons-trash-20-solid",
-        },
-      ],
-    ];
-    
-    const {token} = useAuthState()
+const items = (row) => [
+  [
+    {
+      label: "Edit",
+      icon: "i-heroicons-pencil-square-20-solid",
+      click: () => console.log("Edit", row.id),
+    },
+  ],
+  [
+    {
+      label: "Delete",
+      icon: "i-heroicons-trash-20-solid",
+    },
+  ],
+];
 
-    const formattedAppointments = ref([])
+const { token } = useAuthState();
 
-    // Function to format the date
-    function formatAppointmentDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      });
-    }
-    
-    onMounted( async ()=>{
-      try {
-        const appointments = await $fetch(`${backend}/appointments`, {
-          method: "GET", credentials: 'include', headers: token.value ? {Authorization: token.value}:{}
-        });
-        
-        // Computed property to format the date in appointments
-        const formattedAppointmentsData = computed(() => {
-          return appointments.map((appointment) => ({
-            ...appointment,
-            date: formatAppointmentDate(appointment.date), // Format the date field
-          }));
-        });
+const formattedAppointments = ref([]);
 
+// Function to format the date
+function formatAppointmentDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
 
-        formattedAppointments.value = formattedAppointmentsData.value
-        
-      } catch (error) {
-        console.log(error);
-      }
-    })
-    
+onMounted(async () => {
+  try {
+    const appointments = await $fetch(`${backend}/appointments`, {
+      method: "GET",
+      credentials: "include",
+      headers: token.value ? { Authorization: token.value } : {},
+    });
 
+    // Computed property to format the date in appointments
+    const formattedAppointmentsData = computed(() => {
+      return appointments.map((appointment) => ({
+        ...appointment,
+        date: formatAppointmentDate(appointment.date), // Format the date field
+      }));
+    });
 
+    formattedAppointments.value = formattedAppointmentsData.value;
+  } catch (error) {
+    console.log(error);
+  }
+});
 </script>
 
 <style lang="scss" scoped></style>
