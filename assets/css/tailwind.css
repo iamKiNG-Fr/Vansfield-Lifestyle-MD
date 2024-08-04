@@ -49,4 +49,7 @@ body {
     .error{
         @apply text-red-400 italic pb-5
     }
+    .success{
+        @apply text-green-500 italic pb-5
+    }
 }

@@ -9,7 +9,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const userRole = data.value.role;
     const requiredRole = to.meta.role;
 
-    console.log({userRole:userRole, requiredRole:requiredRole});
   
     if (requiredRole && userRole !== requiredRole) {
       // User does not have the required role, redirect or show error
