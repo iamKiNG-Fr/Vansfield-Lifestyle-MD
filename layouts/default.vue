@@ -4,6 +4,7 @@
     <header
       class=" flex lg:px-40 px-4 pt-4 pb- lg:py-10 py-4 justify-between items-center max-[690px]:shadow-lg max-[690px]:bg-gray-100 z-20"
     >
+    <EditProfile v-if="isShowingEditProfile === true" @close-edit-profile="isShowingEditProfile = false"/>
       <NuxtLink to="/" class="border-none">
         <div class="flex items-center">
           <div>
@@ -58,13 +59,14 @@
         <NuxtLink to="/consultation"
           ><button class="btn">Book a Consultauion</button></NuxtLink
         >
-        <div to="/" @click="showAccountMenu=!showAccountMenu" v-if="status === 'authenticated'" ref="accountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+        <div @click="showDesktopAccountMenu = !showDesktopAccountMenu;" v-if="status === 'authenticated'" ref="desktopAccountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+        
           <div class="flex items-center gap-2">
             <UIcon name="material-symbols:person-2" class="text-2xl" dynamic/> 
             <span class="font-bold text-center">{{ user.firstName }} {{ user.lastName }}</span>
           </div>
-          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showAccountMenu">
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showDesktopAccountMenu">
+            <div @click="isShowingEditProfile = !isShowingEditProfile"  class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
               <UIcon name="material-symbols:person-edit-rounded" dynamic/>
               <span>Edit Profile</span>
             </div>
@@ -87,15 +89,15 @@
           style="font-size: 30px; color: white"
           dynamic
         />
-        <div to="/" @click="showAccountMenu=!showAccountMenu" v-if="status === 'authenticated'" ref="accountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+        <div to="/" @click="showMobileAccountMenu=!showMobileAccountMenu;" v-if="status === 'authenticated'" ref="mobileAccountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
           <div class="flex items-center gap-2">
             <UIcon name="material-symbols:person-2" class="text-[20px]" dynamic/> 
           </div>
-          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showAccountMenu">
+          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-show="showMobileAccountMenu">
             <div>
               <span class="font-bold">{{ user.firstName }} {{ user.lastName }}</span>
             </div>
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+            <div @click="isShowingEditProfile = !isShowingEditProfile"  class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
               <UIcon name="material-symbols:person-edit-rounded" dynamic/>
               <span>Edit Profile</span>
             </div>
@@ -230,6 +232,9 @@ const { status, data } = useAuthState();
 const {signOut} = useAuth()
 const isMenuOpen = ref(false);
 
+//edit profile
+const isShowingEditProfile = ref(false)
+
 
 //user data
 const user = data.value
@@ -266,12 +271,23 @@ const logout = async () => {
 //Logic for Menu
 
 
-const showAccountMenu = ref(false)
-const accountMenu = ref(null)
+const showMobileAccountMenu = ref(false)
+const showDesktopAccountMenu = ref(false)
+const desktopAccountMenu = ref(null)
+const mobileAccountMenu = ref(null)
+
 
 const handleClickOutside = (event) => {
-  if (accountMenu.value && !accountMenu.value.contains(event.target)) {
-    showAccountMenu.value = false;
+  if (showDesktopAccountMenu.value) {
+    if (desktopAccountMenu.value && !desktopAccountMenu.value.contains(event.target)) {
+      showDesktopAccountMenu.value = false;
+    }
+  }
+  if (showMobileAccountMenu.value) {
+    
+    if (mobileAccountMenu.value && !mobileAccountMenu.value.contains(event.target)) {
+      showMobileAccountMenu.value = false;
+    }
   }
 };
 

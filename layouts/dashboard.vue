@@ -2,8 +2,9 @@
   <NuxtLoadingIndicator :height="10" color="#008080"/>
   <div class="">
     <header
-      class="flex lg:px-40 px-4 pt-4 pb-8 lg:py-10 py-4 justify-between items-center"
+      class="flex relative lg:px-40 px-4 pt-4 pb-8 lg:py-10 py-4 justify-between items-center"
     >
+      <EditProfile v-if="isShowingEditProfile === true" @close-edit-profile="isShowingEditProfile = false"/>
       <NuxtLink to="/">
         <div class="flex items-center">
           <div>
@@ -32,7 +33,7 @@
             <span> {{ user.firstName }} {{ user.lastName }}</span>
           </div>
           <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showAccountMenu">
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+            <div @click="isShowingEditProfile = !isShowingEditProfile" class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
               <UIcon name="material-symbols:person-edit-rounded" dynamic/>
               <span>Edit Profile</span>
             </div>
@@ -157,6 +158,8 @@
   </div>
 </template>
 <script setup>
+import EditProfile from '~/components/EditProfile.vue';
+
 useHead({
   title: "Vansfield Lifestyle MD | Dashboard",
   meta: [{ name: "description", content: "Admin Dashboard" }],
@@ -170,6 +173,7 @@ const {status, data} = useAuthState()
 const showShopOptions = ref(false)
 const showAccountMenu = ref(false)
 const accountMenu = ref(null)
+const isShowingEditProfile = ref(false)
 
 //user data
 
