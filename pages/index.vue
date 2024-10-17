@@ -14,7 +14,7 @@
           strategies. Your path to wellness begins here!
         </p>
         <div class="relative lg:max-w-lg max-w-xs">
-          <span class="hero-bubble lg:-left-40 -left-12 lg:top-96 top-44 z-20"
+          <span class="hero-bubble lg:-left-40 -left-4 lg:top-96 top-44 z-20"
             >Public Speaking</span
           >
           <span class="hero-bubble lg:-right-32 right-6 lg:top-80 top-10 -z-10"
