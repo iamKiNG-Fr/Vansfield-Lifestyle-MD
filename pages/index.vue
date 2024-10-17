@@ -14,26 +14,26 @@
           strategies. Your path to wellness begins here!
         </p>
         <div class="relative lg:max-w-lg max-w-xs">
-          <span class="hero-bubble lg:-left-40 left-2 lg:top-96 top-60 z-20"
+          <span class="hero-bubble lg:-left-40 -left-12 lg:top-96 top-44 z-20"
             >Public Speaking</span
           >
           <span class="hero-bubble lg:-right-32 right-6 lg:top-80 top-10 -z-10"
             >Training</span
           >
           <span
-            class="hero-bubble lg:-right-24 -right-2 lg:top-40 top-44 lg:-z-10"
+            class="hero-bubble lg:-right-24 -right-2 lg:top-32 top-40 lg:-z-10"
             >Consultations</span
           >
-          <span class="hero-bubble lg:-left-28 left-2 lg:top-48 -top-1 -z-10"
+          <span class="hero-bubble lg:-left-28 left-2 lg:top-32 -top-1 -z-10"
             >Diet Plans</span
           >
-          <img src="/assets/img/dr.dozie2.png" alt="Image of doctor dozie" />
+          <img src="/assets/img/drdozie4.png" alt="Image of doctor dozie" />
         </div>
       </section>
 
       <!-- about dr dozie -->
       <section
-        class="flex lg:flex-row flex-col-reverse items-center bg-teal-700 text-gray-100 w-full justify-center lg:gap-20 -mt-72 z-10"
+        class="flex lg:flex-row flex-col-reverse items-center bg-teal-700 text-gray-100 w-full justify-center lg:gap-20 -mt-32 lg:-mt-48 z-10"
       >
         <img
           src="/assets/img/dr.dozie.png"
