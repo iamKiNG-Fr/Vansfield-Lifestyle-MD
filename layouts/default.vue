@@ -38,6 +38,13 @@
             Shop
           </p></NuxtLink
         >
+        <NuxtLink to="/gallery"
+          ><p
+            class="font-medium text-gray-500 hover:text-teal-700 hover:font-bold transition duration-300"
+          >
+            Gallery
+          </p></NuxtLink
+        >
         <div v-if="status == 'unauthenticated'">
           <NuxtLink to="/login"
             ><p
@@ -131,6 +138,13 @@
             class="text-2xl mr-2"
             dynamic
           />Shop</NuxtLink
+        >
+        <NuxtLink to="/gallery" class="p-3 w-full text-center"
+          ><UIcon
+            name="heroicons:photo-16-solid"
+            class="text-2xl mr-2"
+            dynamic
+          />Gallery</NuxtLink
         >
         
           <NuxtLink to="/login" class="p-3 w-full text-center" v-if="status == 'unauthenticated'">

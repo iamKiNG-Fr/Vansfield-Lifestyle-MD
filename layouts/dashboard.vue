@@ -90,6 +90,11 @@
                 </li></NuxtLink
               >
             </ul>
+            <NuxtLink to="/dashboard/gallery"><li class="flex items-center gap-2 p-2">
+                <UIcon name="i-heroicons-photo-16-solid" /><span
+                  >Gallery</span
+                >
+              </li></NuxtLink>
           </ul>
           <button @click="logout" class="btn text-center">Log Out</button>
         </nav>

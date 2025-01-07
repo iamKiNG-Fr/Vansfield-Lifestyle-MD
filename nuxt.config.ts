@@ -4,13 +4,15 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image"],
+  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper"],
+
   runtimeConfig: {
     public: {
       backendUrl: process.env.NUXT_PUBLIC_BACKEND_URL,
       paystackPK: process.env.PAYSTACK_PUBLIC_KEY,
     },
   },
+
   auth: {
     baseURL: process.env.NEXTAUTH_URL,
     globalAppMiddleware: true,
@@ -26,6 +28,7 @@ export default defineNuxtConfig({
       sessionDataType: {id: 'string', name: 'string', email: 'string  '}
     },
   },
+
   app: {
     head: {
       title: "Vansfield Lifestyle MD",
@@ -40,12 +43,16 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   colorMode: {
     preference: "light",
   },
+
   router: {
     options: {
       scrollBehaviorType: "smooth",
     },
   },
+
+  compatibilityDate: "2025-01-06",
 });
