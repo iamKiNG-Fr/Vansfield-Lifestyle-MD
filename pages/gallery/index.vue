@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="relative">
+    <ImageDetailPopup v-if="showImageDetail" :popupImageDetail="popupImageDetail" @closeImageDetail="showImageDetail =! showImageDetail" />
     <main class="mx-auto w-5/6 flex flex-col gap-5">
       <section id="gallery-slider">
         <div v-if="carouselItems.length === 0" class="text-center">Loading...</div>
@@ -7,19 +8,15 @@
           <GallerySlider :carouselItems="carouselItems" />
         </div>
       </section>
-      <section id="top-pictures">
+      <section id="top-pictures" class="mb-10">
         <h3 class="font-bold text-3xl">+ Top Moments</h3>
         <p class="italic">Note worthy moments</p>
         <div>
           <div v-if="gallery.length === 0" class="text-center">Loading...</div>
           <div v-else class="md:gap-8 gap-4 mt-8 md:flex md:flex-wrap grid grid-cols-2">
-            <GalleryImage v-for="(image, index) in gallery" :key="index" class="bg-gray-200 md:h-72 md:w-52 h-52  rounded-md shadow-lg" :image="image" />
+            <GalleryImage v-for="(image, index) in gallery" :key="index" class="bg-gray-200 md:h-72 md:w-52 h-52  rounded-md shadow-lg" :image="image" @click="showImageDetail =! showImageDetail; popupImageDetail = image" />
           </div>
         </div>
-      </section>
-      <section id="recent-pictures">
-        <h3 class="font-bold text-3xl">+ Recent Pictures</h3>
-        <p class="italic">Recent moment</p>
       </section>
     </main>
     <Newsletter />
@@ -41,6 +38,8 @@ definePageMeta({
 
 const gallery = ref([]);
 const carouselItems = ref([]);
+const showImageDetail = ref(false)
+const popupImageDetail = ref()
 
 const fetchGallery = async () => {
   try {
