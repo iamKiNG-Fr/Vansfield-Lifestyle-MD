@@ -13,7 +13,7 @@
         class="bg-cover flex-1 transition-transform duration-500 hover:scale-110 z-10"
       >
       </div>
-      <div class="flex-1 p-8 flex flex-col gap-3">
+      <div class="flex-1 p-8 flex flex-col gap-3 overflow-auto">
         <UIcon
           name="material-symbols:close-rounded"
           class="text-3xl hover:text-red-400 drop-shadow-md self-end z-20 absolute top-4 right-4 hidden md:block"
@@ -26,7 +26,7 @@
         >
           {{ popupImageDetail.location }}
         </p>
-        <p>{{ popupImageDetail.description }}</p>
+        <p class="">{{ popupImageDetail.description }}</p>
       </div>
     </div>
   </div>
