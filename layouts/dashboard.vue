@@ -1,10 +1,13 @@
 <template>
-  <NuxtLoadingIndicator :height="10" color="#008080"/>
+  <NuxtLoadingIndicator :height="10" color="#008080" />
   <div class="">
     <header
       class="flex relative lg:px-40 px-4 pt-4 pb-8 lg:py-10 py-4 justify-between items-center"
     >
-      <EditProfile v-if="isShowingEditProfile === true" @close-edit-profile="isShowingEditProfile = false"/>
+      <EditProfile
+        v-if="isShowingEditProfile === true"
+        @close-edit-profile="isShowingEditProfile = false"
+      />
       <NuxtLink to="/">
         <div class="flex items-center">
           <div>
@@ -23,25 +26,39 @@
           </span>
         </div>
       </NuxtLink>
-      <div class="flex gap-5 font-semibold items-center ">
-        <NuxtLink to="/">
-          Home
-        </NuxtLink>
-        <div to="/" @click="showAccountMenu=!showAccountMenu" ref="accountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+      <div class="flex gap-5 font-semibold items-center">
+        <NuxtLink to="/"> Home </NuxtLink>
+        <div
+          to="/"
+          @click="showAccountMenu = !showAccountMenu"
+          ref="accountMenu"
+          class="bg-yellow-400 p-2 rounded-md hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer"
+        >
           <div class="flex items-center gap-2">
-            <UIcon name="material-symbols:person-2" dynamic /> 
+            <UIcon name="material-symbols:person-2" dynamic />
             <span> {{ user.firstName }} {{ user.lastName }}</span>
           </div>
-          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showAccountMenu">
-            <div @click="isShowingEditProfile = !isShowingEditProfile" class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
-              <UIcon name="material-symbols:person-edit-rounded" dynamic/>
+          <div
+            class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg"
+            v-if="showAccountMenu"
+          >
+            <div
+              @click="isShowingEditProfile = !isShowingEditProfile"
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+            >
+              <UIcon name="material-symbols:person-edit-rounded" dynamic />
               <span>Edit Profile</span>
             </div>
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
-              <UIcon name="material-symbols:history-rounded" dynamic/>
+            <div
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+            >
+              <UIcon name="material-symbols:history-rounded" dynamic />
               <span>Order History</span>
             </div>
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700" @click="logout">
+            <div
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+              @click="logout"
+            >
               <UIcon name="material-symbols:view-list" dynamic />
               <span>Log Out</span>
             </div>
@@ -55,51 +72,71 @@
           class="bg-teal-700 rounded-xl p-10 h-[700px] w-auto text-xl flex flex-col justify-between"
         >
           <ul>
-            <NuxtLink to="/dashboard/appointments"><li class="flex items-center gap-2 p-2">
+            <NuxtLink to="/dashboard/appointments"
+              ><li class="flex items-center gap-2 p-2 hover:bg-teal-900 rounded-md">
                 <UIcon name="i-heroicons-calendar-days-16-solid" /><span
                   >Appointments</span
                 >
-              </li></NuxtLink>
-            <NuxtLink
-              ><li class="flex items-center gap-2 p-2 cursor-pointer" @click="showShopOptions=!showShopOptions">
-                <UIcon name="i-heroicons-shopping-cart-solid" /><span
-                  >Shop</span
-                >
               </li></NuxtLink
             >
-            <ul class="ml-5" v-if="showShopOptions">
-              <NuxtLink to="/dashboard/addproduct"
-                ><li class="flex items-center gap-2 p-2">
-                  <UIcon
-                    name="i-heroicons-plus-16-solid"
-                  /><span>Add Product</span>
-                </li></NuxtLink
-              >
-              <!-- <NuxtLink
-                ><li class="flex items-center gap-2 p-2">
-                  <UIcon name="i-heroicons-pencil-solid" /><span
-                    >Edit Product</span
-                  >
-                </li></NuxtLink
-              > -->
-              <NuxtLink to="/dashboard/viewproducts"
-                ><li class="flex items-center gap-2 p-2">
-                  <UIcon name="material-symbols:view-list" dynamic /><span
-                    >View Products</span
-                  >
-                </li></NuxtLink
-              >
-            </ul>
-            <NuxtLink to="/dashboard/gallery"><li class="flex items-center gap-2 p-2">
-                <UIcon name="i-heroicons-photo-16-solid" /><span
-                  >Gallery</span
+            <div :class="{ 'bg-teal-800 rounded-md': showShopOptions }">
+              <NuxtLink
+                ><li
+                  class="flex items-center rounded-md gap-2 p-2 cursor-pointer hover:bg-teal-900"
+                  @click="showShopOptions = !showShopOptions; if(showShopOptions) showGalleryOptions=false"
                 >
-              </li></NuxtLink>
+                  <UIcon name="i-heroicons-shopping-cart-solid" /><span
+                    >Shop</span
+                  >
+                </li></NuxtLink
+              >
+              <ul class="pl-5" v-show="showShopOptions">
+                <NuxtLink to="/dashboard/addproduct"
+                  ><li class="flex items-center gap-2 p-2 hover:bg-teal-900 rounded-md">
+                    <UIcon name="i-heroicons-plus-16-solid" /><span
+                      >Add Product</span
+                    >
+                  </li></NuxtLink
+                >
+                <NuxtLink to="/dashboard/viewproducts"
+                  ><li class="flex items-center gap-2 p-2 hover:bg-teal-900 rounded-md">
+                    <UIcon name="material-symbols:view-list" dynamic /><span
+                      >View Products</span
+                    >
+                  </li></NuxtLink
+                >
+              </ul>
+            </div>
+            <div :class="{ 'bg-teal-800 rounded-md': showGalleryOptions }">
+              <div
+                class="flex items-center gap-2 p-2 cursor-pointer  rounded-md hover:bg-teal-900"
+                @click="showGalleryOptions = !showGalleryOptions; if(showGalleryOptions) showShopOptions=false"
+              >
+               <UIcon name="i-heroicons-photo-16-solid" />
+                <p>Gallery</p>
+              </div>
+              <ul class="pl-5" v-show="showGalleryOptions">
+                <NuxtLink to="/dashboard/gallery"
+                  ><li class="rounded-md flex items-center gap-2 p-2 hover:bg-teal-900">
+                    <UIcon name="material-symbols:add-photo-alternate-rounded" dynamic/><span
+                      >Add Image</span
+                    >
+                  </li></NuxtLink
+                >
+                <NuxtLink to="/dashboard/gallery/viewgallery"
+                  ><li class="flex rounded-md items-center gap-2 p-2 hover:bg-teal-900">
+                    <UIcon name="material-symbols:gallery-thumbnail-rounded" dynamic/><span
+                      >View Gallery</span
+                    >
+                  </li></NuxtLink
+                >
+              </ul>
+            </div>
           </ul>
           <button @click="logout" class="btn text-center">Log Out</button>
         </nav>
         <!-- output page content -->
-        <div class= "lg:col-span-4 sm:col-span-2">
+        <div class="lg:col-span-4 sm:col-span-2">
           <slot />
         </div>
       </div>
@@ -163,27 +200,26 @@
   </div>
 </template>
 <script setup>
-import EditProfile from '~/components/EditProfile.vue';
 
 useHead({
   title: "Vansfield Lifestyle MD | Dashboard",
   meta: [{ name: "description", content: "Admin Dashboard" }],
 });
 
-const backend = useRuntimeConfig().public.backendUrl
+const backend = useRuntimeConfig().public.backendUrl;
 
-const {signOut} = useAuth()
-const {status, data} = useAuthState()
+const { signOut } = useAuth();
+const { status, data } = useAuthState();
 
-const showShopOptions = ref(false)
-const showAccountMenu = ref(false)
-const accountMenu = ref(null)
-const isShowingEditProfile = ref(false)
+const showShopOptions = ref(false);
+const showAccountMenu = ref(false);
+const showGalleryOptions = ref(false)
+const accountMenu = ref(null);
+const isShowingEditProfile = ref(false);
 
 //user data
 
-const user = data.value
-
+const user = data.value;
 
 // Menu
 
@@ -194,24 +230,22 @@ const handleClickOutside = (event) => {
 };
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
+  document.addEventListener("click", handleClickOutside);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener("click", handleClickOutside);
 });
 
 const logout = async () => {
-  await signOut({ callbackUrl: '/' }) // Call Sidebase's signOut for local session handling
-}
-
-
+  await signOut({ callbackUrl: "/" }); // Call Sidebase's signOut for local session handling
+};
 </script>
 <style scoped>
-.router-link-active{
-  color: rgb(255, 196, 0)
+.router-link-active {
+  color: rgb(255, 196, 0);
 }
-nav{
-    color: azure;
+nav {
+  color: azure;
 }
 </style>

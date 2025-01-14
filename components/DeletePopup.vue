@@ -11,6 +11,10 @@
 
 <script setup>
     const {productName, id} = defineProps(['productName', 'id'])
+    onMounted(()=>{
+        console.log("heyyy", selectedImage);
+        
+    })
 </script>
 
 <style scoped>

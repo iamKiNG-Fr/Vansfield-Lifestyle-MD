@@ -12,7 +12,9 @@
         <p class="font-bold text-xl mr-2 text-teal-700">
           {{ calculatedPrice }}
         </p>
-        <p class="font-medium text-gray-400 line-through">{{ product.price }}</p>
+        <p class="font-medium text-gray-400 line-through">
+          {{ product.price }}
+        </p>
       </div>
       <p>{{ truncatedDescription }}</p>
       <NuxtLink :to="`/shop/${product._id}`"
@@ -34,7 +36,6 @@ const truncatedDescription = computed(() => {
     : product.description;
 });
 
-
 const calculatedPrice = computed(() => {
   const productPrice = parseFloat(product.price) || 0;
   const productOffer = parseFloat(product.offer) || 0;
@@ -42,7 +43,6 @@ const calculatedPrice = computed(() => {
 });
 
 console.log(product.category);
-
 </script>
 
 <style scoped>

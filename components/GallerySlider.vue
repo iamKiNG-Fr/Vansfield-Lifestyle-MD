@@ -25,7 +25,7 @@
             >
               {{ slide.location }}
             </div>
-            <p id="description" class="text-sm">
+            <p id="description" class="text-sm line-clamp-4">
               {{ slide.description }}
             </p>
           </div>
@@ -37,7 +37,7 @@
               class="md:hidden flex items-end h-full p-10 bg-gradient-to-t from-gray-800 from-5% to-transparent to-50%"
             >
               <div class="flex flex-col gap-2">
-                <h2 class="font-bold text-4xl text-gray-50">
+                <h2 class="font-bold text-3xl text-gray-50">
                   {{ slide.title }}
                 </h2>
                 <div
@@ -46,7 +46,7 @@
                 >
                   {{ slide.location }}
                 </div>
-                <p id="description" class="text-sm font-normal text-gray-50">
+                <p id="description" class="text-sm font-normal text-gray-50 line-clamp-3">
                   {{ slide.description }}
                 </p>
               </div>

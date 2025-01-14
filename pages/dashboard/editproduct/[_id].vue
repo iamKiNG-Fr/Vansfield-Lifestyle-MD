@@ -189,7 +189,6 @@ const submitNewProduct = async () => {
     if (productImage.value) {
       formData.append("productImage", productImage.value);
     }
-    console.log(formData);
     const response = await $fetch(`${backend}/products/${_id}`, {
       method: "PUT",
       body: formData,
