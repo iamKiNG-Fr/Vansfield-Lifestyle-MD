@@ -1,6 +1,6 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
-
+  <SuccessPopup v-if="isDisplayingSuccess" :message="successMsg" />
   <div>
     <h2 class="font-bold text-teal-700 text-2xl mb-8">Edit Product</h2>
   </div>
@@ -25,7 +25,11 @@
           class="bg-white px-5 pt-3 pb-1 border-b-4 focus:outline-none border-teal-700 focus:border-yellow-400 font-medium text-lg"
         >
           <option value="" disabled selected>Pick a category</option>
-          <option v-for="category in categories" :key="category._id" :value="category._id">
+          <option
+            v-for="category in categories"
+            :key="category._id"
+            :value="category._id"
+          >
             {{ category.name }}
           </option>
         </select>
@@ -50,15 +54,9 @@
           />
         </div>
       </div>
-
       <div class="flex flex-col pt-8">
         <label for="description" class="font-bold text-lg">Description</label>
-        <textarea
-          v-model="description"
-          rows="5"
-          class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg resize-none focus:outline-none"
-          placeholder="Describe the product here"
-        ></textarea>
+        <TipTap v-model="description" />
       </div>
     </div>
     <div class="w-1/2">
@@ -107,9 +105,7 @@
         />
       </div>
 
-      <button type="submit" class="btn2 w-full p-3 text-lg mt-7">
-        Update
-      </button>
+      <button type="submit" class="btn2 w-full p-3 text-lg mt-7">Update</button>
     </div>
   </form>
 </template>
@@ -144,6 +140,8 @@ const offer = ref("");
 const description = ref("");
 const productImage = ref(null);
 const imagePreview = ref(null);
+const isDisplayingSuccess = ref(false);
+const successMsg = ref("");
 
 const active = ref(false);
 const toggleActive = () => {
@@ -194,22 +192,20 @@ const submitNewProduct = async () => {
       body: formData,
     });
 
-    console.log("Product uploaded successfully:", response);
-    alert(`"${productName.value}" updated successfully!`);
-
-    productName.value = "";
-    category.value = "";
-    price.value = 0;
-    offer.value = 0;
-    description.value = "";
-    productImage.value = null;
-    dropzoneFile.value = null;
+    if (response.success === true) {
+      isDisplayingSuccess.value = true;
+      successMsg.value = response.message;
+      setTimeout(() => {
+        isDisplayingSuccess.value = false;
+        navigateTo("/dashboard/viewproducts");
+      }, 3500);
+    }
   } catch (error) {
     console.error("Error uploading product:", error);
   }
 };
 
-const categories = ref([])
+const categories = ref([]);
 
 onMounted(async () => {
   const { data: product } = await useFetch(`${backend}/products/${_id}`, {
@@ -217,7 +213,7 @@ onMounted(async () => {
   });
 
   const categoriesData = await $fetch(`${backend}/category`);
-  categories.value = categoriesData
+  categories.value = categoriesData;
 
   //   console.log(product.value);
   if (product) {

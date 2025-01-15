@@ -1,11 +1,13 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
-  <DeletePopup
-    v-if="isDisplayingDelete"
-    :productName="selectedImage?.title"
-    :id="selectedImage?._id"
-    @removeDeletePopup="isDisplayingDelete = !isDisplayingDelete"
-  />
+  <p v-if="showDeleteSuccess" class=" text-green-600 italics">{{ deleteMsg }}</p>
+    <DeletePopup
+      v-if="isDisplayingDelete"
+      :productName="selectedImage?.title"
+      :id="selectedImage?._id"
+      @removeDeletePopup="isDisplayingDelete = false"
+      @deleteProduct="deleteProduct"
+    />
   <div>
     <h2 class="font-bold text-teal-700 text-2xl mb-8">View Gallery</h2>
   </div>
@@ -32,6 +34,10 @@
 <script setup>
 const links = [
   {
+    label: "Dashboard",
+    icon: "i-heroicons-square-3-stack-3d",
+  },
+  {
     label: "View Gallery",
     icon: "i-heroicons-photo-16-solid",
   },
@@ -49,6 +55,8 @@ const gallery = ref([]);
 const isDisplayingDelete = ref(false);
 const backend = useRuntimeConfig().public.backendUrl;
 const selectedImage = ref();
+const deleteMsg = ref("")
+const showDeleteSuccess = ref(false)
 
 const fetchGallery = async () => {
   try {
@@ -61,6 +69,25 @@ const fetchGallery = async () => {
     console.log(error);
   }
 };
+
+const deleteProduct = async (id) => {
+  try {
+    isDisplayingDelete.value = false
+    const data = await $fetch(`${backend}/gallery/${id}`, {
+      method: "DELETE",
+      headers: token.value ? { Authorization: token.value } : {},
+    });
+    gallery.value = gallery.value.filter((image) => image._id !== id);
+    deleteMsg.value = data.message;
+    showDeleteSuccess.value = true
+    setTimeout(() => {
+        showDeleteSuccess.value = false;
+      }, 3500);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 onMounted(() => {
   fetchGallery();

@@ -77,7 +77,7 @@
               <UIcon name="material-symbols:person-edit-rounded" dynamic/>
               <span>Edit Profile</span>
             </div>
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
+            <div class="py-2 border-b-2 roun flex gap-2 items-center hover:text-teal-700">
               <UIcon name="material-symbols:history-rounded" dynamic/>
               <span>Order History</span>
             </div>
@@ -314,7 +314,7 @@ onMounted(() => {
       const dropdown = document.querySelector(".dropdown");
       const header = document.querySelector("header");
       
-      if (!dropdown.contains(event.target) && !header.contains(event.target)) {
+      if (dropdown && !dropdown.contains(event.target) && header && !header.contains(event.target)) {
         isMenuOpen.value = false;
       }
     };

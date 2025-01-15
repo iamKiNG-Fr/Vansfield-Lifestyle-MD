@@ -10,13 +10,13 @@
       <p class="text-xl font-bold mt-1">{{ product.productName }}</p>
       <div class="flex my-1">
         <p class="font-bold text-xl mr-2 text-teal-700">
-          {{ calculatedPrice }}
+          ₦{{ calculatedPrice }}
         </p>
         <p class="font-medium text-gray-400 line-through">
-          {{ product.price }}
+          ₦{{ product.price }}
         </p>
       </div>
-      <p>{{ truncatedDescription }}</p>
+      <p class=" font-normal" v-html="`${truncatedDescription}`"></p>
       <NuxtLink :to="`/shop/${product._id}`"
         ><p class="btn2">View Details</p></NuxtLink
       >
@@ -42,7 +42,6 @@ const calculatedPrice = computed(() => {
   return productPrice - productOffer;
 });
 
-console.log(product.category);
 </script>
 
 <style scoped>

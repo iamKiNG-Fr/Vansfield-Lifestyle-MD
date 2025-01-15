@@ -19,7 +19,7 @@
             :ui="{backgound: 'bg-red-400'}"
           />
         </div>
-        <div class="productscard mt-10" v-else>
+        <div class="productscard mt-10 " v-else>
           <div v-for="product in products" :key="product.id">
             <ProductCard :product="product" />
             <!-- {{ product.productName }} -->

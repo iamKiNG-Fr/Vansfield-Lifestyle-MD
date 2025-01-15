@@ -2,18 +2,6 @@
   <UBreadcrumb :links="links" class="m-10 ml-16" />
   <div v-if="product">
     <ProductDetails :product="product" />
-    <!-- <div class="lg:py-24 lg:px-52 md:py-15 md:px-15 p-10">
-      <div class="">
-        <h3 class="font-bold text-3xl">+ Other Products</h3>
-        <p class="italic mb-10">Enrich your Lifestyle</p>
-        <div class="productscard">
-          <div v-for="product in product" :key="product._id">
-            <ProductCard :product="product" />
-            {{ product.productName }}
-          </div>
-        </div>
-      </div>
-    </div> -->
     <Newsletter />
   </div>
   <div v-else> 

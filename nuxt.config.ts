@@ -4,13 +4,17 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper"],
+  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper", "nuxt-tiptap-editor"],
 
   runtimeConfig: {
     public: {
       backendUrl: process.env.NUXT_PUBLIC_BACKEND_URL,
       paystackPK: process.env.PAYSTACK_PUBLIC_KEY,
     },
+  },
+
+  tiptap: {
+    prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
   },
 
   auth: {

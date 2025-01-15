@@ -12,14 +12,17 @@
   "dependencies": {
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.15.2",
+    "@tiptap/extension-underline": "^2.11.2",
     "@vueuse/nuxt": "^10.11.0",
     "jwt-decode": "^3.1.2",
     "nuxt": "^3.11.2",
     "nuxt-swiper": "^2.0.0",
+    "nuxt-tiptap-editor": "^2.1.4",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@sidebase/nuxt-auth": "^0.7.2"
+    "@sidebase/nuxt-auth": "^0.7.2",
+    "@tailwindcss/typography": "^0.5.16"
   }
 }

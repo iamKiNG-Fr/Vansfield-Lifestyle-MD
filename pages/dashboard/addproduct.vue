@@ -1,6 +1,6 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
-  <SuccessPopup v-if="isDisplayingSuccess" :productName="productName" />
+  <SuccessPopup v-if="isDisplayingSuccess" :message="successMsg" />
   <div>
     <h2 class="font-bold text-teal-700 text-2xl mb-8">Add Products</h2>
   </div>
@@ -55,15 +55,9 @@
           />
         </div>
       </div>
-
       <div class="flex flex-col pt-8">
         <label for="description" class="font-bold text-lg">Description</label>
-        <textarea
-          v-model="description"
-          rows="5"
-          class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg resize-none focus:outline-none"
-          placeholder="Describe the product here"
-        ></textarea>
+        <TipTap v-model="description" />
       </div>
     </div>
     <div class="w-1/2">
@@ -132,8 +126,8 @@
 <script setup>
 definePageMeta({
   layout: "dashboard",
-  middleware: 'verify',
-  role: 'sAdmin' || 'admin'
+  middleware: "verify",
+  role: "sAdmin" || "admin",
 });
 
 const backend = useRuntimeConfig().public.backendUrl;
@@ -162,6 +156,7 @@ const imagePreview = ref(null);
 const isDisplayingSuccess = ref(false);
 const isLoading = ref(false);
 const error = ref("");
+const successMsg = ref("");
 
 const active = ref(false);
 const toggleActive = () => {
@@ -220,24 +215,14 @@ const submitNewProduct = async () => {
     });
     console.log(response.status);
 
-    // console.log("Product uploaded successfully:", response);
-    // alert(`"${productName.value}" added successfully!`);
-    if (response.status == "success") {
-    
+    if (response.success === true) {
       isDisplayingSuccess.value = true;
-      setTimeout(() => (isDisplayingSuccess.value = false), 5000);
-    
+      successMsg.value = response.message;
+      setTimeout(() => {
+        isDisplayingSuccess.value = false;
+        navigateTo("/dashboard/viewproducts");
+      }, 3500);
     }
-
-    //reset form fields
-    productName.value = "";
-    category.value = "";
-    price.value = 0;
-    offer.value = 0;
-    description.value = "";
-    productImage.value = null;
-    dropzoneFile.value = null;
-    imagePreview.value = null;
   } catch (error) {
     console.error("Error uploading product:", error);
     error.value = "Failed to add product. Please try again.";

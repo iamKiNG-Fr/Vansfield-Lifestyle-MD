@@ -72,4 +72,7 @@ body {
     .success{
         @apply text-green-500 italic pb-5
     }
+    .tt-is-active{
+        @apply bg-yellow-200 text-gray-800  rounded p-1
+    }
 }
