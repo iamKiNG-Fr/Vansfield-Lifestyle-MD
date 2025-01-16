@@ -12,7 +12,7 @@
         <p class="font-bold text-xl mr-2 text-teal-700">
           ₦{{ calculatedPrice }}
         </p>
-        <p class="font-medium text-gray-400 line-through">
+        <p class="font-medium text-gray-400 line-through" v-show="showMainPrice">
           ₦{{ product.price }}
         </p>
       </div>
@@ -27,6 +27,7 @@
 <script setup>
 const { product } = defineProps(["product"]);
 const backend = useRuntimeConfig().public.backendUrl;
+const showMainPrice = ref(true)
 
 // const price = product.productPrice - product.productOffer
 
@@ -35,6 +36,10 @@ const truncatedDescription = computed(() => {
     ? product.description.slice(0, 29) + "..."
     : product.description;
 });
+
+if (product.offer == 0) {
+  showMainPrice.value = false
+}
 
 const calculatedPrice = computed(() => {
   const productPrice = parseFloat(product.price) || 0;

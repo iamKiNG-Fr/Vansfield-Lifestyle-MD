@@ -1,8 +1,16 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
   <SuccessPopup v-if="isDisplayingSuccess" :message="successMsg" />
+  <AddCategory
+    v-if="showAddCategory"
+    @closeCategoryPopup="showAddCategory = false"
+  />
+  <p v-if="showErrorMessage" class="text-red-600 italic">{{ errorMsg }}</p>
   <div>
     <h2 class="font-bold text-teal-700 text-2xl mb-8">Edit Product</h2>
+    <p class="text-sm text-gray-500 italic">
+      Fields marked with <span class="text-red-600">*</span> are required.
+    </p>
   </div>
   <form
     @submit.prevent="submitNewProduct"
@@ -10,7 +18,9 @@
   >
     <div class="w-1/2">
       <div class="flex flex-col">
-        <label for="productName" class="font-bold text-lg">Product Name</label>
+        <label for="productName" class="font-bold text-lg"
+          >Product Name<span class="text-red-600">*</span></label
+        >
         <input
           type="text"
           placeholder="Enter product name"
@@ -19,7 +29,9 @@
         />
       </div>
       <div class="flex flex-col pt-8">
-        <label for="category" class="font-bold text-lg">Category</label>
+        <label for="category" class="font-bold text-lg"
+          >Category<span class="text-red-600">*</span></label
+        >
         <select
           v-model="category"
           class="bg-white px-5 pt-3 pb-1 border-b-4 focus:outline-none border-teal-700 focus:border-yellow-400 font-medium text-lg"
@@ -33,10 +45,19 @@
             {{ category.name }}
           </option>
         </select>
+        <div
+          class="flex items-center mt-3 hover:underline text-sm text-teal-700 font-semibold cursor-pointer"
+          @click="showAddCategory = !showAddCategory"
+        >
+          <UIcon name="i-heroicons-plus-small-20-solid" class="text-2xl" />
+          <p class="italic">Add a category</p>
+        </div>
       </div>
       <div class="flex gap-10">
         <div class="flex flex-col pt-8">
-          <label for="price" class="font-bold text-lg">Price</label>
+          <label for="price" class="font-bold text-lg"
+            >Price<span class="text-red-600">*</span></label
+          >
           <input
             type="number"
             placeholder="Enter a price"
@@ -55,7 +76,9 @@
         </div>
       </div>
       <div class="flex flex-col pt-8">
-        <label for="description" class="font-bold text-lg">Description</label>
+        <label for="description" class="font-bold text-lg"
+          >Description <span class="text-red-600">*</span></label
+        >
         <TipTap v-model="description" />
       </div>
     </div>
@@ -105,7 +128,19 @@
         />
       </div>
 
-      <button type="submit" class="btn2 w-full p-3 text-lg mt-7">Update</button>
+      <button
+        type="submit"
+        :disabled="isLoading === true"
+        class="btn2 w-full p-3 text-lg mt-7"
+      >
+        <p v-if="!isLoading">Add Product</p>
+        <UIcon
+          class="animate-spin"
+          name="heroicons:arrow-path-16-solid"
+          dynamic
+          v-else
+        />
+      </button>
     </div>
   </form>
 </template>
@@ -141,7 +176,13 @@ const description = ref("");
 const productImage = ref(null);
 const imagePreview = ref(null);
 const isDisplayingSuccess = ref(false);
+const error = ref("");
+const isLoading = ref(false);
 const successMsg = ref("");
+const errorMsg = ref("");
+const showErrorMessage = ref(false);
+const categories = ref([]);
+const showAddCategory = ref(false);
 
 const active = ref(false);
 const toggleActive = () => {
@@ -154,9 +195,7 @@ const drop = (e) => {
   handleFile(file);
 };
 const selectedFile = () => {
-  //   dropzoneFile.value = document.querySelector(".dropzoneFile").files[0];
   const file = document.querySelector(".dropzoneFile").files[0];
-  //   const file = e.dataTransfer.files[0];
   handleFile(file);
 };
 
@@ -176,7 +215,44 @@ const handleFile = (file) => {
   }
 };
 
+// Validation Function
+const validateForm = () => {
+  if (!productName.value.trim()) return "Product name is required.";
+  if (!category.value.trim()) return "Category is required.";
+  if (!price.value || isNaN(price.value) || price.value <= 0) {
+    return "Price must be a valid positive number.";
+  }
+  if (offer.value !== null && (isNaN(offer.value) || offer.value < 0)) {
+    return "Offer must be a valid non-negative number.";
+  }
+  if (!description.value.trim()) return "Description is required.";
+  return null; // No errors
+};
+
+// Handle Validation Errors
+const handleValidationErrors = (message) => {
+  errorMsg.value = message;
+  showErrorMessage.value = true;
+  setTimeout(() => {
+    showErrorMessage.value = false;
+    errorMsg.value = "";
+  }, 5500);
+};
+
+onMounted(async () => {
+  const categoriesData = await $fetch(`${backend}/category`);
+  categories.value = categoriesData;
+
+});
+
+
 const submitNewProduct = async () => {
+  const error = validateForm();
+  if (error) {
+    handleValidationErrors(error); // Stop submission and show validation error
+    return;
+  }
+
   try {
     const formData = new FormData();
     formData.append("productName", productName.value);
@@ -187,6 +263,8 @@ const submitNewProduct = async () => {
     if (productImage.value) {
       formData.append("productImage", productImage.value);
     }
+    console.log(formData);
+    
     const response = await $fetch(`${backend}/products/${_id}`, {
       method: "PUT",
       body: formData,
@@ -200,20 +278,29 @@ const submitNewProduct = async () => {
         navigateTo("/dashboard/viewproducts");
       }, 3500);
     }
+    if (response.success === false) {
+      showErrorMessage.value = true;
+      errorMsg.value = response.message;
+      setTimeout(() => {
+        showErrorMessage.value = false;
+      }, 3500);
+    }
   } catch (error) {
     console.error("Error uploading product:", error);
   }
 };
 
-const categories = ref([]);
+watch(showAddCategory, async()=>{
+  const categoriesData = await $fetch(`${backend}/category`);
+  categories.value = categoriesData;
+})
 
+const { data: product } = await useFetch(`${backend}/products/${_id}`);
 onMounted(async () => {
-  const { data: product } = await useFetch(`${backend}/products/${_id}`, {
-    method: "GET",
-  });
 
   const categoriesData = await $fetch(`${backend}/category`);
   categories.value = categoriesData;
+  
 
   //   console.log(product.value);
   if (product) {

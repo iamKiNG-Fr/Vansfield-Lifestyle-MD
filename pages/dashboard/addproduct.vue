@@ -1,17 +1,24 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
   <SuccessPopup v-if="isDisplayingSuccess" :message="successMsg" />
+  <AddCategory v-if="showAddCategory" @closeCategoryPopup="showAddCategory = false;"/>
+  <p v-if="showErrorMessage" class="text-red-600 italic">{{ errorMsg }}</p>
   <div>
-    <h2 class="font-bold text-teal-700 text-2xl mb-8">Add Products</h2>
+    <h2 class="font-bold text-teal-700 text-2xl mb-2">Add Products</h2>
+    <p class="text-sm text-gray-500 italic">
+      Fields marked with <span class="text-red-600">*</span> are required.
+    </p>
   </div>
   <form
     @submit.prevent="submitNewProduct"
-    class="p-10 bg-white mt-10 flex gap-10 justify-center"
+    class="p-10 bg-white mt-3 flex gap-10 justify-center"
   >
     <p v-if="error" class="error">{{ error }}</p>
     <div class="w-1/2">
       <div class="flex flex-col">
-        <label for="productName" class="font-bold text-lg">Product Name</label>
+        <label for="productName" class="font-bold text-lg"
+          >Product Name <span class="text-red-600">*</span></label
+        >
         <input
           type="text"
           placeholder="Enter product name"
@@ -20,7 +27,9 @@
         />
       </div>
       <div class="flex flex-col pt-8">
-        <label for="category" class="font-bold text-lg">Category</label>
+        <label for="category" class="font-bold text-lg"
+          >Category <span class="text-red-600">*</span></label
+        >
         <select
           v-model="category"
           class="bg-white px-5 pt-3 pb-1 border-b-4 focus:outline-none border-teal-700 focus:border-yellow-400 font-medium text-lg"
@@ -34,10 +43,19 @@
             {{ category.name }}
           </option>
         </select>
+        <div
+          class="flex items-center mt-3 hover:underline text-sm text-teal-700 font-semibold cursor-pointer"
+          @click="showAddCategory = !showAddCategory"
+        >
+          <UIcon name="i-heroicons-plus-small-20-solid" class="text-2xl" />
+          <p class="italic">Add a category</p>
+        </div>
       </div>
       <div class="flex gap-10">
         <div class="flex flex-col pt-8">
-          <label for="price" class="font-bold text-lg">Price</label>
+          <label for="price" class="font-bold text-lg"
+            >Price <span class="text-red-600">*</span></label
+          >
           <input
             type="number"
             placeholder="Enter a price"
@@ -56,13 +74,15 @@
         </div>
       </div>
       <div class="flex flex-col pt-8">
-        <label for="description" class="font-bold text-lg">Description</label>
+        <label for="description" class="font-bold text-lg"
+          >Description <span class="text-red-600">*</span></label
+        >
         <TipTap v-model="description" />
       </div>
     </div>
     <div class="w-1/2">
       <div>
-        <label for="" class="font-bold text-lg">Upload Image</label>
+        <label for="" class="font-bold text-lg">Upload Image <span class="text-red-600">*</span></label>
         <div
           class="dropzone"
           :class="{ 'active-dropzone': active }"
@@ -157,6 +177,10 @@ const isDisplayingSuccess = ref(false);
 const isLoading = ref(false);
 const error = ref("");
 const successMsg = ref("");
+const errorMsg = ref("");
+const showErrorMessage = ref(false);
+const categories = ref([]);
+const showAddCategory = ref(false);
 
 const active = ref(false);
 const toggleActive = () => {
@@ -164,14 +188,12 @@ const toggleActive = () => {
   isDragging.value = !isDragging.value;
 };
 const drop = (e) => {
-  // dropzoneFile.value = e.dataTransfer.files[0]
   const file = e.dataTransfer.files[0];
   handleFile(file);
 };
+
 const selectedFile = () => {
-  // dropzoneFile.value = document.querySelector('.dropzoneFile').files[0]
   const file = document.querySelector(".dropzoneFile").files[0];
-  // const file = e.dataTransfer.files[0];
   handleFile(file);
 };
 
@@ -191,7 +213,30 @@ const handleFile = (file) => {
   }
 };
 
-const categories = ref([]);
+// Validation Function
+const validateForm = () => {
+  if (!productName.value.trim()) return "Product name is required.";
+  if (!category.value.trim()) return "Category is required.";
+  if (!price.value || isNaN(price.value) || price.value <= 0) {
+    return "Price must be a valid positive number.";
+  }
+  if (offer.value !== null && (isNaN(offer.value) || offer.value < 0)) {
+    return "Offer must be a valid non-negative number.";
+  }
+  if (!description.value.trim()) return "Description is required.";
+  if (!productImage.value) return "Product image is required.";
+  return null; // No errors
+};
+
+// Handle Validation Errors
+const handleValidationErrors = (message) => {
+  errorMsg.value = message;
+  showErrorMessage.value = true;
+  setTimeout(() => {
+    showErrorMessage.value = false;
+    errorMsg.value = "";
+  }, 5500);
+};
 
 onMounted(async () => {
   const categoriesData = await $fetch(`${backend}/category`);
@@ -199,7 +244,14 @@ onMounted(async () => {
 });
 
 const submitNewProduct = async () => {
+  const error = validateForm();
+  if (error) {
+    handleValidationErrors(error); // Stop submission and show validation error
+    return;
+  }
+
   try {
+    isLoading.value = true;
     const formData = new FormData();
     formData.append("productName", productName.value);
     formData.append("category", category.value);
@@ -213,8 +265,6 @@ const submitNewProduct = async () => {
       method: "POST",
       body: formData,
     });
-    console.log(response.status);
-
     if (response.success === true) {
       isDisplayingSuccess.value = true;
       successMsg.value = response.message;
@@ -228,4 +278,9 @@ const submitNewProduct = async () => {
     error.value = "Failed to add product. Please try again.";
   }
 };
+
+watch(showAddCategory, async()=>{
+  const categoriesData = await $fetch(`${backend}/category`);
+  categories.value = categoriesData;
+})
 </script>

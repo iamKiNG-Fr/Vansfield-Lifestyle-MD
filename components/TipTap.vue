@@ -149,6 +149,7 @@ import Underline from "@tiptap/extension-underline";
 
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
+const mm = ref()
 
 const editor = useEditor({
   content: props.modelValue,
@@ -164,6 +165,17 @@ const editor = useEditor({
     },
   },
 });
+
+// Watch for changes in `modelValue` and update the editor's content
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (editor.value && editor.value.getHTML() !== newValue) {
+      editor.value.commands.setContent(newValue || ""); // Update the editor content
+    }
+  }
+);
+
 
 onBeforeUnmount(() => {
   unref(editor).destroy();
