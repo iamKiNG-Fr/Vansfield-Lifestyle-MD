@@ -29,6 +29,7 @@
               type="text"
               placeholder="Enter your name"
               v-model="formState.firstName"
+              required
               class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
             />
           </div>
@@ -38,6 +39,7 @@
               type="text"
               placeholder="Enter your name"
               v-model="formState.lastName"
+              required
               class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
             />
           </div>
@@ -47,6 +49,7 @@
               type="tel"
               placeholder="enter your phone number"
               v-model="formState.phone"
+              required
               class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
             />
           </div>
@@ -115,9 +118,10 @@
           </div>
           <div class="flex flex-col">
             <label for="details" class="font-bold text-lg mt-8"
-              >Talk to us</label
+              >More information</label
             >
             <textarea
+              required
               v-model="formState.details"
               id="details"
               rows="3"
