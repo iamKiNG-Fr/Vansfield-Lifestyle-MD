@@ -5,7 +5,7 @@
     <Newsletter />
   </div>
   <div v-else> 
-    <p>Loading...</p>
+    <UIcon name="svg-spinners:12-dots-scale-rotate" class=" text-teal-800 text-5xl" dynamic />
   </div>
 </template>
 
