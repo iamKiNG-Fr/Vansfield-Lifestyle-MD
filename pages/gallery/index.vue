@@ -30,10 +30,17 @@ const backend = useRuntimeConfig().public.backendUrl;
 const { token } = useAuthState();
 
 useHead({
-  title: "Vansfield Merch | Gallery",
-  meta: [{ name: "description", content: "Vansfield image gallery" }],
+  title: "Vansfield Lifestyle MD | Gallery",
+  meta: [{ name: "description", content: "Discover the inspiring work of Dr. Dozie through a collection of images showcasing her dedication to improving health and well-being in communities across Nigeria and the World.." }],
 });
 
+defineOgImageComponent('NuxtSeo'
+, {
+  colorMode: 'dark',
+  theme: '#008080',
+  sitelogo: '/favicon.ico'
+}
+)
 definePageMeta({
   auth: false,
 });

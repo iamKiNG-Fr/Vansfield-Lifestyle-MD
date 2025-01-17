@@ -41,7 +41,7 @@
 
 <script setup>
 useHead({
-  title: "Vansfield Merch | Shop",
+  title: "Vansfield Lifestyle | Shop",
   meta: [{ name: "description", content: "Vansfield Shop" }],
 });
 

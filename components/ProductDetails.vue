@@ -69,9 +69,11 @@ if (token.value && token.value !== "null" && token.value !== "") {
     console.error("Error decoding token:", err);
   }
 }
-
 useHead({
+  title: `${product.productName} | Vansfield Lifestyle MD Shop`,
+  meta: [{ name: "description", content: "Vansfield Shop" }],
   script: [
+    
     {
       src: "https://js.paystack.co/v1/inline.js",
       type: "text/javascript",

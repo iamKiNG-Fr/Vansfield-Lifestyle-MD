@@ -490,6 +490,7 @@
 </template>
 
 <script setup>
+
 useHead({
   title: "Vansfield Lifestyle MD",
   meta: [
@@ -511,6 +512,13 @@ const email = ref("");
 const responseMsg = ref(null);
 
 const selectedService = ref(1); // Set default to 1 for Div 1 info
+
+defineOgImageComponent('NuxtSeo'
+, {
+  colorMode: 'dark',
+  theme: '#008080',
+  sitelogo: '/favicon.ico'
+})
 
 onMounted(async () => {
   await $fetch(`https://vansfield-lifestyle-md-be.onrender.com`, {

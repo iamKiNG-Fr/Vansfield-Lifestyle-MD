@@ -4,7 +4,7 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper", "nuxt-tiptap-editor", "@nuxtjs/robots", "@nuxtjs/sitemap"],
+  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper", "nuxt-tiptap-editor", "@nuxtjs/robots", "@nuxtjs/sitemap", "nuxt-og-image"],
 
   runtimeConfig: {
     public: {
