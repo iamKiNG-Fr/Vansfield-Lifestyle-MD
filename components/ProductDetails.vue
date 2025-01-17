@@ -8,7 +8,7 @@
           class="h-[300px] lg:h-[450px] rounded-lg object-cover w-full shadow-xl"
         />
         <div class="bg-white px-10 py-10 pt-4 -mt-2 sticky">
-          <p class="text-teal-700">{{ product.category }}</p>
+          <p class="text-teal-700">{{ product.categoryName }}</p>
           <div class="md:flex justify-between">
             <h2 class="text-2xl sm:text-4xl my-4 font-bold">
               {{ product.productName }}
