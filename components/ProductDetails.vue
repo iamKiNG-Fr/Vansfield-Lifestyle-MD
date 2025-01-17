@@ -1,21 +1,25 @@
 <template>
   <div class="">
-    <div
-      class="flex lg:flex-row flex-col gap-4 justify-center lg:px-28 p-4"
-    >
+    <div class="flex lg:flex-row flex-col gap-4 justify-center lg:px-28 p-4">
       <div class="lg:w-1/2 md:sticky top-4 h-max">
         <img
           :src="`${backend + product.productImage}`"
           :alt="product.productName"
-          class=" h-[300px] lg:h-[450px] rounded-lg object-cover w-full shadow-xl"
+          class="h-[300px] lg:h-[450px] rounded-lg object-cover w-full shadow-xl"
         />
         <div class="bg-white px-10 py-10 pt-4 -mt-2 sticky">
           <p class="text-teal-700">{{ product.category }}</p>
           <div class="md:flex justify-between">
-            <h2 class="text-2xl sm:text-4xl my-4 font-bold">{{ product.productName }}</h2>
+            <h2 class="text-2xl sm:text-4xl my-4 font-bold">
+              {{ product.productName }}
+            </h2>
             <div class="flex gap-2 items-end my-3">
-              <p class="font-bold sm:text-4xl text-2xl text-teal-700">₦{{ product.price }}</p>
-              <p class="font-medium sm:text-2xl text-lg text-gray-400 line-through">
+              <p class="font-bold sm:text-4xl text-2xl text-teal-700">
+                ₦{{ product.price }}
+              </p>
+              <p
+                class="font-medium sm:text-2xl text-lg text-gray-400 line-through"
+              >
                 ₦{{ product.offer }}
               </p>
             </div>
@@ -33,10 +37,13 @@
         </div>
       </div>
       <div class="lg:w-1/2 w-full shadow-xl mt-2 md:m-0">
-          <div class="bg-white p-10 max-w-full w-full shadow-xl rounded-lg">
-            <h2 class="text-2xl font-semibold text-teal-700">Description</h2>
-            <p class="md:text-xl text-base my-7 prose" v-html="`${product.description}`"></p>
-          </div>
+        <div class="bg-white p-10 max-w-full w-full shadow-xl rounded-lg">
+          <h2 class="text-2xl font-semibold text-teal-700">Description</h2>
+          <p
+            class="md:text-xl text-base my-7 prose"
+            v-html="`${product.description}`"
+          ></p>
+        </div>
       </div>
     </div>
   </div>
@@ -99,7 +106,8 @@ function payWithPaystack() {
 // console.log(status);
 async function processPayment() {
   if (status.value !== "authenticated") {
-    return alert("you must be logged in to make purchase");
+    alert("you must be logged in to make purchase");
+    return navigateTo("/login");
   }
   try {
     const reference = await payWithPaystack();
