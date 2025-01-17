@@ -48,10 +48,20 @@ import jwtDecode from "jwt-decode";
 const { product } = defineProps(["product"]);
 const { token } = useAuthState();
 const { status } = useAuth();
-const decoded = jwtDecode(token.value);
 
 const backend = useRuntimeConfig().public.backendUrl;
 const payKey = useRuntimeConfig().public.paystackPK;
+
+let decoded = null;
+
+// Only decode the token if it exists and is valid
+if (token.value && token.value !== "null" && token.value !== "") {
+  try {
+    decoded = jwtDecode(token.value);
+  } catch (err) {
+    console.error("Error decoding token:", err);
+  }
+}
 
 useHead({
   script: [

@@ -64,14 +64,8 @@ const links = [
 ];
 
 const { token, setToken } = useAuthState();
-// console.log('hiu');
-// console.log(token.value);
-const backend = useRuntimeConfig().public.backendUrl;
 
-// async function asyncData() {
-//     const response = await $fetch('http://localhost:5000/products', { method: 'get' });
-//     return { products: response.data };
-// }
+const backend = useRuntimeConfig().public.backendUrl;
 
 const {status, data: products} = await useLazyFetch(`${backend}/products`, {
   method: "GET",

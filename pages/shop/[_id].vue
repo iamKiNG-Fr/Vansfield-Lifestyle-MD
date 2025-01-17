@@ -22,11 +22,11 @@ definePageMeta({
 const { _id } = useRoute().params;
 const backend = useRuntimeConfig().public.backendUrl;
 
-const product = ref(null);
+const product = ref();
 const products = ref([]);
 const links = ref([])
 
-
+const { token } = useAuthState();
 
 watch(product, (newProduct) => {
   if (newProduct) {
@@ -37,11 +37,20 @@ watch(product, (newProduct) => {
   }
 });
 
+// const { data: productsData } = await useFetch(`${backend}/products`, {
+//   method: "GET",
+//   key: _id,
+// });
+// products.value = productsData
+
 onMounted( async() => {
   try {
-    const productData = await $fetch(`${backend}/products/${_id}`);
+    const productData = await $fetch(`${backend}/products/${_id}`, {
+      method: "GET",
+      // headers: token.value ? { Authorization: token.value } : {}
+    });
     product.value = productData
-    console.log("product", product.value.productName);
+
     links.value = [
       {
         label: "Home",
@@ -56,11 +65,6 @@ onMounted( async() => {
       }
     ];
     
-    const { data: productsData } = await useFetch(`${backend}/products`, {
-      method: "GET",
-      key: _id,
-    });
-    products.value = productsData
     // console.log("productsssss", products.value);
 
   } catch (error) {
