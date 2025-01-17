@@ -83,7 +83,7 @@
           </div>
           <div class="flex flex-col ">
             <p class="text-sm text-gray-500 itali pt-8">
-                  Available from <span class="text-teal-700">Monday</span> to <span class="text-teal-700">Friday</span>  , <span class="text-teal-700">9AM</span> to <span class="text-teal-700">5PM</span>
+                  Available <span class="text-teal-700">Monday</span> to <span class="text-teal-700">Friday</span>  , <span class="text-teal-700">9AM</span> to <span class="text-teal-700">5PM</span>
                 
                 </p>
                 <div class="flex gap-10">
@@ -95,7 +95,7 @@
                       v-model="formState.timeFrom"
                       :min="minTime"
                       :max="maxTime"
-                      step="3600"
+                      step="1800"
                       class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
                     />
                   </div>
@@ -107,7 +107,7 @@
                       v-model="formState.timeTo"
                       :min="minTime"
                       :max="maxTime"
-                      step="3600"
+                      step="1800"
                       class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
                     />
                   </div>
