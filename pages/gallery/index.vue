@@ -31,7 +31,7 @@ const { token } = useAuthState();
 
 useHead({
   title: "Vansfield Lifestyle MD | Gallery",
-  meta: [{ name: "description", content: "Discover the inspiring work of Dr. Dozie through a collection of images showcasing her dedication to improving health and well-being in communities across Nigeria and the World.." }],
+  meta: [{ name: "description", content: "Discover the inspiring work of Dr. Dozie through a collection of images showcasing her dedication to improving health and well-being in communities across Nigeria and the World." }],
 });
 
 defineOgImageComponent('NuxtSeo'

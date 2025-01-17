@@ -42,7 +42,7 @@
 <script setup>
 useHead({
   title: "Vansfield Lifestyle | Shop",
-  meta: [{ name: "description", content: "Vansfield Shop" }],
+  meta: [{ name: "description", content: "Discover a range of valuable resources in the Dr. Dozie Shop, from informative books on health and wellness to personalized diet plans designed to support your unique needs." }],
 });
 
 definePageMeta({
@@ -51,6 +51,14 @@ definePageMeta({
   // },
   auth: false,
 });
+
+defineOgImageComponent('NuxtSeo'
+, {
+  colorMode: 'dark',
+  theme: '#008080',
+  sitelogo: '/favicon.ico'
+})
+
 
 const links = [
   {
