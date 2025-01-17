@@ -1,6 +1,6 @@
 <template>
+  <SplashScreen  v-if="!isComplete"/>
   <div>
-
     <main class="w-full flex flex-col items-center">
       <section class="flex flex-col items-center lg:px-20 px-4">
         <h1
@@ -506,7 +506,8 @@ definePageMeta({
   auth: false
 });
 
-
+import { useSplash } from "../composables/useSplash";
+const { isComplete } = useSplash();
 const name = ref("");
 const email = ref("");
 const responseMsg = ref(null);
