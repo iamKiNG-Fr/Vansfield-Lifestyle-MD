@@ -22,7 +22,7 @@ definePageMeta({
 const { _id } = useRoute().params;
 const backend = useRuntimeConfig().public.backendUrl;
 
-const product = ref();
+const product = ref();  
 const products = ref([]);
 const links = ref([])
 

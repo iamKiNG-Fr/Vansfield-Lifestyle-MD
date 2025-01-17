@@ -4,13 +4,24 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper", "nuxt-tiptap-editor"],
+  modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper", "nuxt-tiptap-editor", "@nuxtjs/robots", "@nuxtjs/sitemap"],
 
   runtimeConfig: {
     public: {
       backendUrl: process.env.NUXT_PUBLIC_BACKEND_URL,
       paystackPK: process.env.PAYSTACK_PUBLIC_KEY,
     },
+  },
+
+  site: { 
+    url: 'https://vansfieldlifesyle.com', 
+    name: 'Vansfield Lifestyle MD' 
+    }, 
+
+  sitemap: {
+    sources: [
+      '/api/__sitemap__/urls',
+    ]
   },
 
   tiptap: {

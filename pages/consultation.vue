@@ -6,16 +6,18 @@
     >
       <div class="relative inline-block lg:pl-[440px]">
         <div
-          class="lg:bg-[url('/consultlg.jpg')] bg-[url('/consult.jpg')] bg-cover  rounded-xl lg:w-[900px] lg:h-[700px] lg:absolute relative -z-10 lg:-right-[30px] lg:-top-8 text-center text-gray-100 p-4 m-8 py-12"
+          class="lg:bg-[url('/consultlg.jpg')] bg-[url('/consult.jpg')] bg-cover rounded-xl lg:w-[900px] lg:h-[700px] lg:absolute relative -z-10 lg:-right-[30px] lg:-top-8 text-center text-gray-100 p-4 m-8 py-12"
         >
-        <div class="lg:hidden">
-          <h2 class="font-bold text-3xl mb-3 text-yellow-500">Online Consultation Form</h2>
-          <p >
-            Welcome to Vansfield Lifestyle, Dr. Dozie's online consultation
-            service. Please fill out the form below so Dr. Dozie can assist you
-            promptly and effectively.
-          </p>
-        </div>
+          <div class="lg:hidden">
+            <h2 class="font-bold text-3xl mb-3 text-yellow-500">
+              Online Consultation Form
+            </h2>
+            <p>
+              Welcome to Vansfield Lifestyle, Dr. Dozie's online consultation
+              service. Please fill out the form below so Dr. Dozie can assist
+              you promptly and effectively.
+            </p>
+          </div>
         </div>
         <form
           action=""
@@ -79,34 +81,48 @@
               class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
             />
           </div>
-          <div class="flex gap-10">
-            <div class="flex flex-col pt-8">
-              <label for="" class="font-bold text-lg">From</label>
-              <input
-                type="time"
-                v-model="formState.timeFrom"
-                :min="minTime"
-                :max="maxTime"
-                step="3600"
-                class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
-              />
-            </div>
-            <div class="flex flex-col pt-8">
-              <label for="" class="font-bold text-lg">To</label>
-              <input
-                type="time"
-                v-model="formState.timeTo"
-                :min="minTime"
-                :max="maxTime"
-                step="3600"
-                class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
-              />
-            </div>
+          <div class="flex flex-col ">
+            <p class="text-sm text-gray-500 itali pt-8">
+                  Available from <span class="text-teal-700">Monday</span> to <span class="text-teal-700">Friday</span>  , <span class="text-teal-700">9AM</span> to <span class="text-teal-700">5PM</span>
+                
+                </p>
+                <div class="flex gap-10">
+
+                  <div class="flex flex-col pt-4">
+                    <label for="" class="font-bold text-lg">From</label>
+                    <input
+                      type="time"
+                      v-model="formState.timeFrom"
+                      :min="minTime"
+                      :max="maxTime"
+                      step="3600"
+                      class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
+                    />
+                  </div>
+                  <div class="flex flex-col pt-4">
+                  
+                    <label for="" class="font-bold text-lg">To</label>
+                    <input
+                      type="time"
+                      v-model="formState.timeTo"
+                      :min="minTime"
+                      :max="maxTime"
+                      step="3600"
+                      class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
+                    />
+                  </div>
+                </div>
           </div>
           <div class="flex flex-col">
-            <label for="details" class="font-bold text-lg mt-8">Talk to us</label>
-            <textarea v-model="formState.details" id="details" rows="3" class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg resize-none"></textarea>
-          
+            <label for="details" class="font-bold text-lg mt-8"
+              >Talk to us</label
+            >
+            <textarea
+              v-model="formState.details"
+              id="details"
+              rows="3"
+              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg resize-none"
+            ></textarea>
           </div>
 
           <button type="submit" class="btn2 w-full p-3 text-lg mt-7">
@@ -144,7 +160,7 @@ const formState = ref({
   date: "",
   timeFrom: "",
   timeTo: "",
-  details:""
+  details: "",
 });
 
 // Get today's date in the format YYYY-MM-DD
@@ -155,7 +171,7 @@ const minDate = today;
 const minTime = "09:00";
 const maxTime = "17:00";
 
-const backend = useRuntimeConfig().public.backendUrl
+const backend = useRuntimeConfig().public.backendUrl;
 
 const submitAppointment = async () => {
   try {
@@ -173,7 +189,7 @@ const submitAppointment = async () => {
       date: "",
       timeFrom: "",
       timeTo: "",
-      details:""
+      details: "",
     };
   } catch (error) {
     console.error("Error submitting appointment:", error);
