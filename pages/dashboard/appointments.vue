@@ -1,10 +1,15 @@
 <template>
   <UBreadcrumb :links="links" class="mb-5" />
+  <AppointmentDetails
+    v-if="showAppointmentDetail"
+    @closeAppointmentDetail="showAppointmentDetail = false"
+    :appointmentDetail="appointmentDetail"
+  />
+  <DeletePopup v-if="showDeletepopup" :productName="`${deleteInfo.firstName}'s Consulation'`" :id="deleteInfo._id" @removeDeletePopup="showDeletepopup = false" @deleteProduct="deleteConsultaion" />
   <div>
     <h2 class="font-bold text-teal-700 text-2xl mb-8">Appointments</h2>
     <div v-if="formattedAppointments">
       <UTable
-        
         :rows="formattedAppointments"
         :columns="columns"
         :ui="{
@@ -38,12 +43,17 @@
 <script setup>
 definePageMeta({
   layout: "dashboard",
-  middleware: 'verify',
-  role: 'sAdmin' || 'admin'
+  middleware: "verify",
+  role: "sAdmin" || "admin",
   // auth: false
 });
 
+const showAppointmentDetail = ref(false);
+const appointmentDetail = ref();
 const backend = useRuntimeConfig().public.backendUrl;
+const showDeletepopup = ref(false)
+const deleteInfo = ref()
+
 
 const links = [
   {
@@ -96,13 +106,21 @@ const items = (row) => [
     {
       label: "Edit",
       icon: "i-heroicons-pencil-square-20-solid",
-      click: () => console.log("Edit", row.id),
+      click: () => {
+        showAppointmentDetail.value = true;
+        appointmentDetail.value = row;
+      },
+      // click: () => console.log("Edit", row.id),
     },
   ],
   [
     {
       label: "Delete",
       icon: "i-heroicons-trash-20-solid",
+      click: ()=>{
+        showDeletepopup.value = true
+        deleteInfo.value = row
+      }
     },
   ],
 ];
@@ -119,6 +137,22 @@ function formatAppointmentDate(dateStr) {
     month: "short",
     year: "numeric",
   });
+}
+
+const deleteConsultaion = async(id) =>{
+  try {
+    const response = await $fetch(`${backend}/appointments/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: token.value ? { Authorization: token.value } : {},
+    });
+    if (response.success) {
+      formattedAppointments.value = formattedAppointments.value.filter((appointment)=> appointment._id !== id)
+      showDeletepopup.value = false
+    }
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 onMounted(async () => {

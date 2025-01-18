@@ -10,7 +10,7 @@
       <div class="flex gap-3">
         <button
           class="bg-red-700 text-white p-1 flex-1 rounded-md hover:bg-red-500 transition-colors duration-300"
-          @click="$emit('deleteProduct', id)"
+          @click="$emit('deleteProduct', id), isDeleting=true" :disabled="isDeleting" :class="{'cursor-not-allowed bg-red-400':isDeleting}"
         >
           Yes, Delete
         </button>
@@ -27,6 +27,7 @@
 
 <script setup>
 const { productName, id } = defineProps(["productName", "id"]);
+const isDeleting = ref(false)
 
 </script>
 
