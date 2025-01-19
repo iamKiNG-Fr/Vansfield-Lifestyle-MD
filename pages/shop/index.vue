@@ -20,21 +20,11 @@
           />
         </div>
         <div class="productscard mt-10 " v-else>
-          <div v-for="product in products" :key="product.id">
+          <div v-for="product in products" :key="product._id">
             <ProductCard :product="product" />
-            <!-- {{ product.productName }} -->
           </div>
         </div>
       </div>
-      <!-- <div class="mt-24">
-        <h3 class="font-bold text-3xl">+ Products</h3>
-        <p class="italic">Enrich your mind</p>
-        <div class="productscard"> -->
-      <!-- <ProductCard />
-          <ProductCard />
-          <ProductCard /> -->
-      <!-- </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -58,7 +48,6 @@ defineOgImageComponent('NuxtSeo'
   theme: '#008080',
   sitelogo: '/favicon.ico'
 })
-
 
 const links = [
   {

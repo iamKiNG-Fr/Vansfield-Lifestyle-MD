@@ -32,10 +32,12 @@
       ]"
     >
       <template #productImage-data="{ row }">
-        <img
+        <NuxtImg
           :src="backend + row.productImage"
           :alt="row.productName"
+          width="112"
           class="w-28 h-28 object-cover rounded-xl mx-auto"
+          format="webp"
         />
       </template>
 

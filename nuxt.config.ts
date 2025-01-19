@@ -24,6 +24,10 @@ export default defineNuxtConfig({
     ]
   },
 
+  image: {
+    format: ['webp']
+  },
+
   tiptap: {
     prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
   },

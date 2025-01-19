@@ -66,13 +66,13 @@
         <NuxtLink to="/consultation"
           ><button class="btn">Book a Consultauion</button></NuxtLink
         >
-        <div @click="showDesktopAccountMenu = !showDesktopAccountMenu;" v-if="status === 'authenticated'" ref="desktopAccountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+        <div @click="showDesktopAccountMenu = !showDesktopAccountMenu;" v-if="status === 'authenticated'" ref="desktopAccountMenu" class="bg-teal-700 p-2 rounded-md  hover:bg-teal-800 transition-colors duration-300 relative cursor-pointer">
         
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 text-gray-50">
             <UIcon name="material-symbols:person-2" class="text-2xl" dynamic/> 
             <span class="font-bold text-center">{{ user.firstName }} {{ user.lastName }}</span>
           </div>
-          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-if="showDesktopAccountMenu">
+          <div class="absolute bg-white shadow-xl  right-0 top-14 p-5 w-48 rounded-lg" v-if="showDesktopAccountMenu">
             <div @click="isShowingEditProfile = !isShowingEditProfile"  class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
               <UIcon name="material-symbols:person-edit-rounded" dynamic/>
               <span>Edit Profile</span>
