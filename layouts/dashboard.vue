@@ -49,12 +49,12 @@
               <UIcon name="material-symbols:person-edit-rounded" dynamic />
               <span>Edit Profile</span>
             </div>
-            <div
+            <!-- <div
               class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
             >
               <UIcon name="material-symbols:history-rounded" dynamic />
               <span>Order History</span>
-            </div>
+            </div> -->
             <div
               class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
               @click="logout"

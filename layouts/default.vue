@@ -2,9 +2,12 @@
   <NuxtLoadingIndicator :height="5" color="#008080" />
   <div class="">
     <header
-      class=" flex lg:px-40 px-4 pt-4 pb- lg:py-10 py-4 justify-between items-center max-[690px]:shadow-lg max-[690px]:bg-gray-100 z-20"
+      class="flex lg:px-40 px-4 pt-4 pb- lg:py-10 py-4 justify-between items-center max-[690px]:shadow-lg max-[690px]:bg-gray-100 z-20"
     >
-    <EditProfile v-if="isShowingEditProfile === true" @close-edit-profile="isShowingEditProfile = false"/>
+      <EditProfile
+        v-if="isShowingEditProfile === true"
+        @close-edit-profile="isShowingEditProfile = false"
+      />
       <NuxtLink to="/" class="border-none">
         <div class="flex items-center">
           <div>
@@ -54,34 +57,58 @@
             </p></NuxtLink
           >
         </div>
-        <div v-if="user && (user.role == 'admin' || user.role === 'sAdmin')">
-          <NuxtLink to="/dashboard/appointments"
-            ><p
-              class="font-medium text-gray-500 hover:text-teal-700 hover:font-bold transition duration-300"
-            >
-              Dashboard
-            </p></NuxtLink
-          >
-        </div>
+
         <NuxtLink to="/consultation"
           ><button class="btn">Book a Consultauion</button></NuxtLink
         >
-        <div @click="showDesktopAccountMenu = !showDesktopAccountMenu;" v-if="status === 'authenticated'" ref="desktopAccountMenu" class="bg-teal-700 p-2 rounded-md  hover:bg-teal-800 transition-colors duration-300 relative cursor-pointer">
-        
+        <div
+          @click="showDesktopAccountMenu = !showDesktopAccountMenu"
+          v-if="status === 'authenticated'"
+          ref="desktopAccountMenu"
+          class="bg-teal-700 p-2 rounded-md hover:bg-teal-800 transition-colors duration-300 relative cursor-pointer"
+        >
           <div class="flex items-center gap-2 text-gray-50">
-            <UIcon name="material-symbols:person-2" class="text-2xl" dynamic/> 
-            <span class="font-bold text-center">{{ user.firstName }} {{ user.lastName }}</span>
+            <UIcon name="material-symbols:person-2" class="text-2xl" dynamic />
+            <span class="font-bold text-center"
+              >{{ user.firstName }} {{ user.lastName }}</span
+            >
           </div>
-          <div class="absolute bg-white shadow-xl  right-0 top-14 p-5 w-48 rounded-lg" v-if="showDesktopAccountMenu">
-            <div @click="isShowingEditProfile = !isShowingEditProfile"  class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
-              <UIcon name="material-symbols:person-edit-rounded" dynamic/>
+          <div
+            class="absolute bg-white shadow-xl right-0 top-14 z-40 p-5 w-48 rounded-lg"
+            v-if="showDesktopAccountMenu"
+          >
+            <div
+              @click="isShowingEditProfile = !isShowingEditProfile"
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+            >
+              <UIcon name="material-symbols:person-edit-rounded" dynamic />
               <span>Edit Profile</span>
             </div>
-            <div class="py-2 border-b-2 roun flex gap-2 items-center hover:text-teal-700">
-              <UIcon name="material-symbols:history-rounded" dynamic/>
-              <span>Order History</span>
+            <div
+              v-if="user && (user.role == 'admin' || user.role === 'sAdmin')" class="py-2 border-b-2 roun flex gap-2 items-center hover:text-teal-700"
+            >
+              <NuxtLink to="/dashboard/appointments"
+                ><UIcon
+                  name="material-symbols:space-dashboard"
+                  dynamic
+                />
+                <span
+                  
+                >
+                  Dashboard
+                </span></NuxtLink
+              >
             </div>
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700" @click="logout">
+            <!-- <div
+              class="py-2 border-b-2 roun flex gap-2 items-center hover:text-teal-700"
+            >
+              <UIcon name="material-symbols:history-rounded" dynamic />
+              <span>Order History</span>
+            </div> -->
+            <div
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+              @click="logout"
+            >
               <UIcon name="material-symbols:view-list" dynamic />
               <span>Log Out</span>
             </div>
@@ -96,23 +123,46 @@
           style="font-size: 30px; color: white"
           dynamic
         />
-        <div to="/" @click="showMobileAccountMenu=!showMobileAccountMenu;" v-if="status === 'authenticated'" ref="mobileAccountMenu" class="bg-yellow-400 p-2 rounded-md  hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer">
+        <div
+          to="/"
+          @click="showMobileAccountMenu = !showMobileAccountMenu"
+          v-if="status === 'authenticated'"
+          ref="mobileAccountMenu"
+          class="bg-yellow-400 p-2 rounded-md hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer"
+        >
           <div class="flex items-center gap-2">
-            <UIcon name="material-symbols:person-2" class="text-[20px]" dynamic/> 
+            <UIcon
+              name="material-symbols:person-2"
+              class="text-[20px]"
+              dynamic
+            />
           </div>
-          <div class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg" v-show="showMobileAccountMenu">
+          <div
+            class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg"
+            v-show="showMobileAccountMenu"
+          >
             <div>
-              <span class="font-bold">{{ user.firstName }} {{ user.lastName }}</span>
+              <span class="font-bold"
+                >{{ user.firstName }} {{ user.lastName }}</span
+              >
             </div>
-            <div @click="isShowingEditProfile = !isShowingEditProfile"  class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
-              <UIcon name="material-symbols:person-edit-rounded" dynamic/>
+            <div
+              @click="isShowingEditProfile = !isShowingEditProfile"
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+            >
+              <UIcon name="material-symbols:person-edit-rounded" dynamic />
               <span>Edit Profile</span>
             </div>
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700">
-              <UIcon name="material-symbols:history-rounded" dynamic/>
+            <div
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+            >
+              <UIcon name="material-symbols:history-rounded" dynamic />
               <span>Order History</span>
             </div>
-            <div class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700" @click="logout">
+            <div
+              class="py-2 border-b-2 flex gap-2 items-center hover:text-teal-700"
+              @click="logout"
+            >
               <UIcon name="material-symbols:view-list" dynamic />
               <span>Log Out</span>
             </div>
@@ -146,29 +196,20 @@
             dynamic
           />Gallery</NuxtLink
         >
-        
-          <NuxtLink to="/login" class="p-3 w-full text-center" v-if="status == 'unauthenticated'">
-           <UIcon
-            name="material-symbols:login"
-            class="text-2xl mr-2"
-            dynamic
-          />
-              Login
-            </NuxtLink
-          >
-          <NuxtLink to="/dashboard/appointments"
-          class="p-3 w-full text-center" v-if="user && (user.role == 'admin' || user.role === 'sAdmin')">
-          <UIcon name="material-symbols:space-dashboard" class="text-2xl mr-2" dynamic/>
-              Dashboard
-            </NuxtLink
-          >
-          <NuxtLink to="/consultation"
-          class="p-3 w-full text-center">
-          <UIcon name="iconamoon:profile-fill" class="text-2xl mr-2" dynamic/>
-              Book Consultation
-            </NuxtLink
-          >
-    
+
+        <NuxtLink
+          to="/login"
+          class="p-3 w-full text-center"
+          v-if="status == 'unauthenticated'"
+        >
+          <UIcon name="material-symbols:login" class="text-2xl mr-2" dynamic />
+          Login
+        </NuxtLink>
+
+        <NuxtLink to="/consultation" class="p-3 w-full text-center">
+          <UIcon name="iconamoon:profile-fill" class="text-2xl mr-2" dynamic />
+          Book Consultation
+        </NuxtLink>
       </div>
     </transition>
     <!-- output page content -->
@@ -178,7 +219,11 @@
         @click="scrollToTop"
         class="fixed z-30 bottom-4 right-4 p-3 bg-yellow-400 text-gray-800 rounded-full shadow-md hover:bg-gray-600 transition-colors duration-300 animate-bounce"
       >
-        <UIcon name="material-symbols:arrow-upward-alt-rounded" class="text-2xl" dynamic/>
+        <UIcon
+          name="material-symbols:arrow-upward-alt-rounded"
+          class="text-2xl"
+          dynamic
+        />
       </button>
       <slot />
     </div>
@@ -243,15 +288,14 @@
 
 <script setup>
 const { status, data } = useAuthState();
-const {signOut} = useAuth()
+const { signOut } = useAuth();
 const isMenuOpen = ref(false);
 
 //edit profile
-const isShowingEditProfile = ref(false)
-
+const isShowingEditProfile = ref(false);
 
 //user data
-const user = data.value
+const user = data.value;
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
@@ -261,7 +305,7 @@ const toggleMenu = () => {
 const showScrollButton = ref(false);
 
 const handleScroll = (e) => {
-  const scrollThreshold = 600; 
+  const scrollThreshold = 600;
   showScrollButton.value = window.scrollY > scrollThreshold;
 };
 
@@ -272,34 +316,33 @@ const scrollToTop = () => {
   });
 };
 
-
 //Logout Logic
 
-
 const logout = async () => {
-  await signOut({ callbackUrl: '/' }) // Call Sidebase's signOut for local session handling
-}
-
-
+  await signOut({ callbackUrl: "/" }); // Call Sidebase's signOut for local session handling
+};
 
 //Logic for Menu
 
-
-const showMobileAccountMenu = ref(false)
-const showDesktopAccountMenu = ref(false)
-const desktopAccountMenu = ref(null)
-const mobileAccountMenu = ref(null)
-
+const showMobileAccountMenu = ref(false);
+const showDesktopAccountMenu = ref(false);
+const desktopAccountMenu = ref(null);
+const mobileAccountMenu = ref(null);
 
 const handleClickOutside = (event) => {
   if (showDesktopAccountMenu.value) {
-    if (desktopAccountMenu.value && !desktopAccountMenu.value.contains(event.target)) {
+    if (
+      desktopAccountMenu.value &&
+      !desktopAccountMenu.value.contains(event.target)
+    ) {
       showDesktopAccountMenu.value = false;
     }
   }
   if (showMobileAccountMenu.value) {
-    
-    if (mobileAccountMenu.value && !mobileAccountMenu.value.contains(event.target)) {
+    if (
+      mobileAccountMenu.value &&
+      !mobileAccountMenu.value.contains(event.target)
+    ) {
       showMobileAccountMenu.value = false;
     }
   }
@@ -307,20 +350,25 @@ const handleClickOutside = (event) => {
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
-  document.addEventListener('click', handleClickOutside);
-  
+  document.addEventListener("click", handleClickOutside);
+
   watchEffect(() => {
     const closeMenuHandler = (event) => {
       const dropdown = document.querySelector(".dropdown");
       const header = document.querySelector("header");
-      
-      if (dropdown && !dropdown.contains(event.target) && header && !header.contains(event.target)) {
+
+      if (
+        dropdown &&
+        !dropdown.contains(event.target) &&
+        header &&
+        !header.contains(event.target)
+      ) {
         isMenuOpen.value = false;
       }
     };
-    
+
     document.addEventListener("click", closeMenuHandler);
-    
+
     // Cleanup event listener when component unmounts
     return () => {
       document.removeEventListener("click", closeMenuHandler);
@@ -329,7 +377,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener("click", handleClickOutside);
 });
 
 onBeforeUnmount(() => {
