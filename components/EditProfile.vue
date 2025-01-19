@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full backdrop-blur-sm h-screen fixed top-0 left-0 z-10 flex items-center">
+  <div class="w-full backdrop-blur-sm h-screen fixed top-0 left-0 z-50 flex items-center">
     
     <div class="flex flex-col gap-5 bg-gray-50 p-10 rounded-2xl max-w-2xl m-auto shadow-2xl">
       <div class="flex justify-between items-center">

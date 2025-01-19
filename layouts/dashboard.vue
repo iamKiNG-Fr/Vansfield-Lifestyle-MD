@@ -32,14 +32,14 @@
           to="/"
           @click="showAccountMenu = !showAccountMenu"
           ref="accountMenu"
-          class="bg-yellow-400 p-2 rounded-md hover:bg-yellow-300 transition-colors duration-300 relative cursor-pointer"
+          class="bg-teal-700 p-2 text-gray-100 rounded-md hover:bg-teal-800 transition-colors duration-300 relative cursor-pointer"
         >
           <div class="flex items-center gap-2">
             <UIcon name="material-symbols:person-2" dynamic />
             <span> {{ user.firstName }} {{ user.lastName }}</span>
           </div>
           <div
-            class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg"
+            class="absolute bg-white shadow-xl right-0 top-14 p-5 w-48 rounded-lg text-gray-700"
             v-if="showAccountMenu"
           >
             <div
