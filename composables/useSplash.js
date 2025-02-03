@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 
 export function useSplash() {
@@ -6,10 +6,24 @@ export function useSplash() {
   const isComplete = ref(false);
   const router = useRouter();
 
-  router.isReady().then(() => {
-    setTimeout(() => {
+  onBeforeMount(() => {
+    // Check if the splash screen has already been shown
+    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+
+    if (!hasSeenSplash) {
+      // Show the splash screen on the first visit
+      isVisible.value = true;
+
+      router.isReady().then(() => {
+        setTimeout(() => {
+          isVisible.value = false; // Hide splash after 2 seconds
+          sessionStorage.setItem("hasSeenSplash", "true"); // Mark splash as shown
+        }, 2000); // Splash duration
+      });
+    } else {
+      // If splash has already been seen, hide it immediately
       isVisible.value = false;
-    }, 2000); // Splash duration
+    }
   });
 
   function setSplashComplete() {
