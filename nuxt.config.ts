@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   },
 
   site: { 
-    url: 'https://vansfieldlifesylemd.com', 
+    url: 'https://www.vansfieldlifestylemd.com/', 
     name: 'Vansfield Lifestyle MD' 
     }, 
 
