@@ -586,14 +586,23 @@ const handleClick = (serviceNum) => {
 
 
 watch(selectedService, (id) => {
-  const targetRef = {
+
+  const serviceRefs = {
     1: consultRef,
     2: trainRef,
     3: speakRef,
   }[id];
+  const container = serviceList.value
+  const target = serviceRefs?.value
+  
 
-  if (targetRef?.value?.scrollIntoView) {
-    targetRef.value.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  if (container && target) {
+    const containerRect = container.getBoundingClientRect()
+    const targetRect = target.getBoundingClientRect()
+
+    const scrollLeft = target.offsetLeft - container.offsetLeft - (container.clientWidth / 2) + (target.clientWidth / 2)
+
+    container.scrollTo({ left: scrollLeft, behavior: 'smooth' })
   }
 });
 
