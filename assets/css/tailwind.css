@@ -40,7 +40,7 @@ body {
         @apply text-teal-700 hover:text-gray-100 font-bold text-base text-center hover:bg-teal-700 border-teal-700 border-2 rounded-md p-1 mt-2 cursor-pointer transition-colors;
     }
     .service-card{
-        @apply flex bg-yellow-400 hover:bg-teal-500 hover:text-gray-100 rounded-lg lg:px-10 px-4  lg:py-5 py-3 items-center transition ease-in-out duration-700;
+        @apply flex w-full min-w-72 bg-yellow-400 hover:bg-teal-500 hover:text-gray-100 rounded-lg lg:px-10 px-4  lg:py-5 py-3 items-center transition ease-in-out duration-700;
     }
     .product-card{
         @apply bg-gray-100 p-6 lg:w-64 max-w-xs text-center rounded-md;

@@ -1,5 +1,5 @@
 <template>
-  <SplashScreen  v-if="!isComplete"/>
+  <SplashScreen v-if="!isComplete" />
   <div>
     <main class="w-full flex flex-col items-center">
       <section class="flex flex-col items-center lg:px-20 px-4">
@@ -44,28 +44,54 @@
           <div>
             <span class="text-2xl mt-10">Get to Know</span>
             <h2 class="text-5xl font-bold">Dr Ijeoma Dozie</h2>
+            <p class="mt-5">
+              Consultant Family Physician | Board-Certified Lifestyle Medicine
+              Physician | Health Systems Strategist | Wellness Advocate |
+              Speaker
+            </p>
           </div>
           <p class="mt-8 text-lg leading-loose">
-            Dr. Dozie, a beacon of health and vitality, is a
-            <span class="text-yellow-400"
-              >seasoned healthcare professional</span
-            >
-            with a passion for holistic well-being. With a wealth of experience
-            and a compassionate approach, Dr. Dozie has touched countless lives,
-            guiding individuals towards
-            <span class="text-yellow-400">optimal health</span> and happiness.
+            For nearly two decades, <span class=" text-yellow-400 ">Dr. Ijeoma Judith Dozie</span> has stood at the
+            intersection of traditional medical excellence and bold innovation
+            in healthcare delivery, wellness strategy, and lifestyle
+            transformation.<span class=" text-yellow-400 "> A Consultant Family Physician and one of Nigeria’s
+            pioneering Board-Certified Lifestyle Medicine Physicians</span>, Dr. Dozie
+            is renowned for her integrative, forward-thinking approach to health
+            promotion and disease prevention.
             <br /><br />
-            Her journey began with a
-            <span class="text-yellow-400"
-              >deep-rooted commitment to helping</span
-            >
-            others live their best lives. Armed with a comprehensive
-            understanding of medicine and a dedication to continuous learning,
-            Dr. Dozie goes
-            <span class="text-yellow-400">beyond conventional practices</span>,
-            embracing a holistic approach that considers the interconnectedness
-            of mind, body, and spirit.
+            She is the visionary behind <span class=" text-yellow-400 ">Vansfield Lifestyle MD &amp; Consulting</span> ,
+            where she leads a growing movement toward evidence-based lifestyle
+            medicine, personalized wellness plans, and corporate health
+            solutions. Her practice fuses clinical precision with culturally
+            relevant lifestyle interventions to reverse chronic disease and
+            improve quality of life—especially in African populations.
+            <br /><br />
+            Dr. Dozie has <span class=" text-yellow-400 ">trained hundreds of health professionals</span>, spoken at
+            major regional and global forums, and served on <span class=" text-yellow-400 ">key policy and
+            research initiatives</span> shaping the future of preventive care in
+            Africa. Her work includes collaborations with NGOs, ministries of
+            health, academic institutions, and emerging health tech startups.
+            She is a founding leader within the <span class=" text-yellow-400 ">Society of Lifestyle Medicine of
+            Nigeria (SOLONg)</span>  and actively mentors the next generation of
+            physician- leaders.
+            <br /><br />
+            With experience spanning hospitals, ministries, and boardrooms, she
+            brings unmatched credibility and warmth to every room she enters.
+            Whether you’re seeking a keynote speaker, a consultant for your
+            wellness strategy, a thought partner on a research project, or a
+            health coach for your organization or family— <span class=" text-yellow-400 ">Dr. Dozie delivers with
+            grace, clarity, and deep-rooted competence.</span>
+            <br /><br />
+            Book Dr. Dozie for:
           </p>
+          <ul class="text-lg leading-loose list-disc list-inside">
+            <li>International and Regional Keynotes &amp; Panels</li>
+            <li>Health &amp; Wellness Consulting (Corporate or Individual)</li>
+            <li>Research &amp; Public Health Collaborations</li>
+            <li>Lifestyle Medicine Training &amp; Coaching</li>
+            <li>Strategic Partnerships in Health Systems Innovation</li>
+          </ul>
+          <NuxtLink to="/consultation" class=" bg-yellow-400 p-1 rounded-md font-bold hover:bg-yellow-200 transition-all duration-300 mt-8 ease-in-out text-teal-950">Click here for a Consultation</NuxtLink>
         </div>
       </section>
 
@@ -75,11 +101,12 @@
           <h3 class="font-bold text-3xl">+ My Services</h3>
           <p class="text-lg italic">Lets begin your health journey with</p>
         </header>
-        <div class="lg:px-16 px-5 flex justify-center gap-36 items-center">
-          <ul class="flex flex-col gap-10">
+        <div class="lg:px-16 px-5 flex flex-col sm:flex sm:flex-row justify-center gap-8 md:gap-36 items-center">
+          <ul ref="serviceList" class="flex md:flex-col gap-10 w-full overflow-x-auto scrollb">
             <li
               @click="handleClick(1)"
-              :class="{ selected: selectedService === 1 }"
+              ref="consultRef"
+              :class="{ selected: selectedService === 1}"
               class="service-card group cursor-pointer"
             >
               <img
@@ -88,15 +115,17 @@
                 :class="{ invert: selectedService === 1 }"
                 class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700"
               />
-              <div class="ml-5">
+              <div class="ml-5 w-full">
                 <h4 class="text-xl font-bold uppercase">consultaion</h4>
                 <p class="text-sm italic">Speak to your doctor from anywhere</p>
+                <UProgress v-if="selectedService === 1" :value="progress" class="mt-4 transition-all  duration-100" />
               </div>
             </li>
             <li
               @click="handleClick(2)"
               :class="{ selected: selectedService === 2 }"
               class="service-card group cursor-pointer"
+              ref="trainRef"
             >
               <img
                 src="/assets/img/train.svg"
@@ -104,15 +133,18 @@
                 :class="{ 'invert-0': selectedService === 2 }"
                 class="lg:w-20 w-16 filter invert group-hover:invert-0 transition ease-in-out duration-700"
               />
-              <div class="ml-5">
+              <div class="ml-5 w-full">
                 <h4 class="text-xl font-bold uppercase">training</h4>
                 <p class="text-sm italic">Fitness is key, Lets get you fit.</p>
+                <UProgress v-if="selectedService === 2" :value="progress" class="mt-4 transition-all  duration-100" />
+
               </div>
             </li>
             <li
               @click="handleClick(3)"
-              :class="{ selected: selectedService === 3 }"
+              :class="{ selected: selectedService === 3}"
               class="service-card group cursor-pointer"
+              ref="speakRef"
             >
               <img
                 src="/assets/img/conference.svg"
@@ -120,66 +152,73 @@
                 :class="{ invert: selectedService === 3 }"
                 class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700"
               />
-              <div class="ml-5">
+              <div class="ml-5 w-full">
                 <h4 class="text-xl font-bold uppercase">Speaking Engagement</h4>
                 <p class="text-sm italic">Learn about Public Speaker</p>
+                <UProgress v-if="selectedService === 3" :value="progress" class="mt-4 transition-all  duration-100" />
+
               </div>
             </li>
           </ul>
-          <div class="max-w-2xl hidden lg:block" v-if="selectedService === 1">
-            <div>
-              <h4 class="text-5xl font-extrabold">Consultations</h4>
-              <span>with Dr. Dozie</span>
+          <Transition name="fade" mode="out-in">
+
+            <div class="max-w-2xl" v-if="selectedService === 1">
+              <div>
+                <h4 class="text-5xl font-extrabold">Consultations</h4>
+                <span>with Dr. Dozie</span>
+              </div>
+              <p class="text-lg leading-relaxed mt-8 mb-8">
+                Meet Dr. Dozie, your trusted online healthcare companion. With
+                virtual consultations, Dr. Dozie brings expert medical guidance
+                right to your fingertips.
+                <br /><br />
+                Whether you're seeking advice on a specific issue or simply need a
+                check-up, Dr. Dozie offers convenient, confidential consultations
+                from the comfort of your own home. Take control of your health
+                today and schedule your online consultation with Dr. Dozie.
+              </p>
+              <NuxtLink to="/consultation" class=" bg-yellow-400 p-1 rounded-md font-bold hover:bg-yellow-200 transition-all duration-300 mt-4 ease-in-out text-teal-950">Click here for a Consultation</NuxtLink>
+              
             </div>
-            <p class="text-lg leading-relaxed mt-8">
-              Meet Dr. Dozie, your trusted online healthcare companion. With
-              virtual consultations, Dr. Dozie brings expert medical guidance
-              right to your fingertips.
-              <br /><br />
-              Whether you're seeking advice on a specific issue or simply need a
-              check-up, Dr. Dozie offers convenient, confidential consultations
-              from the comfort of your own home. Take control of your health
-              today and schedule your online consultation with Dr. Dozie.
-            </p>
-          </div>
-          <div
-            class="max-w-2xl hidden lg:block"
-            v-else-if="selectedService === 2"
-          >
-            <div>
-              <h4 class="text-5xl font-extrabold">Training</h4>
-              <span>with Dr. Dozie</span>
+            <div
+              class="max-w-2xl"
+              v-else-if="selectedService === 2"
+            >
+              <div>
+                <h4 class="text-5xl font-extrabold">Training</h4>
+                <span>with Dr. Dozie</span>
+              </div>
+              <p class="text-lg leading-relaxed mt-8">
+                Dr. Dozie offers personalized training services designed to help
+                you achieve your fitness goals. From customized workout plans to
+                expert nutritional advice. <br /><br />
+                Her holistic approach empowers you to take charge of your health
+                and transform your lifestyle. Join us today and embark on a
+                journey to a better you with Dr. Dozie by your side.
+              </p>
             </div>
-            <p class="text-lg leading-relaxed mt-8">
-              Dr. Dozie offers personalized training services designed to help
-              you achieve your fitness goals. From customized workout plans to
-              expert nutritional advice. <br /><br />
-              Her holistic approach empowers you to take charge of your health
-              and transform your lifestyle. Join us today and embark on a
-              journey to a better you with Dr. Dozie by your side.
-            </p>
-          </div>
-          <div
-            class="max-w-2xl hidden lg:block"
-            v-else-if="selectedService === 3"
-          >
-            <div>
-              <h4 class="text-5xl font-extrabold">Speaking Engagement</h4>
-              <span>with Dr. Dozie</span>
+            <div
+              class="max-w-2xl"
+              v-else-if="selectedService === 3"
+            >
+              <div>
+                <h4 class="text-5xl font-extrabold">Speaking Engagement</h4>
+                <span>with Dr. Dozie</span>
+              </div>
+              <p class="text-lg leading-relaxed mt-8">
+                Refine your speaking skills with Dr. Dozie's expert coaching. Gain
+                confidence, captivate audiences, and leave a lasting impression
+                with personalized guidance tailored to your needs.
+                <br /><br />
+                Whether you're a seasoned speaker or just starting out, Dr.
+                Dozie's Public Speaking Engagement Service offers practical
+                techniques to help you connect with your audience and deliver your
+                message with impact. From conquering nerves to perfecting your
+                delivery, her coaching will elevate your speaking game and ensure
+                your message resonates loud and clear.
+              </p>
             </div>
-            <p class="text-lg leading-relaxed mt-8">
-              Refine your speaking skills with Dr. Dozie's expert coaching. Gain
-              confidence, captivate audiences, and leave a lasting impression
-              with personalized guidance tailored to your needs.
-              <br /><br />
-              Whether you're a seasoned speaker or just starting out, Dr.
-              Dozie's Public Speaking Engagement Service offers practical
-              techniques to help you connect with your audience and deliver your
-              message with impact. From conquering nerves to perfecting your
-              delivery, her coaching will elevate your speaking game and ensure
-              your message resonates loud and clear.
-            </p>
-          </div>
+          </Transition>
         </div>
       </section>
       <HomeCarousel />
@@ -490,7 +529,6 @@
 </template>
 
 <script setup>
-
 useHead({
   title: "Vansfield Lifestyle MD",
   meta: [
@@ -503,7 +541,7 @@ useHead({
 });
 
 definePageMeta({
-  auth: false
+  auth: false,
 });
 
 import { useSplash } from "../composables/useSplash";
@@ -512,24 +550,69 @@ const name = ref("");
 const email = ref("");
 const responseMsg = ref(null);
 
-const selectedService = ref(1); // Set default to 1 for Div 1 info
+//services timer
+const SERVICES_COUNT = 3
+const MAX_TIME = 10_000
 
-defineOgImageComponent('NuxtSeo'
-, {
-  colorMode: 'dark',
-  theme: '#008080',
-  sitelogo: '/favicon.ico'
-})
+const selectedService = ref(1); // Set default to 1 for Div 1 info
+const timer = ref(MAX_TIME) // seconds
+const interval = ref(null)
+const serviceList = ref(null);
+const consultRef = ref(null);
+const trainRef = ref(null);
+const speakRef = ref(null);
+
+const progress = computed(() => ((MAX_TIME - timer.value) / MAX_TIME) * 100)
+
+
+const startTimer = () => {
+  clearInterval(interval.value)
+  timer.value = MAX_TIME
+  interval.value = setInterval(() => {
+    timer.value-=100
+    if (timer.value <= 0) {
+      selectedService.value = selectedService.value >= SERVICES_COUNT ? 1 : selectedService.value + 1
+      timer.value = MAX_TIME
+    }
+  }, 100)
+}
+
+
+const handleClick = (serviceNum) => {
+  selectedService.value = serviceNum;
+  startTimer()
+};
+
+
+
+watch(selectedService, (id) => {
+  const targetRef = {
+    1: consultRef,
+    2: trainRef,
+    3: speakRef,
+  }[id];
+
+  if (targetRef?.value?.scrollIntoView) {
+    targetRef.value.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+});
+
+defineOgImageComponent("NuxtSeo", {
+  colorMode: "dark",
+  theme: "#008080",
+  sitelogo: "/favicon.ico",
+});
 
 onMounted(async () => {
+  startTimer()  
   await $fetch(`https://vansfield-lifestyle-md-be.onrender.com`, {
     method: "GET",
   });
 });
 
-const handleClick = (serviceNum) => {
-  selectedService.value = serviceNum;
-};
+onBeforeUnmount(() => {
+  clearInterval(interval.value)
+})
 
 const handleSubmit = async () => {
   try {
@@ -550,4 +633,16 @@ const handleSubmit = async () => {
 };
 </script>
 
-<style scoped></style>
+<style lang="postcss" scoped>
+.fade-enter-active, .fade-leave-active {
+  @apply transition-opacity duration-500;
+}
+.fade-enter-from, .fade-leave-to {
+  @apply opacity-0;
+}
+
+::-webkit-scrollbar {
+  height: 4px;
+}
+</style>
+
