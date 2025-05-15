@@ -6,11 +6,11 @@
     :id="productIdToPass"
     @removeDeletePopup="isDisplayingDelete = false"
     @deleteProduct="deleteProduct"
+    :deleteStatus="deleteStatus"
   />
   <div class="">
     <h2 class="font-bold text-teal-700 text-2xl mb-8">View Products</h2>
     <UTable
-      loading
       :rows="rows"
       :ui="{
         strategy: 'override',
@@ -119,6 +119,7 @@ const { token } = useAuthState();
 const page = ref(1);
 const pageCount = 5;
 const products = ref([]);
+const isDeleting = ref(false);
 
 const fetchProducts = async () => {
   try {
@@ -134,12 +135,14 @@ const fetchProducts = async () => {
 
 const deleteProduct = async (id) => {
   try {
+    isDeleting.value = true
     await $fetch(`${backend}/products/${id}`, { method: "DELETE" });
     products.value = products.value.filter((product) => product._id !== id);
   } catch (error) {
     console.error("Error deleting product:", error);
   }
   isDisplayingDelete.value = false;
+  isDeleting.value = false
 };
 
 const rows = computed(() => {

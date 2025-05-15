@@ -26,8 +26,7 @@
 </template>
 
 <script setup>
-const { productName, id } = defineProps(["productName", "id"]);
-const isDeleting = ref(false)
+const { productName, id, isDeleting } = defineProps(["productName", "id", "isDeleting"]);
 
 </script>
 
