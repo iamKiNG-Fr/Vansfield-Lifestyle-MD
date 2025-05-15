@@ -101,8 +101,8 @@
           <h3 class="font-bold text-3xl">+ My Services</h3>
           <p class="text-lg italic">Lets begin your health journey with</p>
         </header>
-        <div class="lg:px-16 px-5 flex flex-col sm:flex sm:flex-row justify-center gap-8 md:gap-36 items-center">
-          <ul ref="serviceList" class="flex md:flex-col gap-10 w-full overflow-x-auto scrollb">
+        <div class="lg:px-16 px-5 flex flex-col sm:flex sm:flex-row justify-center gap-8 md:gap-36 items-center ">
+          <ul ref="serviceList" class="flex md:flex-col gap-10 w-full overflow-x-auto scrollb max-w-lgx">
             <li
               @click="handleClick(1)"
               ref="consultRef"
@@ -231,42 +231,39 @@
         <div
           class="flex flex-col lg:flex-row lg:px-16 px-10 gap-10 lg:justify-center items-center"
         >
-          <div class="product-card">
+          <NuxtLink to="/shop" class="product-card">
             <img
-              src="/assets/img/hplans.png"
+              src="/assets/img/VLMD-BEST-HEALTH-INSURANCE-PLANS-IN-INDIA.png"
               alt="health plan image"
               class="rounded-md mx-auto"
             />
-            <h4 class="font-bold text-2xl my-3">Health Plan</h4>
+            <h4 class="font-bold text-2xl my-3">General Health Plans</h4>
             <p>
-              Discover optimal health with Dr. Dozie's personalized plans. Your
-              journey to wellness begins here.
+              Comprehensive wellness programs designed to support anyone seeking to maintain or improve their overall health through nutrition, fitness, and preventive care.
             </p>
-          </div>
-          <div class="product-card">
+          </NuxtLink>
+          <NuxtLink to="/shop" class="product-card">
             <img
-              src="/assets/img/books.png"
+              src="/assets/img/VLMD-6345740880a17c09b91d7262_paytient-narrow-network-health-plans-blog.png"
               alt="Books image"
               class="rounded-md mx-auto"
             />
-            <h4 class="font-bold text-2xl my-3">Books</h4>
+            <h4 class="font-bold text-2xl my-3">Personalized Health Plans</h4>
             <p>
-              Dive into a world of knowledge with Dr. Dozie's curated selection
-              of health and welln ess books.
+              Tailored health strategies based on individual needs, lifestyle, and goals—perfect for those seeking a unique and targeted approach to better living.
             </p>
-          </div>
-          <div class="product-card">
+          </NuxtLink>
+          <NuxtLink to="/shop" class="product-card">
             <img
-              src="/assets/img/wloss.png"
+              src="/assets/img/VLMD-health-insurance-hospital-medical-care-concept_178888-446.png"
               alt="diet plan image"
               class="rounded-md mx-auto"
             />
-            <h4 class="font-bold text-2xl my-3">Weight Loss Plan</h4>
+            <h4 class="font-bold text-2xl my-3">Spousal Health Plans</h4>
             <p>
-              Elevate your nutrition with Dr. Dozie's custom diet plans,
-              tailored for your unique health goals and lifestyle.
+              Health and wellness plans crafted for couples, encouraging mutual accountability and support while achieving shared health goals.
             </p>
-          </div>
+          </NuxtLink>
         </div>
       </section>
 
