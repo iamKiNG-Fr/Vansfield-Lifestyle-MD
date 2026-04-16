@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
-    @apply bg-gray-50 bg-hero-pattern text-gray-900 ;
+    overflow-x: clip;
+}
+
+body {
+    @apply bg-stone-50 bg-hero-pattern text-gray-900 ;
 }
 
 /* width */
@@ -28,51 +33,72 @@ body {
 
 @layer components {
     .hero-bubble{
-        @apply text-gray-900 bg-yellow-400 lg:text-3xl text-lg py-2 lg:px-10 px-4 rounded-md absolute;
+        @apply text-gray-900 bg-yellow-400/95 lg:text-2xl text-sm py-2 lg:px-6 px-3 rounded-full absolute shadow-lg backdrop-blur-sm;
     }
     .card{
-        @apply p-3 rounded-md bg-white shadow-md h-full ;
+        @apply h-full overflow-hidden rounded-[26px] border border-teal-100/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(15,23,42,0.12)];
     }
     .btn{
-        @apply text-gray-900 bg-yellow-400  hover:bg-yellow-300  lg:text-base text-xs lg:font-bold font-extrabold p-2 rounded-md transition ease-in-out duration-700;
+        @apply inline-flex items-center justify-center rounded-xl bg-yellow-400 px-4 py-2 text-sm font-bold text-gray-900 shadow-[0_10px_25px_rgba(250,204,21,0.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-yellow-300;
     }
     .btn2{
-        @apply text-teal-700 hover:text-gray-100 font-bold text-base text-center hover:bg-teal-700 border-teal-700 border-2 rounded-md p-1 mt-2 cursor-pointer transition-colors;
+        @apply inline-flex items-center justify-center gap-2 rounded-xl border border-teal-700 bg-white px-4 py-2 text-center text-base font-semibold text-teal-700 transition duration-300 hover:-translate-y-0.5 hover:bg-teal-700 hover:text-gray-100;
     }
     .service-card{
-        @apply flex w-full min-w-72 bg-yellow-400 hover:bg-teal-500 hover:text-gray-100 rounded-lg lg:px-10 px-4  lg:py-5 py-3 items-center transition ease-in-out duration-700;
+        @apply flex w-full min-w-72 items-center rounded-[24px] border border-teal-100 bg-white px-5 py-5 text-gray-900 shadow-[0_12px_35px_rgba(15,23,42,0.06)] transition duration-500 ease-in-out hover:-translate-y-1 hover:border-teal-200 hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)];
     }
     .product-card{
-        @apply bg-gray-100 p-6 lg:w-64 max-w-xs text-center rounded-md hover:scale-105 transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-white;
+        @apply relative overflow-hidden rounded-[28px] border border-white/10 bg-white/10 p-5 text-left text-gray-100 shadow-[0_24px_60px_rgba(3,7,18,0.18)] backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-white/15;
     }
     .testimonial-cards{
         @apply flex flex-col items-center lg:grid  lg:grid-cols-2 gap-10 lg:justify-items-center max-w-6xl mx-auto;
     }
     .testimonial-card{
-        @apply flex lg:max-w-md max-w-xs flex-col bg-white rounded-md shadow-xl p-5;
+        @apply flex lg:max-w-md max-w-xs flex-col rounded-[24px] border border-stone-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)];
     }
     .selected{
-        @apply bg-teal-700 text-gray-100
+        @apply border-teal-700 bg-teal-700 text-gray-100 shadow-[0_22px_50px_rgba(13,110,103,0.28)];
     }
     .productscard{
-        @apply grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:px-3 gap-5;
+        @apply grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 sm:px-2;
     }
     .dropzone{
-        @apply border-teal-700 border-dashed border-2 rounded-xl min-h-[300px] p-8 mt-4 flex flex-col justify-center items-center transition duration-300 ease-in-out;
+        @apply mt-4 flex min-h-[280px] flex-col items-center justify-center rounded-[28px] border border-dashed border-teal-400/90 bg-teal-50/60 p-8 text-center shadow-inner transition duration-300 ease-in-out;
     }
     .active-dropzone{
-        @apply bg-teal-100 transition duration-300 ease-in-out
+        @apply scale-[1.01] border-solid border-teal-600 bg-teal-100 transition duration-300 ease-in-out;
     }
     #dropInput{
-        @apply hidden
+        @apply hidden;
     }
     .error{
-        @apply text-red-400 italic pb-5
+        @apply text-red-400 italic pb-5;
     }
     .success{
-        @apply text-green-500 italic pb-5
+        @apply text-green-500 italic pb-5;
     }
     .tt-is-active{
-        @apply bg-yellow-200 text-gray-800  rounded p-1
+        @apply bg-yellow-200 text-gray-800  rounded p-1;
+    }
+    .admin-shell{
+        @apply rounded-[32px] border border-stone-200/80 bg-white/95 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm;
+    }
+    .admin-form{
+        @apply grid gap-8 lg:grid-cols-[1.15fr_0.85fr];
+    }
+    .admin-panel{
+        @apply rounded-[28px] border border-stone-200 bg-stone-50/70 p-6;
+    }
+    .modern-label{
+        @apply mb-2 text-sm font-semibold uppercase tracking-[0.14em] text-teal-700;
+    }
+    .modern-input{
+        @apply w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-base font-medium text-gray-900 shadow-sm outline-none transition duration-300 placeholder:text-stone-400 focus:border-teal-500 focus:ring-4 focus:ring-teal-100;
+    }
+    .table-shell{
+        @apply overflow-hidden rounded-[28px] border border-stone-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.08)];
+    }
+    .section-kicker{
+        @apply text-xs font-semibold uppercase tracking-[0.24em] text-teal-700;
     }
 }

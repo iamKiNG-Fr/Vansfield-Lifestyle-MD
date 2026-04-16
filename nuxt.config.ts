@@ -4,12 +4,20 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  css: ["~/assets/css/tailwind.css"],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   modules: ["@nuxt/ui", "@sidebase/nuxt-auth", "@nuxt/image", "nuxt-swiper", "nuxt-tiptap-editor", "@nuxtjs/robots", "@nuxtjs/sitemap", "nuxt-og-image"],
 
   runtimeConfig: {
     public: {
       backendUrl: process.env.NUXT_PUBLIC_BACKEND_URL,
       paystackPK: process.env.PAYSTACK_PUBLIC_KEY,
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://www.vansfieldlifestylemd.com",
     },
   },
 
@@ -22,6 +30,10 @@ export default defineNuxtConfig({
     sources: [
       '/api/__sitemap__/urls',
     ]
+  },
+
+  robots: {
+    disallow: ["/dashboard", "/login", "/register", "/verify", "/unauthorized"],
   },
 
   image: {
@@ -51,8 +63,17 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Vansfield Lifestyle MD",
+      titleTemplate: "%s",
+      htmlAttrs: {
+        lang: "en",
+      },
       meta: [
         { name: "description", content: "Vansfield Lifestyle MD, Your wellness journey begins here" },
+        { name: "robots", content: "index, follow, max-image-preview:large" },
+        { name: "author", content: "Vansfield Lifestyle MD" },
+        { property: "og:site_name", content: "Vansfield Lifestyle MD" },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
       link: [
         {

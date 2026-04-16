@@ -1,65 +1,85 @@
 <template>
   <div
-    class="w-screen backdrop-blur-sm bg-gray-800 bg-opacity-10 inset-0 h-screen fixed flex justify-center items-center z-30"
+    class="fixed inset-0 z-[80] flex items-center justify-center bg-white/30 px-4 backdrop-blur-[6px]"
+    @click.self="$emit('closeCategoryPopup')"
   >
     <div
-      class="delete-card bg-white p-6 flex flex-col gap-3 rounded-lg mx-auto z-20 relative w-[25rem]"
+      class="w-full max-w-2xl rounded-[30px] border border-white/90 bg-white p-6 shadow-[0_35px_90px_rgba(15,23,42,0.16)]"
     >
-      <p class="text-2xl font-bold">Add Category</p>
-      <UIcon
-        name="i-heroicons-x-mark-16-solid"
-        class="absolute top-7 right-8 hover:text-red-500 text-3xl"
-        @click="$emit('closeCategoryPopup')"
-      />
-      <div v-if="showMessage">
-        <p :class="res.success ? 'text-green-700' : 'text-red-700'">
-          {{ res.message }}
-        </p>
-      </div>
-      <form @submit.prevent="addCategory">
-        <input
-          type="text"
-          v-model="category"
-          class="bg-white w-full px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg focus:outline-none"
-        />
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">
+            Catalog
+          </p>
+          <h2 class="mt-3 text-3xl font-bold text-gray-900">Manage categories</h2>
+          <p class="mt-2 text-sm leading-7 text-gray-500">
+            Add a new category or remove one that is no longer needed.
+          </p>
+        </div>
         <button
-          type="submit"
-          :disabled="isLoading === true"
-          class="btn2 w-full p-3 text-lg mt-7"
+          type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-2xl text-gray-500 transition hover:bg-red-50 hover:text-red-600"
+          @click="$emit('closeCategoryPopup')"
         >
-          <p v-show="!isLoading">Add</p>
-          <UIcon
-            class="animate-spin"
-            name="heroicons:arrow-path-16-solid"
-            dynamic
-            v-show="isLoading"
-          />
+          &times;
         </button>
-      </form>
-      <h3>Available Categories</h3>
-      <div>
-        <div v-if="!categories" class="text-center">
-          <UIcon
-            name="svg-spinners:12-dots-scale-rotate"
-            class="text-teal-800 text-4xl"
-            dynamic
+      </div>
+
+      <p v-if="showMessage" class="mt-5 text-sm font-semibold" :class="res?.success ? 'text-emerald-700' : 'text-red-600'">
+        {{ res?.message || res?.text }}
+      </p>
+
+      <form class="mt-6" @submit.prevent="addCategory">
+        <div class="flex flex-col">
+          <label class="modern-label">Category Name</label>
+          <input
+            v-model="category"
+            type="text"
+            class="modern-input"
+            placeholder="Enter a category name"
           />
         </div>
-        <div class="flex flex-wrap gap-2">
-          <div
-            v-for="(category, index) in categories"
-            :key="index"
-            class="flex items-center gap-1 border border-3 border-teal-700 rounded-full px-2"
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button
+            type="submit"
+            :disabled="isLoading"
+            class="btn flex-1 justify-center py-3"
           >
-            <p class="">{{ category.name }}</p>
+            <span v-if="!isLoading">Add Category</span>
+            <span v-else class="animate-pulse">Saving...</span>
+          </button>
+          <button
+            type="button"
+            class="flex-1 rounded-full border border-stone-200 px-5 py-3 text-sm font-semibold text-gray-600 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+            @click="$emit('closeCategoryPopup')"
+          >
+            Close
+          </button>
+        </div>
+      </form>
 
-            <UIcon
+      <div class="mt-8">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+          Available Categories
+        </p>
+        <div v-if="!categories" class="mt-5 text-sm text-gray-500">
+          Loading categories...
+        </div>
+        <div v-else class="mt-5 flex flex-wrap gap-3">
+          <div
+            v-for="item in categories"
+            :key="item._id"
+            class="inline-flex items-center gap-2 rounded-full border border-teal-100 bg-teal-50 px-4 py-2 text-sm font-semibold text-teal-700"
+          >
+            <span>{{ item.name }}</span>
+            <button
               v-if="!isDeleteLoading"
-              name="material-symbols:close-rounded"
-              class="hover:text-red-600 cursor-pointer"
-              @click="deleteCategory(category._id)"
-              dynamic
-            />
+              type="button"
+              class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-base text-red-500 transition hover:bg-red-50 hover:text-red-600"
+              @click="deleteCategory(item._id)"
+            >
+              &times;
+            </button>
           </div>
         </div>
       </div>
@@ -79,17 +99,19 @@ const categories = ref();
 const { data } = await useFetch(`${backend}/category`);
 categories.value = data.value;
 
-watch(res, async ()=>{
-    const data = await $fetch(`${backend}/category`, {method: "GET"});
-    categories.value = data;
-})
+watch(res, async () => {
+  const response = await $fetch(`${backend}/category`, { method: "GET" });
+  categories.value = response;
+});
 
 const deleteCategory = async (id) => {
   isDeleteLoading.value = true;
   const response = await $fetch(`${backend}/category/${id}`, {
     method: "DELETE",
   });
-  categories.value = categories.value.filter((category) => category._id !== id);
+
+  categories.value = categories.value.filter((item) => item._id !== id);
+
   if (response.success === true) {
     isDeleteLoading.value = false;
     showMessage.value = true;
@@ -104,21 +126,17 @@ const addCategory = async () => {
       method: "POST",
       body: { name: category.value },
     });
-    if (response.success === true) {
-      isLoading.value = false;
-      showMessage.value = true;
-      res.value = response;
-    } else {
-      isLoading.value = false;
-      showMessage.value = true;
-      res.value = response;
-    }
+
+    showMessage.value = true;
+    res.value = response;
     category.value = "";
   } catch (error) {
     res.value = {
       success: false,
       text: "An error occurred while processing your request.",
     };
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

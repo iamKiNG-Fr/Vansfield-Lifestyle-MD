@@ -1,522 +1,424 @@
 <template>
   <SplashScreen v-if="!isComplete" />
-  <div>
+  <div class="overflow-x-clip">
     <main class="w-full flex flex-col items-center">
-      <section class="flex flex-col items-center lg:px-20 px-4">
-        <h1
-          class="lg:text-7xl text-5xl font-serif text-center max-w-5xl font-bold"
-        >
-          Transform Your Lifestyle, Embrace Wellness!
-        </h1>
-        <p class="lg:text-2xl text-lg text-center max-w-5xl my-8">
-          Embark on a transformative journey with Dr. Dozie. Discover
-          personalized health plans, expert consultations, and vibrant living
-          strategies. Your path to wellness begins here!
-        </p>
-        <div class="relative lg:max-w-lg max-w-xs">
-          <span class="hero-bubble lg:-left-40 -left-4 lg:top-96 top-44 z-20"
-            >Public Speaking</span
-          >
-          <span class="hero-bubble lg:-right-32 right-6 lg:top-80 top-10 -z-10"
-            >Training</span
-          >
-          <span
-            class="hero-bubble lg:-right-24 -right-2 lg:top-32 top-40 lg:-z-10"
-            >Consultations</span
-          >
-          <span class="hero-bubble lg:-left-28 left-2 lg:top-32 -top-1 -z-10"
-            >Diet Plans</span
-          >
-          <img src="/assets/img/drdozie4.png" alt="Image of doctor dozie" />
-        </div>
-      </section>
-
-      <!-- about dr dozie -->
-      <section
-        class="flex lg:flex-row flex-col-reverse items-center bg-teal-700 text-gray-100 w-full justify-center lg:gap-20 -mt-32 lg:-mt-48 z-10"
-      >
-        <img
-          src="/assets/img/dr.dozie.png"
-          alt="Image of doctor dozie"
-          class="lg:max-w-sm max-w-56 lg:mt-10"
-        />
-        <div class="lg:max-w-2xl p-5 mt-10">
-          <div>
-            <span class="text-2xl mt-10">Get to Know</span>
-            <h2 class="text-5xl font-bold">Dr Ijeoma Dozie</h2>
-            <p class="mt-5">
-              Consultant Family Physician | Board-Certified Lifestyle Medicine
-              Physician | Health Systems Strategist | Wellness Advocate |
-              Speaker
-            </p>
-          </div>
-          <p class="mt-8 text-lg leading-loose">
-            For nearly two decades, <span class=" text-yellow-400 ">Dr. Ijeoma Judith Dozie</span> has stood at the
-            intersection of traditional medical excellence and bold innovation
-            in healthcare delivery, wellness strategy, and lifestyle
-            transformation.<span class=" text-yellow-400 "> A Consultant Family Physician and one of Nigeria’s
-            pioneering Board-Certified Lifestyle Medicine Physicians</span>, Dr. Dozie
-            is renowned for her integrative, forward-thinking approach to health
-            promotion and disease prevention.
-            <br /><br />
-            She is the visionary behind <span class=" text-yellow-400 ">Vansfield Lifestyle MD &amp; Consulting</span> ,
-            where she leads a growing movement toward evidence-based lifestyle
-            medicine, personalized wellness plans, and corporate health
-            solutions. Her practice fuses clinical precision with culturally
-            relevant lifestyle interventions to reverse chronic disease and
-            improve quality of life—especially in African populations.
-            <br /><br />
-            Dr. Dozie has <span class=" text-yellow-400 ">trained hundreds of health professionals</span>, spoken at
-            major regional and global forums, and served on <span class=" text-yellow-400 ">key policy and
-            research initiatives</span> shaping the future of preventive care in
-            Africa. Her work includes collaborations with NGOs, ministries of
-            health, academic institutions, and emerging health tech startups.
-            She is a founding leader within the <span class=" text-yellow-400 ">Society of Lifestyle Medicine of
-            Nigeria (SOLONg)</span>  and actively mentors the next generation of
-            physician- leaders.
-            <br /><br />
-            With experience spanning hospitals, ministries, and boardrooms, she
-            brings unmatched credibility and warmth to every room she enters.
-            Whether you’re seeking a keynote speaker, a consultant for your
-            wellness strategy, a thought partner on a research project, or a
-            health coach for your organization or family— <span class=" text-yellow-400 ">Dr. Dozie delivers with
-            grace, clarity, and deep-rooted competence.</span>
-            <br /><br />
-            Book Dr. Dozie for:
-          </p>
-          <ul class="text-lg leading-loose list-disc list-inside">
-            <li>International and Regional Keynotes &amp; Panels</li>
-            <li>Health &amp; Wellness Consulting (Corporate or Individual)</li>
-            <li>Research &amp; Public Health Collaborations</li>
-            <li>Lifestyle Medicine Training &amp; Coaching</li>
-            <li>Strategic Partnerships in Health Systems Innovation</li>
-          </ul>
-          <NuxtLink to="/consultation" class=" bg-yellow-400 p-1 rounded-md font-bold hover:bg-yellow-200 transition-all duration-300 mt-8 ease-in-out text-teal-950">Click here for a Consultation</NuxtLink>
-        </div>
-      </section>
-
-      <!-- my services section -->
-      <section class="bg-gray-100 w-full flex flex-col lg:py-24 py-10">
-        <header class="lg:px-20 px-10 lg:mb-20 mb-10">
-          <h3 class="font-bold text-3xl">+ My Services</h3>
-          <p class="text-lg italic">Lets begin your health journey with</p>
-        </header>
-        <div class="lg:px-16 px-5 flex flex-col sm:flex sm:flex-row justify-center gap-8 md:gap-36 items-center ">
-          <ul ref="serviceList" class="flex md:flex-col gap-10 w-full overflow-x-auto scrollb max-w-lgx">
-            <li
-              @click="handleClick(1)"
-              ref="consultRef"
-              :class="{ selected: selectedService === 1}"
-              class="service-card group cursor-pointer"
-            >
-              <img
-                src="/assets/img/consult.svg"
-                alt="consultaion icon"
-                :class="{ invert: selectedService === 1 }"
-                class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700"
-              />
-              <div class="ml-5 w-full">
-                <h4 class="text-xl font-bold uppercase">consultaion</h4>
-                <p class="text-sm italic">Speak to your doctor from anywhere</p>
-                <UProgress v-if="selectedService === 1" :value="progress" class="mt-4 transition-all  duration-100" />
-              </div>
-            </li>
-            <li
-              @click="handleClick(2)"
-              :class="{ selected: selectedService === 2 }"
-              class="service-card group cursor-pointer"
-              ref="trainRef"
-            >
-              <img
-                src="/assets/img/train.svg"
-                alt="training icon"
-                :class="{ 'invert-0': selectedService === 2 }"
-                class="lg:w-20 w-16 filter invert group-hover:invert-0 transition ease-in-out duration-700"
-              />
-              <div class="ml-5 w-full">
-                <h4 class="text-xl font-bold uppercase">training</h4>
-                <p class="text-sm italic">Fitness is key, Lets get you fit.</p>
-                <UProgress v-if="selectedService === 2" :value="progress" class="mt-4 transition-all  duration-100" />
-
-              </div>
-            </li>
-            <li
-              @click="handleClick(3)"
-              :class="{ selected: selectedService === 3}"
-              class="service-card group cursor-pointer"
-              ref="speakRef"
-            >
-              <img
-                src="/assets/img/conference.svg"
-                alt="diagnosis icon"
-                :class="{ invert: selectedService === 3 }"
-                class="lg:w-20 w-16 group-hover:invert transition ease-in-out duration-700"
-              />
-              <div class="ml-5 w-full">
-                <h4 class="text-xl font-bold uppercase">Speaking Engagement</h4>
-                <p class="text-sm italic">Learn about Public Speaker</p>
-                <UProgress v-if="selectedService === 3" :value="progress" class="mt-4 transition-all  duration-100" />
-
-              </div>
-            </li>
-          </ul>
-          <Transition name="fade" mode="out-in">
-
-            <div class="max-w-2xl" v-if="selectedService === 1">
-              <div>
-                <h4 class="text-5xl font-extrabold">Consultations</h4>
-                <span>with Dr. Dozie</span>
-              </div>
-              <p class="text-lg leading-relaxed mt-8 mb-8">
-                Meet Dr. Dozie, your trusted online healthcare companion. With
-                virtual consultations, Dr. Dozie brings expert medical guidance
-                right to your fingertips.
-                <br /><br />
-                Whether you're seeking advice on a specific issue or simply need a
-                check-up, Dr. Dozie offers convenient, confidential consultations
-                from the comfort of your own home. Take control of your health
-                today and schedule your online consultation with Dr. Dozie.
-              </p>
-              <NuxtLink to="/consultation" class=" bg-yellow-400 p-1 rounded-md font-bold hover:bg-yellow-200 transition-all duration-300 mt-4 ease-in-out text-teal-950">Click here for a Consultation</NuxtLink>
-              
-            </div>
-            <div
-              class="max-w-2xl"
-              v-else-if="selectedService === 2"
-            >
-              <div>
-                <h4 class="text-5xl font-extrabold">Training</h4>
-                <span>with Dr. Dozie</span>
-              </div>
-              <p class="text-lg leading-relaxed mt-8">
-                Dr. Dozie offers personalized training services designed to help
-                you achieve your fitness goals. From customized workout plans to
-                expert nutritional advice. <br /><br />
-                Her holistic approach empowers you to take charge of your health
-                and transform your lifestyle. Join us today and embark on a
-                journey to a better you with Dr. Dozie by your side.
-              </p>
-            </div>
-            <div
-              class="max-w-2xl"
-              v-else-if="selectedService === 3"
-            >
-              <div>
-                <h4 class="text-5xl font-extrabold">Speaking Engagement</h4>
-                <span>with Dr. Dozie</span>
-              </div>
-              <p class="text-lg leading-relaxed mt-8">
-                Refine your speaking skills with Dr. Dozie's expert coaching. Gain
-                confidence, captivate audiences, and leave a lasting impression
-                with personalized guidance tailored to your needs.
-                <br /><br />
-                Whether you're a seasoned speaker or just starting out, Dr.
-                Dozie's Public Speaking Engagement Service offers practical
-                techniques to help you connect with your audience and deliver your
-                message with impact. From conquering nerves to perfecting your
-                delivery, her coaching will elevate your speaking game and ensure
-                your message resonates loud and clear.
-              </p>
-            </div>
-          </Transition>
-        </div>
-      </section>
-      <HomeCarousel />
-      <!-- Products -->
-      <section class="bg-teal-700 w-full flex flex-col lg:py-24 py-10">
-        <header class="text-gray-100 lg:px-20 px-10 lg:mb-20 mb-10">
-          <h3 class="font-bold text-3xl">+ Products</h3>
-          <span class="text-lg italic">Sustain your health journey with</span>
-        </header>
+      <section class="w-full px-4 pt-8 lg:px-20 lg:pt-12">
         <div
-          class="flex flex-col lg:flex-row lg:px-16 px-10 gap-10 lg:justify-center items-center"
+          class="mx-auto grid max-w-7xl items-center gap-12 rounded-[36px] bg-white px-6 py-8 shadow-[0_30px_80px_rgba(15,23,42,0.08)] lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:py-12"
         >
-          <NuxtLink to="/shop" class="product-card">
-            <img
-              src="/assets/img/VLMD-BEST-HEALTH-INSURANCE-PLANS-IN-INDIA.png"
-              alt="health plan image"
-              class="rounded-md mx-auto"
-            />
-            <h4 class="font-bold text-2xl my-3">General Health Plans</h4>
-            <p>
-              Comprehensive wellness programs designed to support anyone seeking to maintain or improve their overall health through nutrition, fitness, and preventive care.
+          <div>
+            <p class="section-kicker">Lifestyle Medicine And Consulting</p>
+            <h1
+              class="mt-4 max-w-4xl font-serif text-5xl font-bold leading-tight text-gray-900 lg:text-7xl"
+            >
+              Transform Your Lifestyle, Embrace Wellness.
+            </h1>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-gray-600 lg:text-xl">
+              Personalized consultations, practical wellness plans, speaking
+              engagements, and health strategy support designed around real life.
             </p>
-          </NuxtLink>
-          <NuxtLink to="/shop" class="product-card">
-            <img
-              src="/assets/img/VLMD-6345740880a17c09b91d7262_paytient-narrow-network-health-plans-blog.png"
-              alt="Books image"
-              class="rounded-md mx-auto"
-            />
-            <h4 class="font-bold text-2xl my-3">Personalized Health Plans</h4>
-            <p>
-              Tailored health strategies based on individual needs, lifestyle, and goals—perfect for those seeking a unique and targeted approach to better living.
-            </p>
-          </NuxtLink>
-          <NuxtLink to="/shop" class="product-card">
-            <img
-              src="/assets/img/VLMD-health-insurance-hospital-medical-care-concept_178888-446.png"
-              alt="diet plan image"
-              class="rounded-md mx-auto"
-            />
-            <h4 class="font-bold text-2xl my-3">Spousal Health Plans</h4>
-            <p>
-              Health and wellness plans crafted for couples, encouraging mutual accountability and support while achieving shared health goals.
-            </p>
-          </NuxtLink>
-        </div>
-      </section>
+            <div class="mt-8 flex flex-wrap gap-4">
+              <NuxtLink to="/consultation" class="btn">
+                Book a Consultation
+              </NuxtLink>
+              <NuxtLink to="/shop" class="btn2">
+                Explore Plans
+              </NuxtLink>
+            </div>
+            <div class="mt-8 grid gap-4 sm:grid-cols-3">
+              <div
+                v-for="stat in heroStats"
+                :key="stat.title"
+                class="rounded-[24px] border border-stone-200 bg-stone-50 px-5 py-4"
+              >
+                <p class="text-2xl font-bold text-teal-700">{{ stat.value }}</p>
+                <p class="mt-1 text-sm font-medium text-gray-600">{{ stat.title }}</p>
+              </div>
+            </div>
+          </div>
 
-      <!-- testimonials -->
-      <section class="w-full flex flex-col lg:py-24 py-10">
-        <header class="lg:px-20 px-10 lg:mb-20 mb-10">
-          <h3 class="font-bold text-3xl">+ Testimonials</h3>
-          <span class="text-lg italic">Reviews from clients</span>
-        </header>
-        <div class="testimonial-cards">
-          <div class="testimonial-card">
-            <div class="flex items-center">
+          <div class="relative flex justify-center">
+            <div
+              class="absolute inset-x-10 top-8 bottom-10 rounded-[40px] bg-[radial-gradient(circle_at_top,#fde68a_0%,#facc15_28%,#0f766e_29%,#115e59_100%)] opacity-15 blur-2xl"
+            ></div>
+            <div
+              class="relative flex min-h-[460px] w-full max-w-[520px] items-end justify-center overflow-hidden rounded-[36px] bg-teal-700 px-6 pt-10 shadow-[0_35px_85px_rgba(13,110,103,0.24)]"
+            >
+              <span class="hero-bubble left-5 top-7">Public Speaking</span>
+              <span class="hero-bubble right-5 top-24">Training</span>
+              <span class="hero-bubble left-6 bottom-28">Consultations</span>
+              <span class="hero-bubble right-6 bottom-12">Health Plans</span>
               <img
-                src="/assets/img/pngegg.png"
-                alt="profile image"
-                class="w-16 rounded-full"
+                src="/assets/img/drdozie4.png"
+                alt="Image of Dr. Ijeoma Dozie"
+                class="relative z-10 w-full max-w-[360px] object-contain drop-shadow-[0_20px_35px_rgba(15,23,42,0.25)]"
               />
-              <div class="ml-5">
-                <p class="font-bold text-xl">Sarah Doe</p>
-                <div class="flex gap-2">
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                </div>
-              </div>
             </div>
-            <h4 class="font-bold text-lg my-5">Life-Changing Experience!</h4>
-            <p class="text-base leading-relaxed">
-              Dr. Dozie's guidance transformed my health journey. Personalized
-              plans and expert advice helped me achieve my goals. Highly
-              recommend!
-            </p>
-          </div>
-          <div class="testimonial-card">
-            <div class="flex items-center">
-              <img
-                src="/assets/img/profile.png"
-                alt="profile image"
-                class="w-16 rounded-full"
-              />
-              <div class="ml-5">
-                <p class="font-bold text-xl">Michael Shu</p>
-                <div class="flex gap-2">
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                </div>
-              </div>
-            </div>
-            <h4 class="font-bold text-lg my-5">
-              Expertise Beyond Expectations
-            </h4>
-            <p>
-              Dr. Dozie's knowledge and care exceeded all expectations. I've
-              seen remarkable improvements in my well-being. Grateful beyond
-              words.
-            </p>
-          </div>
-          <div class="testimonial-card">
-            <div class="flex items-center">
-              <img
-                src="/assets/img/pngegg.png"
-                alt="profile image"
-                class="w-16 rounded-full"
-              />
-              <div class="ml-5">
-                <p class="font-bold text-xl">Emily Ada</p>
-                <div class="flex gap-2">
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                </div>
-              </div>
-            </div>
-            <h4 class="font-bold text-lg my-5">A Trusted Companion</h4>
-            <p>
-              Dr. Dozie's personalized approach and genuine concern make her
-              invaluable. With her support, I've achieved balance and vitality.
-              Forever grateful!
-            </p>
-          </div>
-          <div class="testimonial-card">
-            <div class="flex items-center">
-              <img
-                src="assets/img/profile.png"
-                alt="profile image"
-                class="w-16 rounded-full"
-              />
-              <div class="ml-5">
-                <p class="font-bold text-xl">David Ayo</p>
-                <div class="flex gap-2">
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                  <img
-                    src="/assets/img/star.svg"
-                    alt="star"
-                    width="18px"
-                    class="mt-2"
-                  />
-                </div>
-              </div>
-            </div>
-            <h4 class="font-bold text-lg my-5">Wellness Made Simple</h4>
-            <p>
-              Her Consultations simplified my wellness journey. Clear guidance
-              and encouragement have made all the difference. Highly recommended
-              for all!
-            </p>
           </div>
         </div>
       </section>
 
-      <!-- newsletter -->
+      <section class="w-full px-4 py-14 lg:px-20 lg:py-20">
+        <div
+          class="mx-auto grid max-w-7xl gap-10 rounded-[36px] bg-teal-700 px-6 py-8 text-gray-100 shadow-[0_30px_80px_rgba(15,23,42,0.08)] lg:grid-cols-[0.88fr_1.12fr] lg:px-10 lg:py-12"
+        >
+          <div class="relative flex items-end justify-center overflow-hidden rounded-[32px] bg-teal-800/70 px-6 pt-10">
+            <div
+              class="absolute inset-6 rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top,#facc15_0%,rgba(250,204,21,0.25)_20%,rgba(13,110,103,0)_62%)]"
+            ></div>
+            <img
+              src="/assets/img/dr.dozie.png"
+              alt="Portrait of Dr. Ijeoma Dozie"
+              class="relative z-10 w-full max-w-[420px] object-contain drop-shadow-[0_20px_40px_rgba(15,23,42,0.28)]"
+            />
+          </div>
+
+          <div>
+            <p class="section-kicker !text-yellow-300">Get To Know</p>
+            <h2 class="mt-3 text-4xl font-bold lg:text-6xl">Dr Ijeoma Dozie</h2>
+            <p class="mt-4 max-w-3xl text-base leading-8 text-teal-50/90 lg:text-lg">
+              Consultant Family Physician, board-certified lifestyle medicine
+              physician, wellness advocate, speaker, and health systems
+              strategist focused on practical preventive care for African
+              communities and modern organizations.
+            </p>
+
+            <div class="mt-8 grid gap-4 md:grid-cols-2">
+              <article
+                v-for="highlight in aboutHighlights"
+                :key="highlight.title"
+                class="rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur-sm"
+              >
+                <p class="text-sm font-semibold uppercase tracking-[0.14em] text-yellow-300">
+                  {{ highlight.title }}
+                </p>
+                <p class="mt-3 text-base leading-7 text-teal-50/90">
+                  {{ highlight.text }}
+                </p>
+              </article>
+            </div>
+
+            <div class="mt-8 grid gap-3 sm:grid-cols-2">
+              <div
+                v-for="item in impactAreas"
+                :key="item"
+                class="rounded-2xl bg-white/10 px-4 py-3 text-sm font-medium text-white"
+              >
+                {{ item }}
+              </div>
+            </div>
+
+            <div class="mt-8 flex flex-wrap gap-4">
+              <NuxtLink to="/consultation" class="btn">
+                Book Dr. Dozie
+              </NuxtLink>
+              <NuxtLink to="/gallery" class="btn2 !border-white/40 !bg-transparent !text-white hover:!bg-white hover:!text-teal-800">
+                View Gallery
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="w-full bg-stone-100 px-4 py-14 lg:px-20 lg:py-20">
+        <div class="mx-auto max-w-7xl">
+          <header class="mb-10">
+            <p class="section-kicker">My Services</p>
+            <h3 class="mt-3 text-3xl font-bold text-gray-900 lg:text-4xl">
+              Support designed around how people actually live and work
+            </h3>
+          </header>
+
+          <div class="grid gap-8 xl:grid-cols-[430px_minmax(0,1fr)]">
+            <ul
+              ref="serviceList"
+              class="flex w-full gap-4 overflow-x-auto xl:flex-col xl:overflow-visible"
+            >
+              <li
+                @click="handleClick(1)"
+                ref="consultRef"
+                :class="{ selected: selectedService === 1 }"
+                class="service-card group cursor-pointer"
+              >
+                <div
+                  class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-yellow-400/15 ring-1 ring-inset ring-teal-100"
+                >
+                  <img
+                    src="/assets/img/consult.svg"
+                    alt="Consultation icon"
+                    :class="{ invert: selectedService === 1 }"
+                    class="w-10 transition duration-500 group-hover:invert"
+                  />
+                </div>
+                <div class="ml-4 w-full">
+                  <h4 class="text-lg font-bold uppercase tracking-wide">Consultation</h4>
+                  <p
+                    class="mt-1 text-sm"
+                    :class="selectedService === 1 ? 'text-teal-50/80' : 'text-gray-500'"
+                  >
+                    Speak to your doctor from anywhere.
+                  </p>
+                  <div
+                    v-if="selectedService === 1"
+                    class="mt-4 h-2 overflow-hidden rounded-full bg-white/20"
+                  >
+                    <div
+                      class="h-full rounded-full bg-yellow-400 transition-all duration-150"
+                      :style="{ width: `${progress}%` }"
+                    ></div>
+                  </div>
+                </div>
+              </li>
+              <li
+                @click="handleClick(2)"
+                :class="{ selected: selectedService === 2 }"
+                class="service-card group cursor-pointer"
+                ref="trainRef"
+              >
+                <div
+                  class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-yellow-400/15 ring-1 ring-inset ring-teal-100"
+                >
+                  <img
+                    src="/assets/img/train.svg"
+                    alt="Training icon"
+                    :class="{ 'invert-0': selectedService === 2 }"
+                    class="w-10 filter invert transition duration-500 group-hover:invert-0"
+                  />
+                </div>
+                <div class="ml-4 w-full">
+                  <h4 class="text-lg font-bold uppercase tracking-wide">Training</h4>
+                  <p
+                    class="mt-1 text-sm"
+                    :class="selectedService === 2 ? 'text-teal-50/80' : 'text-gray-500'"
+                  >
+                    Practical coaching for healthier habits and teams.
+                  </p>
+                  <div
+                    v-if="selectedService === 2"
+                    class="mt-4 h-2 overflow-hidden rounded-full bg-white/20"
+                  >
+                    <div
+                      class="h-full rounded-full bg-yellow-400 transition-all duration-150"
+                      :style="{ width: `${progress}%` }"
+                    ></div>
+                  </div>
+                </div>
+              </li>
+              <li
+                @click="handleClick(3)"
+                :class="{ selected: selectedService === 3 }"
+                class="service-card group cursor-pointer"
+                ref="speakRef"
+              >
+                <div
+                  class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-yellow-400/15 ring-1 ring-inset ring-teal-100"
+                >
+                  <img
+                    src="/assets/img/conference.svg"
+                    alt="Speaking icon"
+                    :class="{ invert: selectedService === 3 }"
+                    class="w-10 transition duration-500 group-hover:invert"
+                  />
+                </div>
+                <div class="ml-4 w-full">
+                  <h4 class="text-lg font-bold uppercase tracking-wide">Speaking</h4>
+                  <p
+                    class="mt-1 text-sm"
+                    :class="selectedService === 3 ? 'text-teal-50/80' : 'text-gray-500'"
+                  >
+                    Insightful talks for health, leadership, and systems change.
+                  </p>
+                  <div
+                    v-if="selectedService === 3"
+                    class="mt-4 h-2 overflow-hidden rounded-full bg-white/20"
+                  >
+                    <div
+                      class="h-full rounded-full bg-yellow-400 transition-all duration-150"
+                      :style="{ width: `${progress}%` }"
+                    ></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <Transition name="fade" mode="out-in">
+              <div
+                :key="selectedService"
+                class="rounded-[32px] border border-stone-200 bg-white p-8 shadow-[0_22px_60px_rgba(15,23,42,0.08)] lg:p-10"
+              >
+                <p class="section-kicker">{{ activeService.kicker }}</p>
+                <h4 class="mt-3 text-4xl font-extrabold text-gray-900 lg:text-5xl">
+                  {{ activeService.title }}
+                </h4>
+                <p class="mt-6 max-w-3xl text-lg leading-8 text-gray-600">
+                  {{ activeService.description }}
+                </p>
+                <div class="mt-8 grid gap-3 md:grid-cols-2">
+                  <div
+                    v-for="point in activeService.points"
+                    :key="point"
+                    class="rounded-2xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm font-medium text-gray-700"
+                  >
+                    {{ point }}
+                  </div>
+                </div>
+                <NuxtLink to="/consultation" class="btn mt-8">
+                  Start Here
+                </NuxtLink>
+              </div>
+            </Transition>
+          </div>
+        </div>
+      </section>
+
+      <HomeCarousel />
+
+      <section class="w-full bg-teal-700 px-4 py-14 lg:px-20 lg:py-20">
+        <div class="mx-auto max-w-7xl">
+          <header class="text-gray-100">
+            <p class="section-kicker !text-yellow-300">Plans And Products</p>
+            <h3 class="mt-3 text-3xl font-bold lg:text-4xl">
+              Sustain your wellness journey with guided options
+            </h3>
+          </header>
+          <div class="mt-10 grid gap-6 lg:grid-cols-3">
+            <NuxtLink to="/shop" class="product-card group">
+              <div class="overflow-hidden rounded-[22px] bg-white/10">
+                <img
+                  src="/assets/img/VLMD-BEST-HEALTH-INSURANCE-PLANS-IN-INDIA.png"
+                  alt="General health plan"
+                  class="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+              </div>
+              <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-yellow-300">
+                General Health Plans
+              </p>
+              <h4 class="mt-2 text-2xl font-bold">Build a practical wellness base</h4>
+              <p class="mt-3 text-sm leading-7 text-teal-50/85">
+                Simple, supportive plan options for people who want structure,
+                accountability, and a healthier routine.
+              </p>
+            </NuxtLink>
+
+            <NuxtLink to="/shop" class="product-card group">
+              <div class="overflow-hidden rounded-[22px] bg-white/10">
+                <img
+                  src="/assets/img/VLMD-6345740880a17c09b91d7262_paytient-narrow-network-health-plans-blog.png"
+                  alt="Personalized health plan"
+                  class="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+              </div>
+              <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-yellow-300">
+                Personalized Plans
+              </p>
+              <h4 class="mt-2 text-2xl font-bold">Designed around individual needs</h4>
+              <p class="mt-3 text-sm leading-7 text-teal-50/85">
+                Targeted plans shaped by lifestyle, goals, and health priorities
+                for a more customized path forward.
+              </p>
+            </NuxtLink>
+
+            <NuxtLink to="/shop" class="product-card group">
+              <div class="overflow-hidden rounded-[22px] bg-white/10">
+                <img
+                  src="/assets/img/VLMD-health-insurance-hospital-medical-care-concept_178888-446.png"
+                  alt="Family or couples plan"
+                  class="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+              </div>
+              <p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-yellow-300">
+                Shared Plans
+              </p>
+              <h4 class="mt-2 text-2xl font-bold">Support for couples and families</h4>
+              <p class="mt-3 text-sm leading-7 text-teal-50/85">
+                Wellness plans that encourage shared accountability and long-term
+                lifestyle improvement together.
+              </p>
+            </NuxtLink>
+          </div>
+        </div>
+      </section>
+
+      <section class="w-full px-4 py-14 lg:px-20 lg:py-24">
+        <div class="mx-auto max-w-7xl">
+          <header class="mb-10 lg:mb-14">
+            <p class="section-kicker">Testimonials</p>
+            <h3 class="mt-3 text-3xl font-bold text-gray-900 lg:text-4xl">
+              Warm feedback from wellness, training, and speaking engagements
+            </h3>
+          </header>
+
+          <div class="grid gap-6 lg:grid-cols-2">
+            <article
+              v-for="item in testimonialItems"
+              :key="item.name"
+              class="rounded-[30px] border border-stone-200 bg-white p-6 shadow-[0_20px_55px_rgba(15,23,42,0.08)] lg:p-7"
+            >
+              <div class="flex items-start gap-4">
+                <img
+                  :src="item.image"
+                  :alt="item.name"
+                  class="h-16 w-16 shrink-0 rounded-full object-cover ring-4 ring-stone-100"
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                />
+                <div class="min-w-0 flex-1">
+                  <p class="text-sm font-semibold uppercase tracking-[0.18em] text-teal-700">
+                    {{ item.role }}
+                  </p>
+                  <div class="mt-3 flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <p class="text-2xl font-bold text-gray-900">{{ item.name }}</p>
+                      <p class="mt-1 text-sm text-gray-500">{{ item.title }}</p>
+                    </div>
+                    <p class="text-base tracking-[0.18em] text-yellow-400">★★★★★</p>
+                  </div>
+                  <p class="mt-5 text-base leading-8 text-gray-600">
+                    "{{ item.quote }}"
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <form
         @submit.prevent="handleSubmit"
         id="newsletter"
-        class="bg-teal-800 bg-[url('/assets/img/dcphands.png')] bg-no-repeat bg-cover px-10 py-10 rounded-3xl w-5/6 flex flex-col items-center"
+        class="mb-12 w-11/12 max-w-6xl rounded-[36px] bg-teal-800 bg-[url('/assets/img/dcphands.png')] bg-cover bg-center px-8 py-10 shadow-[0_35px_85px_rgba(13,110,103,0.2)]"
       >
-        <header class="flex flex-col lg:max-w-3xl text-center justify-center">
-          <h3 class="text-gray-100 lg:text-5xl text-2xl font-bold">
-            Begin your
-            <span class="text-yellow-500">Healthy Lifestyle</span> Journey Here!
+        <div class="flex flex-col items-center text-center">
+          <p class="section-kicker !text-yellow-300">Stay Connected</p>
+          <h3 class="mt-3 text-3xl font-bold text-gray-100 lg:text-5xl">
+            Begin your <span class="text-yellow-400">Healthy Lifestyle</span>
+            Journey Here
           </h3>
-          <p class="pt-5 text-xl text-gray-100">
-            Join my Email list to stay updated.
+          <p class="pt-5 text-lg text-gray-100/90 lg:text-xl">
+            Join the email list for updates, resources, and new plan releases.
           </p>
-        </header>
-        <p v-if="responseMsg" class="mt-5 text-lg text-yellow-400">
-          * {{ responseMsg }}
+        </div>
+        <p v-if="responseMsg" class="mt-5 text-center text-lg text-yellow-300">
+          {{ responseMsg }}
         </p>
-        <div class="mt-5 box-border flex lg:flex-row flex-col gap-5">
+        <div class="mt-8 flex flex-col gap-4 lg:flex-row">
           <input
             type="text"
-            class="lg:w-96 w-60 bg-gray-100 text-base rounded-md p-2"
+            class="modern-input lg:flex-1"
             v-model="name"
-            placeholder="What's your Name?"
+            placeholder="What's your name?"
             required
             autocomplete="name"
           />
           <input
             type="email"
-            class="lg:w-96 w-60 bg-gray-100 text-base rounded-md p-2"
+            class="modern-input lg:flex-1"
             v-model="email"
-            placeholder="What's your Email?"
+            placeholder="What's your email?"
             required
             autocomplete="email"
           />
-          <button
-            class="bg-yellow-400 text-xl font-bold py-2 px-4 rounded-md hover:bg-yellow-300"
-          >
+          <button class="btn min-w-[140px]">
             Join
           </button>
         </div>
@@ -526,15 +428,25 @@
 </template>
 
 <script setup>
+const siteUrl = useRuntimeConfig().public.siteUrl;
+const pageTitle = "Vansfield Lifestyle MD | Lifestyle Medicine, Wellness Consulting, and Preventive Care";
+const pageDescription =
+  "Work with Dr. Ijeoma Dozie for lifestyle medicine consultations, corporate wellness strategy, speaking engagements, training, and personalized health plans.";
+
+useSeoMeta({
+  title: pageTitle,
+  description: pageDescription,
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
+  ogUrl: siteUrl,
+  ogImage: `${siteUrl}/assets/img/drdozie4.png`,
+  twitterTitle: pageTitle,
+  twitterDescription: pageDescription,
+  twitterImage: `${siteUrl}/assets/img/drdozie4.png`,
+});
+
 useHead({
-  title: "Vansfield Lifestyle MD",
-  meta: [
-    {
-      name: "description",
-      content:
-        "Embark on a transformative journey with Dr. Dozie. Discover personalized health plans, expert consultations, and vibrant living strategies. Your path to wellness begins here!",
-    },
-  ],
+  link: [{ rel: "canonical", href: siteUrl }],
 });
 
 definePageMeta({
@@ -542,64 +454,172 @@ definePageMeta({
 });
 
 import { useSplash } from "../composables/useSplash";
+
 const { isComplete } = useSplash();
+const config = useRuntimeConfig();
+const backend = config.public.backendUrl;
 const name = ref("");
 const email = ref("");
 const responseMsg = ref(null);
 
-//services timer
-const SERVICES_COUNT = 3
-const MAX_TIME = 10_000
+const heroStats = [
+  { value: "20+", title: "Years of clinical and wellness leadership" },
+  { value: "100s", title: "Professionals trained and mentored" },
+  { value: "Global", title: "Speaking, strategy, and consulting reach" },
+];
 
-const selectedService = ref(1); // Set default to 1 for Div 1 info
-const timer = ref(MAX_TIME) // seconds
-const interval = ref(null)
+const aboutHighlights = [
+  {
+    title: "Clinical Leadership",
+    text: "Integrating lifestyle medicine, preventive care, and practical clinical guidance for long-term health improvement.",
+  },
+  {
+    title: "Consulting And Strategy",
+    text: "Advising individuals, organizations, and health initiatives on wellness systems, behavior change, and care delivery.",
+  },
+  {
+    title: "Training And Mentorship",
+    text: "Helping health professionals and teams strengthen knowledge, confidence, and healthier ways of working.",
+  },
+  {
+    title: "Speaking Engagements",
+    text: "Delivering keynote talks, moderated sessions, and thought leadership conversations with warmth and clarity.",
+  },
+];
+
+const impactAreas = [
+  "Lifestyle medicine training and coaching",
+  "Health and wellness consulting for individuals or teams",
+  "Research and public health collaborations",
+  "Strategic partnerships in health systems innovation",
+];
+
+const testimonialItems = [
+  {
+    name: "Amina O.",
+    role: "Wellness Client",
+    title: "Personal guidance that felt practical",
+    quote:
+      "The consultations were clear, thoughtful, and realistic. I left each session knowing exactly what to focus on next.",
+    image:
+      "https://images.pexels.com/photos/16240022/pexels-photo-16240022.jpeg?cs=srgb&dl=pexels-oluwakoreimage-16240022.jpg&fm=jpg",
+  },
+  {
+    name: "Corporate Team Lead",
+    role: "Training Participant",
+    title: "Professional and easy to follow",
+    quote:
+      "Dr. Dozie broke complex health ideas into simple actions our team could actually apply in everyday work and life.",
+    image:
+      "https://images.pexels.com/photos/7403185/pexels-photo-7403185.jpeg?cs=srgb&dl=pexels-rdne-7403185.jpg&fm=jpg",
+  },
+  {
+    name: "Conference Host",
+    role: "Speaking Engagement",
+    title: "Warm, credible, and audience-aware",
+    quote:
+      "Her delivery was confident and engaging. The room stayed with her from start to finish because the message felt both expert and human.",
+    image:
+      "https://images.pexels.com/photos/12311514/pexels-photo-12311514.jpeg?cs=srgb&dl=pexels-josepheulo-nyc-12311514.jpg&fm=jpg",
+  },
+  {
+    name: "Lifestyle Program Participant",
+    role: "Health Coaching",
+    title: "Supportive without being overwhelming",
+    quote:
+      "The process felt calm and structured. I appreciated how the guidance was tailored to my real routine instead of generic advice.",
+    image:
+      "https://images.pexels.com/photos/7625294/pexels-photo-7625294.jpeg?cs=srgb&dl=pexels-mikhail-nilov-7625294.jpg&fm=jpg",
+  },
+];
+
+const serviceContent = {
+  1: {
+    kicker: "Virtual And Personal Support",
+    title: "Consultations",
+    description:
+      "Meet Dr. Dozie for confidential, practical consultations that help you make sense of your current health concerns and build a realistic path forward.",
+    points: [
+      "Convenient sessions from anywhere",
+      "Clear next steps and personalized guidance",
+      "Support for lifestyle and preventive health goals",
+      "A calm, professional experience centered on you",
+    ],
+  },
+  2: {
+    kicker: "Coaching And Capacity Building",
+    title: "Training",
+    description:
+      "Structured wellness and training support for individuals, teams, and health professionals looking to build healthier habits and stronger systems.",
+    points: [
+      "Lifestyle behavior change support",
+      "Workshops for teams and organizations",
+      "Practical guidance instead of generic advice",
+      "Designed for sustainable progress",
+    ],
+  },
+  3: {
+    kicker: "Thought Leadership",
+    title: "Speaking Engagements",
+    description:
+      "Insightful talks and expert facilitation on health, prevention, leadership, wellness strategy, and the future of care in African contexts.",
+    points: [
+      "Keynotes and conference sessions",
+      "Panels, moderating, and executive conversations",
+      "Clear messaging for professional audiences",
+      "Evidence-based and audience-aware delivery",
+    ],
+  },
+};
+
+const SERVICES_COUNT = 3;
+const MAX_TIME = 10_000;
+const selectedService = ref(1);
+const timer = ref(MAX_TIME);
+const interval = ref(null);
 const serviceList = ref(null);
 const consultRef = ref(null);
 const trainRef = ref(null);
 const speakRef = ref(null);
 
-const progress = computed(() => ((MAX_TIME - timer.value) / MAX_TIME) * 100)
-
+const progress = computed(() => ((MAX_TIME - timer.value) / MAX_TIME) * 100);
+const activeService = computed(() => serviceContent[selectedService.value]);
 
 const startTimer = () => {
-  clearInterval(interval.value)
-  timer.value = MAX_TIME
+  clearInterval(interval.value);
+  timer.value = MAX_TIME;
   interval.value = setInterval(() => {
-    timer.value-=100
+    timer.value -= 100;
     if (timer.value <= 0) {
-      selectedService.value = selectedService.value >= SERVICES_COUNT ? 1 : selectedService.value + 1
-      timer.value = MAX_TIME
+      selectedService.value =
+        selectedService.value >= SERVICES_COUNT ? 1 : selectedService.value + 1;
+      timer.value = MAX_TIME;
     }
-  }, 100)
-}
-
+  }, 100);
+};
 
 const handleClick = (serviceNum) => {
   selectedService.value = serviceNum;
-  startTimer()
+  startTimer();
 };
 
-
-
 watch(selectedService, (id) => {
-
   const serviceRefs = {
     1: consultRef,
     2: trainRef,
     3: speakRef,
   }[id];
-  const container = serviceList.value
-  const target = serviceRefs?.value
-  
+  const container = serviceList.value;
+  const target = serviceRefs?.value;
 
   if (container && target) {
-    const containerRect = container.getBoundingClientRect()
-    const targetRect = target.getBoundingClientRect()
+    const scrollLeft =
+      target.offsetLeft -
+      container.offsetLeft -
+      container.clientWidth / 2 +
+      target.clientWidth / 2;
 
-    const scrollLeft = target.offsetLeft - container.offsetLeft - (container.clientWidth / 2) + (target.clientWidth / 2)
-
-    container.scrollTo({ left: scrollLeft, behavior: 'smooth' })
+    container.scrollTo({ left: scrollLeft, behavior: "smooth" });
   }
 });
 
@@ -609,27 +629,21 @@ defineOgImageComponent("NuxtSeo", {
   sitelogo: "/favicon.ico",
 });
 
-onMounted(async () => {
-  startTimer()  
-  await $fetch(`https://vansfield-lifestyle-md-be.onrender.com`, {
-    method: "GET",
-  });
+onMounted(() => {
+  startTimer();
 });
 
 onBeforeUnmount(() => {
-  clearInterval(interval.value)
-})
+  clearInterval(interval.value);
+});
 
 const handleSubmit = async () => {
   try {
-    const response = await $fetch(
-      `https://vansfield-lifestyle-md-be.onrender.com/newsletter`,
-      { method: "POST", body: { name: name.value, email: email.value } }
-    );
-    // console.log(data);
+    const response = await $fetch(`${backend}/newsletter`, {
+      method: "POST",
+      body: { name: name.value, email: email.value },
+    });
     responseMsg.value = response.message;
-    // console.log(response.message);
-    // console.log(`hmm${responseMsg}`);
     setTimeout(() => {
       responseMsg.value = "";
     }, 5000);
@@ -639,16 +653,18 @@ const handleSubmit = async () => {
 };
 </script>
 
-<style lang="postcss" scoped>
-.fade-enter-active, .fade-leave-active {
-  @apply transition-opacity duration-500;
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
 }
-.fade-enter-from, .fade-leave-to {
-  @apply opacity-0;
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 ::-webkit-scrollbar {
   height: 4px;
 }
 </style>
-

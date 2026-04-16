@@ -1,12 +1,10 @@
 <template>
-  <UBreadcrumb :links="links" class="mb-5" />
-  <SuccessPopup v-if="isDisplayingSuccess" :message="successMsg" />
-  <AddCategory
-    v-if="showAddCategory"
-    @closeCategoryPopup="showAddCategory = false"
-  />
+  <SuccessPopup v-if="isDisplayingSuccess" :message="successMsg" @close="isDisplayingSuccess = false" />
   <p v-if="showErrorMessage" class="text-red-600 italic">{{ errorMsg }}</p>
   <div>
+    <p class="inline-flex rounded-full bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-700 shadow-sm ring-1 ring-teal-100">
+      Dashboard / Plans
+    </p>
     <h2 class="font-bold text-teal-700 text-2xl mb-8">Edit Product</h2>
     <p class="text-sm text-gray-500 italic">
       Fields marked with <span class="text-red-600">*</span> are required.
@@ -45,13 +43,9 @@
             {{ category.name }}
           </option>
         </select>
-        <div
-          class="flex items-center mt-3 hover:underline text-sm text-teal-700 font-semibold cursor-pointer"
-          @click="showAddCategory = !showAddCategory"
-        >
-          <UIcon name="i-heroicons-plus-small-20-solid" class="text-2xl" />
-          <p class="italic">Add a category</p>
-        </div>
+        <p class="mt-3 text-sm text-gray-500">
+          Pick the closest category so the catalog stays easy to scan.
+        </p>
       </div>
       <div class="flex gap-10">
         <div class="flex flex-col pt-8">
@@ -154,17 +148,6 @@ definePageMeta({
 
 const backend = useRuntimeConfig().public.backendUrl;
 
-const links = [
-  {
-    label: "Dashboard",
-    icon: "i-heroicons-square-3-stack-3d",
-  },
-  {
-    label: "Edit Product",
-    icon: "i-heroicons-pencil-square-20-solid",
-  },
-];
-
 const fileInput = ref(null);
 let dropzoneFile = ref("");
 const isDragging = ref(false);
@@ -182,8 +165,6 @@ const successMsg = ref("");
 const errorMsg = ref("");
 const showErrorMessage = ref(false);
 const categories = ref([]);
-const showAddCategory = ref(false);
-
 const active = ref(false);
 const toggleActive = () => {
   active.value = !active.value;
@@ -289,11 +270,6 @@ const submitNewProduct = async () => {
     console.error("Error uploading product:", error);
   }
 };
-
-watch(showAddCategory, async()=>{
-  const categoriesData = await $fetch(`${backend}/category`);
-  categories.value = categoriesData;
-})
 
 const { data: product } = await useFetch(`${backend}/products/${_id}`);
 onMounted(async () => {

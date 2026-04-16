@@ -15,25 +15,93 @@
             </h2>
             <div class="flex gap-2 items-end my-3">
               <p class="font-bold sm:text-4xl text-2xl text-teal-700">
-                ₦{{ product.price }}
+                {{ formattedPrice }}
               </p>
               <p
+                v-if="showOfferPrice"
                 class="font-medium sm:text-2xl text-lg text-gray-400 line-through"
               >
-                ₦{{ product.offer }}
+                {{ formattedOriginalPrice }}
               </p>
             </div>
           </div>
-          <div>
-            <p>5 star rating</p>
+          <div class="text-gray-600">
+            <p>
+              Interested in this plan? Send a request and the team will contact
+              you directly.
+            </p>
           </div>
-          <button
-            @click="processPayment()"
-            class="btn2 p-2 w-full text-xl flex justify-center items-center gap-2"
-          >
-            <UIcon name="i-heroicons-shopping-cart-solid" />
-            <span>Buy Now</span>
-          </button>
+          <form @submit.prevent="submitInterestRequest" class="mt-6 space-y-4">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label for="requesterName" class="font-semibold text-sm mb-1"
+                  >Full Name</label
+                >
+                <input
+                  id="requesterName"
+                  v-model="requestForm.requesterName"
+                  type="text"
+                  required
+                  placeholder="Enter your full name"
+                  class="bg-white px-4 py-3 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-base"
+                />
+              </div>
+              <div class="flex flex-col">
+                <label for="email" class="font-semibold text-sm mb-1"
+                  >Email</label
+                >
+                <input
+                  id="email"
+                  v-model="requestForm.email"
+                  type="email"
+                  required
+                  placeholder="Enter your email"
+                  class="bg-white px-4 py-3 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-base"
+                />
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <label for="phone" class="font-semibold text-sm mb-1"
+                >Phone Number</label
+              >
+              <input
+                id="phone"
+                v-model="requestForm.phone"
+                type="tel"
+                placeholder="Enter your phone number"
+                class="bg-white px-4 py-3 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-base"
+              />
+            </div>
+            <div class="flex flex-col">
+              <label for="notes" class="font-semibold text-sm mb-1"
+                >Message</label
+              >
+              <textarea
+                id="notes"
+                v-model="requestForm.notes"
+                rows="4"
+                placeholder="Add any details or questions about this plan"
+                class="bg-white px-4 py-3 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-base resize-none"
+              ></textarea>
+            </div>
+            <p v-if="errorMessage" class="text-red-600 text-sm">
+              {{ errorMessage }}
+            </p>
+            <button
+              type="submit"
+              :disabled="isSubmitting"
+              class="btn2 p-3 w-full text-xl flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              <UIcon
+                v-if="isSubmitting"
+                class="animate-spin"
+                name="heroicons:arrow-path-16-solid"
+                dynamic
+              />
+              <UIcon v-else name="heroicons:paper-airplane-solid" dynamic />
+              <span>{{ isSubmitting ? "Sending..." : "Request This Plan" }}</span>
+            </button>
+          </form>
         </div>
       </div>
       <div class="lg:w-1/2 w-full shadow-xl mt-2 md:m-0">
@@ -46,85 +114,97 @@
         </div>
       </div>
     </div>
+    <SuccessPopup v-if="successMessage" :message="successMessage" @close="successMessage = ''" />
   </div>
 </template>
 
 <script setup>
-import jwtDecode from "jwt-decode";
-
 const { product } = defineProps(["product"]);
-const { token } = useAuthState();
-const { status } = useAuth();
+const { data } = useAuthState();
 
 const backend = useRuntimeConfig().public.backendUrl;
-const payKey = useRuntimeConfig().public.paystackPK;
+const user = computed(() => data.value);
 
-let decoded = null;
+const requestForm = ref({
+  requesterName: "",
+  email: "",
+  phone: "",
+  notes: "",
+});
+const isSubmitting = ref(false);
+const errorMessage = ref("");
+const successMessage = ref("");
 
-// Only decode the token if it exists and is valid
-if (token.value && token.value !== "null" && token.value !== "") {
-  try {
-    decoded = jwtDecode(token.value);
-  } catch (err) {
-    console.error("Error decoding token:", err);
-  }
-}
 useHead({
   title: `${product.productName} | Vansfield Lifestyle MD Shop`,
   meta: [{ name: "description", content: "Vansfield Shop" }],
-  script: [
-    
-    {
-      src: "https://js.paystack.co/v1/inline.js",
-      type: "text/javascript",
-      defer: true,
-    },
-  ],
 });
 
-function payWithPaystack() {
-  return new Promise((resolve, reject) => {
-    console.log("heyy");
-    let handler = PaystackPop.setup({
-      key: payKey, // Replace with your public key
-      email: decoded.email,
-      amount: (product.price - product.offer) * 100,
-      currency: "NGN",
-      onClose: function () {
-        alert("Window closed.");
-        reject("Payment window closed");
-      },
-      callback: function (response) {
-        let message = "Payment complete!";
-        alert(message);
-        resolve(response.reference);
-      },
-    });
+const formatCurrency = (value) => {
+  const amount = Number(value) || 0;
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
 
-    handler.openIframe();
-  });
-}
+const discountedPrice = computed(() => {
+  const price = Number(product.price) || 0;
+  const offer = Number(product.offer) || 0;
+  return Math.max(price - offer, 0);
+});
 
-// console.log(status);
-async function processPayment() {
-  if (status.value !== "authenticated") {
-    alert("you must be logged in to make purchase");
-    return navigateTo("/login");
-  }
+const showOfferPrice = computed(() => Number(product.offer) > 0);
+const formattedPrice = computed(() => formatCurrency(discountedPrice.value));
+const formattedOriginalPrice = computed(() => formatCurrency(product.price));
+
+watchEffect(() => {
+  if (!user.value) return;
+
+  requestForm.value.requesterName =
+    requestForm.value.requesterName ||
+    `${user.value.firstName || ""} ${user.value.lastName || ""}`.trim();
+  requestForm.value.email = requestForm.value.email || user.value.email || "";
+  requestForm.value.phone =
+    requestForm.value.phone || user.value.phoneNumber || "";
+});
+
+const clearFeedback = () => {
+  setTimeout(() => {
+    successMessage.value = "";
+    errorMessage.value = "";
+  }, 3500);
+};
+
+const submitInterestRequest = async () => {
+  errorMessage.value = "";
+
   try {
-    const reference = await payWithPaystack();
-    await $fetch(`${backend}/order`, {
+    isSubmitting.value = true;
+    const response = await $fetch(`${backend}/requests`, {
       method: "POST",
-      body: { productId: product._id, reference },
-      credentials: "include",
-      headers: token.value ? { Authorization: token.value } : {},
+      body: {
+        productId: product._id,
+        requesterName: requestForm.value.requesterName,
+        email: requestForm.value.email,
+        phone: requestForm.value.phone,
+        notes: requestForm.value.notes,
+      },
     });
-  } catch (error) {
-    console.error(error);
-  }
-}
 
-// processPayment();
+    successMessage.value = response.message;
+    requestForm.value.notes = "";
+    clearFeedback();
+  } catch (error) {
+    errorMessage.value =
+      error?.data?.message || "Unable to send your request right now.";
+    clearFeedback();
+    console.error(error);
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 </script>
 
 <style scoped></style>

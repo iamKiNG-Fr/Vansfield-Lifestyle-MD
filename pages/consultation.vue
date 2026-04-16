@@ -1,154 +1,190 @@
 <template>
-  <div>
-    <div
-      @submit.prevent="submitAppointment"
-      class="flex justify-center items-center lg:my-[60px]"
+  <div class="px-4 py-8 lg:px-20 lg:py-12">
+    <section
+      class="mx-auto grid max-w-7xl gap-8 rounded-[36px] bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.08)] lg:grid-cols-[0.92fr_1.08fr] lg:p-10"
     >
-      <div class="relative inline-block lg:pl-[440px]">
-        <div
-          class="lg:bg-[url('/consultlg.jpg')] bg-[url('/consult.jpg')] bg-cover rounded-xl lg:w-[900px] lg:h-[700px] lg:absolute relative -z-10 lg:-right-[30px] lg:-top-8 text-center text-gray-100 p-4 m-8 py-12"
-        >
-          <div class="lg:hidden">
-            <h2 class="font-bold text-3xl mb-3 text-yellow-500">
-              Online Consultation Form
-            </h2>
-            <p>
-              Welcome to Vansfield Lifestyle, Dr. Dozie's online consultation
-              service. Please fill out the form below so Dr. Dozie can assist
-              you promptly and effectively.
+      <div class="rounded-[32px] bg-teal-700 p-8 text-white">
+        <p class="section-kicker !text-yellow-300">Consultation Booking</p>
+        <h1 class="mt-4 text-4xl font-bold leading-tight lg:text-5xl">
+          Book a focused consultation with Dr. Dozie
+        </h1>
+        <p class="mt-6 text-base leading-8 text-teal-50/90 lg:text-lg">
+          Share a few details about your needs and preferred time, and the team
+          will follow up to confirm availability.
+        </p>
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-[24px] bg-white/10 p-5">
+            <p class="text-sm uppercase tracking-[0.14em] text-yellow-300">Availability</p>
+            <p class="mt-3 text-sm leading-7 text-teal-50/85">
+              Monday to Friday, 9:00 AM to 5:00 PM.
+            </p>
+          </div>
+          <div class="rounded-[24px] bg-white/10 p-5">
+            <p class="text-sm uppercase tracking-[0.14em] text-yellow-300">Format</p>
+            <p class="mt-3 text-sm leading-7 text-teal-50/85">
+              Designed for practical conversations, next steps, and follow-up support.
             </p>
           </div>
         </div>
-        <form
-          action=""
-          class="p-10 bg-white mt-10 lg:inline-block rounded-xl shadow-lg m-8"
-        >
+
+        <div class="mt-8 rounded-[28px] border border-white/10 bg-white/8 p-6">
+          <p class="text-sm uppercase tracking-[0.14em] text-yellow-300">What to expect</p>
+          <div class="mt-4 grid gap-3">
+            <div class="rounded-2xl bg-white/10 px-4 py-3 text-sm text-teal-50/90">
+              A clear review of your concern or goal.
+            </div>
+            <div class="rounded-2xl bg-white/10 px-4 py-3 text-sm text-teal-50/90">
+              Practical recommendations and next-step guidance.
+            </div>
+            <div class="rounded-2xl bg-white/10 px-4 py-3 text-sm text-teal-50/90">
+              Follow-up confirmation by email after submission.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form @submit.prevent="submitAppointment" class="rounded-[32px] border border-stone-200 bg-stone-50/70 p-6 lg:p-8">
+        <div>
+          <p class="section-kicker">Appointment Form</p>
+          <h2 class="mt-3 text-3xl font-bold text-gray-900">Tell us what you need</h2>
+          <p class="mt-3 text-base leading-7 text-gray-600">
+            Fill in the form below and we’ll take it from there.
+          </p>
+        </div>
+
+        <p v-if="successMessage" class="mt-5 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+          {{ successMessage }}
+        </p>
+        <p v-if="errorMessage" class="mt-5 rounded-2xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+          {{ errorMessage }}
+        </p>
+
+        <div class="mt-8 grid gap-5 md:grid-cols-2">
           <div class="flex flex-col">
-            <label for="" class="font-bold text-lg">First Name</label>
+            <label class="modern-label">First Name</label>
             <input
               type="text"
-              placeholder="Enter your name"
+              placeholder="Enter your first name"
               v-model="formState.firstName"
               required
-              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
+              class="modern-input"
             />
           </div>
-          <div class="flex flex-col pt-8">
-            <label for="" class="font-bold text-lg">Last Name</label>
+          <div class="flex flex-col">
+            <label class="modern-label">Last Name</label>
             <input
               type="text"
-              placeholder="Enter your name"
+              placeholder="Enter your last name"
               v-model="formState.lastName"
               required
-              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
+              class="modern-input"
             />
           </div>
-          <div class="flex flex-col pt-8">
-            <label for="" class="font-bold text-lg">Phone Number</label>
+        </div>
+
+        <div class="mt-5 grid gap-5 md:grid-cols-2">
+          <div class="flex flex-col">
+            <label class="modern-label">Phone Number</label>
             <input
               type="tel"
-              placeholder="enter your phone number"
+              placeholder="Enter your phone number"
               v-model="formState.phone"
               required
-              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
+              class="modern-input"
             />
           </div>
-          <div class="flex flex-col pt-8">
-            <label for="" class="font-bold text-lg">Email</label>
+          <div class="flex flex-col">
+            <label class="modern-label">Email</label>
             <input
               type="email"
-              placeholder="enter your email"
+              placeholder="Enter your email"
               v-model="formState.email"
-              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
+              required
+              class="modern-input"
             />
           </div>
-          <!-- <div class="flex flex-col pt-8">
-            <label for="" class="font-bold text-lg">Consultation Type</label>
-            <select
-              name=""
-              id=""
-              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
-            >
-              <option value="" disabled selected>Pick a type</option>
-              <option value="">we</option>
-              <option value="">llo</option>
-              <option value="">mate</option>
-            </select>
-          </div> -->
-          <div class="flex flex-col pt-8">
-            <label for="" class="font-bold text-lg">Date</label>
+        </div>
+
+        <div class="mt-5 grid gap-5 md:grid-cols-3">
+          <div class="flex flex-col md:col-span-1">
+            <label class="modern-label">Date</label>
             <input
               type="date"
               :min="minDate"
               v-model="formState.date"
-              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
+              class="modern-input"
+              required
             />
           </div>
-          <div class="flex flex-col ">
-            <p class="text-sm text-gray-500 itali pt-8">
-                  Available <span class="text-teal-700">Monday</span> to <span class="text-teal-700">Friday</span>  , <span class="text-teal-700">9AM</span> to <span class="text-teal-700">5PM</span>
-                
-                </p>
-                <div class="flex gap-10">
-
-                  <div class="flex flex-col pt-4">
-                    <label for="" class="font-bold text-lg">From</label>
-                    <input
-                      type="time"
-                      v-model="formState.timeFrom"
-                      :min="minTime"
-                      :max="maxTime"
-                      step="1800"
-                      class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
-                    />
-                  </div>
-                  <div class="flex flex-col pt-4">
-                  
-                    <label for="" class="font-bold text-lg">To</label>
-                    <input
-                      type="time"
-                      v-model="formState.timeTo"
-                      :min="minTime"
-                      :max="maxTime"
-                      step="1800"
-                      class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg"
-                    />
-                  </div>
-                </div>
+          <div class="flex flex-col">
+            <label class="modern-label">From</label>
+            <input
+              type="time"
+              v-model="formState.timeFrom"
+              :min="minTime"
+              :max="maxTime"
+              step="1800"
+              class="modern-input"
+              required
+            />
           </div>
           <div class="flex flex-col">
-            <label for="details" class="font-bold text-lg mt-8"
-              >More information</label
-            >
-            <textarea
+            <label class="modern-label">To</label>
+            <input
+              type="time"
+              v-model="formState.timeTo"
+              :min="minTime"
+              :max="maxTime"
+              step="1800"
+              class="modern-input"
               required
-              v-model="formState.details"
-              id="details"
-              rows="3"
-              class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg resize-none"
-            ></textarea>
+            />
           </div>
+        </div>
 
-          <button type="submit" class="btn2 w-full p-3 text-lg mt-7">
-            Book Now
-          </button>
-        </form>
-      </div>
-    </div>
+        <div class="mt-5 flex flex-col">
+          <label for="details" class="modern-label">More Information</label>
+          <textarea
+            id="details"
+            required
+            v-model="formState.details"
+            rows="5"
+            class="modern-input resize-none"
+            placeholder="Share what you would like support with."
+          ></textarea>
+        </div>
+
+        <button type="submit" :disabled="isSubmitting" class="btn mt-8 w-full justify-center py-3 text-base">
+          {{ isSubmitting ? "Sending..." : "Book Now" }}
+        </button>
+      </form>
+    </section>
+
     <Newsletter />
   </div>
 </template>
 
 <script setup>
+const siteUrl = useRuntimeConfig().public.siteUrl;
+const pageTitle = "Consultation With Dr. Ijeoma Dozie | Vansfield Lifestyle MD";
+const pageDescription =
+  "Book a consultation with Dr. Ijeoma Dozie for personalized wellness guidance, lifestyle medicine support, preventive care planning, and health strategy.";
+
+useSeoMeta({
+  title: pageTitle,
+  description: pageDescription,
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
+  ogUrl: `${siteUrl}/consultation`,
+  ogImage: `${siteUrl}/assets/img/drdozie4.png`,
+  twitterTitle: pageTitle,
+  twitterDescription: pageDescription,
+  twitterImage: `${siteUrl}/assets/img/drdozie4.png`,
+});
+
 useHead({
-  title: "Vansfield Lifestyle MD | Consultation",
-  meta: [
-    {
-      name: "description",
-      content:
-        "Embark on a transformative journey with Dr. Dozie. Discover personalized health plans, expert consultations, and vibrant living strategies. Your path to wellness begins here!",
-    },
-  ],
+  link: [{ rel: "canonical", href: `${siteUrl}/consultation` }],
 });
 
 definePageMeta({
@@ -167,36 +203,47 @@ const formState = ref({
   details: "",
 });
 
-// Get today's date in the format YYYY-MM-DD
 const today = new Date().toISOString().split("T")[0];
-
-// Define the min date and min/max times
 const minDate = today;
 const minTime = "09:00";
 const maxTime = "17:00";
 
 const backend = useRuntimeConfig().public.backendUrl;
+const isSubmitting = ref(false);
+const successMessage = ref("");
+const errorMessage = ref("");
+
+const resetForm = () => {
+  formState.value = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    type: "",
+    date: "",
+    timeFrom: "",
+    timeTo: "",
+    details: "",
+  };
+};
 
 const submitAppointment = async () => {
   try {
+    isSubmitting.value = true;
+    errorMessage.value = "";
+    successMessage.value = "";
     await $fetch(`${backend}/appointments`, {
       method: "POST",
       body: formState.value,
     });
-    alert("Appointment submitted successfully!");
-    formState.value = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      type: "",
-      date: "",
-      timeFrom: "",
-      timeTo: "",
-      details: "",
-    };
+    successMessage.value = "Your consultation request has been submitted successfully.";
+    resetForm();
   } catch (error) {
+    errorMessage.value =
+      error?.data?.message || "Unable to submit your request right now.";
     console.error("Error submitting appointment:", error);
+  } finally {
+    isSubmitting.value = false;
   }
 };
 </script>

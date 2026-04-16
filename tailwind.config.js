@@ -2,7 +2,19 @@ import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
+  content: [
+    "./app.config.ts",
+    "./error.vue",
+    "./components/**/*.{vue,js,ts}",
+    "./composables/**/*.{js,ts}",
+    "./layouts/**/*.vue",
+    "./middleware/**/*.{js,ts}",
+    "./pages/**/*.vue",
+    "./server/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
+    "./app.vue",
+    "./node_modules/@nuxt/ui/dist/**/*.{js,mjs,ts,vue}",
+  ],
   theme: {
     extend: {
       screens:{
@@ -28,4 +40,3 @@ export default {
   },
   plugins: [typography],
 }
-

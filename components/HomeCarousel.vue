@@ -1,16 +1,34 @@
 <template>
-  <UCarousel
-    ref="carouselRef"
-    v-slot="{ item }"
-    :items="items"
-    :ui="{
-      item: 'basis-full md:basis-1/2 lg:basis-1/4',
-      active: 'bg-yellow-400',
-    }"
-    class="overflow-hidden"
-  >
-    <img :src="item" class="h-96 w-full object-cover" draggable="false" />
-  </UCarousel>
+  <section class="overflow-x-clip overflow-y-hidden bg-white py-12 lg:py-16">
+    <div class="mx-auto max-w-7xl px-4 lg:px-20">
+      <div class="mb-8 flex items-end justify-between gap-4">
+        <div>
+          <p class="section-kicker">Gallery Highlights</p>
+          <h3 class="mt-3 text-3xl font-bold text-gray-900 lg:text-4xl">
+            Moments from consultations, speaking, and community impact
+          </h3>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-[32px] border border-stone-200 bg-stone-100 p-3 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+        <div class="carousel-track">
+          <article
+            v-for="(item, index) in carouselItems"
+            :key="`${item}-${index}`"
+            class="carousel-card"
+          >
+            <img
+              :src="item"
+              alt="Gallery highlight"
+              class="h-72 w-full rounded-[24px] object-cover lg:h-80"
+              draggable="false"
+              loading="lazy"
+            />
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -45,40 +63,48 @@ const items = [
   "/dr_dozie/IMG-20250504-WA0070.jpg",
   "/dr_dozie/IMG-20250504-WA0071.jpg",
   "/dr_dozie/IMG-20250504-WA0072.jpg",
-  "/dr_dozie/WhatsApp Image 2024-09-26 at 14.47.27_9dcd3740.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.47.25_f4afa93d.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.47.27_7d37db96.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.47.29_eea06644.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.47.30_73bfe220.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.47.31_a935fe86.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.47.31_ef8287fd.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.47.32_e861091a.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.27_b7dbf713.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.27_feb6c2a3.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.28_5e79faf9.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.28_683eb6af.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.28_e0747755.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.29_b5146f96.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.29_c81ad519.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.30_7379f933.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.30_f8776c9d.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.31_b08d4351.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.32_2bde9a8e.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.32_9a527fbf.jpg",
-  "/dr_dozie/WhatsApp Image 2025-05-04 at 17.52.33_cb67dd7d.jpg",
 ];
-
-const carouselRef = ref();
-
-onMounted(() => {
-  setInterval(() => {
-    if (!carouselRef.value) return;
-
-    if (carouselRef.value.page === carouselRef.value.pages) {
-      return carouselRef.value.select(0);
-    }
-
-    carouselRef.value.next();
-  }, 4000);
-});
+const carouselItems = [...items, ...items];
 </script>
+
+<style scoped>
+.carousel-track {
+  display: flex;
+  gap: 1rem;
+  width: fit-content;
+  min-width: 100%;
+  animation: marquee 45s linear infinite;
+  will-change: transform;
+}
+
+.carousel-card {
+  width: clamp(220px, 68vw, 320px);
+  flex: 0 0 auto;
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@media (min-width: 1024px) {
+  .carousel-card {
+    width: 280px;
+  }
+}
+
+@media (max-width: 639px) {
+  .carousel-card {
+    width: 240px;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
+</style>
