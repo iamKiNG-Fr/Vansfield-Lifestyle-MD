@@ -1,84 +1,104 @@
 <template>
-  <SuccessPopup v-if="isDisplayingSuccess" :message="successMsg" @close="isDisplayingSuccess = false" />
-  <p v-if="showErrorMessage" class="text-red-600 italic">{{ errorMsg }}</p>
-  <div>
-    <p class="inline-flex rounded-full bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-700 shadow-sm ring-1 ring-teal-100">
-      Dashboard / Plans
-    </p>
-    <h2 class="font-bold text-teal-700 text-2xl mb-8">Edit Product</h2>
-    <p class="text-sm text-gray-500 italic">
-      Fields marked with <span class="text-red-600">*</span> are required.
-    </p>
-  </div>
-  <form
-    @submit.prevent="submitNewProduct"
-    class="p-10 bg-white mt-10 flex gap-10 justify-center"
-  >
-    <div class="w-1/2">
-      <div class="flex flex-col">
-        <label for="productName" class="font-bold text-lg"
-          >Product Name<span class="text-red-600">*</span></label
+  <SuccessPopup
+    v-if="isDisplayingSuccess"
+    :message="successMsg"
+    @close="isDisplayingSuccess = false"
+  />
+
+  <section class="admin-shell">
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p
+          class="inline-flex rounded-full bg-white px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-teal-700 shadow-sm ring-1 ring-teal-100"
         >
-        <input
-          type="text"
-          placeholder="Enter product name"
-          v-model="productName"
-          class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg focus:outline-none"
-        />
-      </div>
-      <div class="flex flex-col pt-8">
-        <label for="category" class="font-bold text-lg"
-          >Category<span class="text-red-600">*</span></label
-        >
-        <select
-          v-model="category"
-          class="bg-white px-5 pt-3 pb-1 border-b-4 focus:outline-none border-teal-700 focus:border-yellow-400 font-medium text-lg"
-        >
-          <option value="" disabled selected>Pick a category</option>
-          <option
-            v-for="category in categories"
-            :key="category._id"
-            :value="category._id"
-          >
-            {{ category.name }}
-          </option>
-        </select>
-        <p class="mt-3 text-sm text-gray-500">
-          Pick the closest category so the catalog stays easy to scan.
+          Dashboard / Plans
+        </p>
+        <p class="section-kicker mt-4">Plans And Products</p>
+        <h2 class="mt-3 text-3xl font-bold text-teal-700">Edit Plan or Product</h2>
+        <p class="mt-2 text-sm text-gray-500">
+          Update the details below and save when you are ready.
         </p>
       </div>
-      <div class="flex gap-10">
-        <div class="flex flex-col pt-8">
-          <label for="price" class="font-bold text-lg"
-            >Price<span class="text-red-600">*</span></label
-          >
-          <input
-            type="number"
-            placeholder="Enter a price"
-            v-model="price"
-            class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg focus:outline-none"
-          />
-        </div>
-        <div class="flex flex-col pt-8">
-          <label for="offer" class="font-bold text-lg">offer</label>
-          <input
-            type="number"
-            placeholder="Enter an offer"
-            v-model="offer"
-            class="bg-white px-5 pt-3 pb-1 border-b-4 border-teal-700 focus:border-yellow-400 font-medium text-lg focus:outline-none"
-          />
-        </div>
-      </div>
-      <div class="flex flex-col pt-8">
-        <label for="description" class="font-bold text-lg"
-          >Description <span class="text-red-600">*</span></label
-        >
-        <TipTap v-model="description" />
-      </div>
     </div>
-    <div class="w-1/2">
-      <div>
-        <label for="" class="font-bold text-lg">Upload Image</label>
+
+    <p v-if="showErrorMessage" class="error mb-6 pb-0">{{ errorMsg }}</p>
+
+    <div
+      v-if="isFetching"
+      class="admin-panel py-16 text-center text-sm font-medium text-gray-500"
+    >
+      Loading plan details...
+    </div>
+
+    <form v-else @submit.prevent="submitUpdatedProduct" class="admin-form">
+      <div class="admin-panel space-y-6">
+        <div class="flex flex-col">
+          <label for="productName" class="modern-label">
+            Plan/Product Name <span class="text-red-600">*</span>
+          </label>
+          <input
+            id="productName"
+            type="text"
+            placeholder="Enter plan name"
+            v-model="productName"
+            class="modern-input"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="category" class="modern-label">
+            Category <span class="text-red-600">*</span>
+          </label>
+          <select id="category" v-model="category" class="modern-input">
+            <option value="" disabled>Pick a category</option>
+            <option
+              v-for="item in categories"
+              :key="item._id"
+              :value="item._id"
+            >
+              {{ item.name }}
+            </option>
+          </select>
+          <p class="mt-3 text-sm text-gray-500">
+            Pick the closest category for this item so the catalog stays easy to browse.
+          </p>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          <div class="flex flex-col">
+            <label for="price" class="modern-label">
+              Price <span class="text-red-600">*</span>
+            </label>
+            <input
+              id="price"
+              type="number"
+              placeholder="Enter a price"
+              v-model="price"
+              class="modern-input"
+            />
+          </div>
+          <div class="flex flex-col">
+            <label for="offer" class="modern-label">Discount / Offer</label>
+            <input
+              id="offer"
+              type="number"
+              placeholder="Optional discount"
+              v-model="offer"
+              class="modern-input"
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-col">
+          <label for="description" class="modern-label">
+            Description <span class="text-red-600">*</span>
+          </label>
+          <TipTap v-model="description" />
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <p class="modern-label">Image Upload</p>
         <div
           class="dropzone"
           :class="{ 'active-dropzone': active }"
@@ -94,10 +114,13 @@
         >
           <div
             v-if="!isDragging"
-            class="flex flex-col justify-center items-center gap-2"
+            class="flex flex-col items-center justify-center gap-3"
           >
-            <span class="">Drag and Drop Image Here</span>
-            <span>OR</span>
+            <div class="rounded-full bg-teal-100 p-4 text-teal-700">
+              <UIcon name="heroicons:photo-solid" class="text-3xl" dynamic />
+            </div>
+            <p class="text-lg font-semibold text-gray-800">Drag and drop image here</p>
+            <p class="text-sm text-gray-500">PNG or JPG up to 2MB</p>
             <label class="btn" for="drop">Select Image</label>
             <input
               type="file"
@@ -109,34 +132,63 @@
             />
           </div>
           <div v-else>
-            <span class="">Drop Image Here</span>
+            <span class="text-lg font-semibold text-teal-700">Drop image here</span>
           </div>
         </div>
-        <span class="text-teal-700">Image: {{ dropzoneFile.name }}</span>
-      </div>
-      <div v-if="imagePreview" class="mt-4">
-        <img
-          :src="imagePreview"
-          alt="Image Preview"
-          class="w-28 h-28 object-cover rounded-xl mx-auto"
-        />
-      </div>
 
-      <button
-        type="submit"
-        :disabled="isLoading === true"
-        class="btn2 w-full p-3 text-lg mt-7"
-      >
-        <p v-if="!isLoading">Add Product</p>
-        <UIcon
-          class="animate-spin"
-          name="heroicons:arrow-path-16-solid"
-          dynamic
-          v-else
-        />
-      </button>
-    </div>
-  </form>
+        <p class="mt-4 text-sm font-medium text-teal-700">
+          {{
+            dropzoneFile?.name
+              ? `New image: ${dropzoneFile.name}`
+              : currentImageLabel
+          }}
+        </p>
+
+        <div
+          class="mt-5 overflow-hidden rounded-[24px] border border-stone-200 bg-white"
+        >
+          <div class="flex aspect-[4/3] items-center justify-center bg-stone-100">
+            <img
+              v-if="imagePreview"
+              :src="imagePreview"
+              alt="Image Preview"
+              class="h-full w-full object-cover"
+            />
+            <div v-else class="px-6 text-center text-sm text-gray-400">
+              The selected image preview will appear here.
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-gray-400">
+              Preview
+            </p>
+            <p class="mt-2 text-lg font-bold text-gray-900">
+              {{ productName || "Plan title preview" }}
+            </p>
+            <p class="mt-1 text-sm text-gray-500">
+              {{ selectedCategoryName || "Choose a category to continue" }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          :disabled="isLoading"
+          class="btn mt-6 w-full justify-center py-3"
+        >
+          <p v-if="!isLoading">Save Changes</p>
+          <div v-else class="flex items-center gap-2">
+            <UIcon
+              class="animate-spin"
+              name="heroicons:arrow-path-16-solid"
+              dynamic
+            />
+            <span>Saving...</span>
+          </div>
+        </button>
+      </div>
+    </form>
+  </section>
 </template>
 
 <script setup>
@@ -144,37 +196,50 @@ const { _id } = useRoute().params;
 
 definePageMeta({
   layout: "dashboard",
+  middleware: "verify",
+  role: "sAdmin" || "admin",
 });
 
 const backend = useRuntimeConfig().public.backendUrl;
 
 const fileInput = ref(null);
-let dropzoneFile = ref("");
+const dropzoneFile = ref(null);
 const isDragging = ref(false);
 const productName = ref("");
 const category = ref("");
-const price = ref("");
-const offer = ref("");
+const price = ref(0);
+const offer = ref(0);
 const description = ref("");
 const productImage = ref(null);
 const imagePreview = ref(null);
+const existingImage = ref("");
 const isDisplayingSuccess = ref(false);
-const error = ref("");
 const isLoading = ref(false);
+const isFetching = ref(true);
 const successMsg = ref("");
 const errorMsg = ref("");
 const showErrorMessage = ref(false);
 const categories = ref([]);
 const active = ref(false);
+
 const toggleActive = () => {
   active.value = !active.value;
   isDragging.value = !isDragging.value;
 };
+
+const selectedCategoryName = computed(() => {
+  return categories.value.find((item) => item._id === category.value)?.name || "";
+});
+
+const currentImageLabel = computed(() => {
+  return existingImage.value ? "Current image is shown below." : "No image selected yet.";
+});
+
 const drop = (e) => {
-  //   dropzoneFile.value = e.dataTransfer.files[0];
   const file = e.dataTransfer.files[0];
   handleFile(file);
 };
+
 const selectedFile = () => {
   const file = document.querySelector(".dropzoneFile").files[0];
   handleFile(file);
@@ -192,25 +257,23 @@ const handleFile = (file) => {
   } else {
     dropzoneFile.value = null;
     productImage.value = null;
-    imagePreview.value = null;
+    imagePreview.value = existingImage.value || null;
   }
 };
 
-// Validation Function
 const validateForm = () => {
   if (!productName.value.trim()) return "Product name is required.";
   if (!category.value.trim()) return "Category is required.";
   if (!price.value || isNaN(price.value) || price.value <= 0) {
     return "Price must be a valid positive number.";
   }
-  if (offer.value !== null && (isNaN(offer.value) || offer.value < 0)) {
+  if (offer.value !== null && offer.value !== "" && (isNaN(offer.value) || offer.value < 0)) {
     return "Offer must be a valid non-negative number.";
   }
   if (!description.value.trim()) return "Description is required.";
-  return null; // No errors
+  return null;
 };
 
-// Handle Validation Errors
 const handleValidationErrors = (message) => {
   errorMsg.value = message;
   showErrorMessage.value = true;
@@ -220,32 +283,51 @@ const handleValidationErrors = (message) => {
   }, 5500);
 };
 
-onMounted(async () => {
-  const categoriesData = await $fetch(`${backend}/category`);
-  categories.value = categoriesData;
+const loadPageData = async () => {
+  try {
+    isFetching.value = true;
+    const [categoriesData, product] = await Promise.all([
+      $fetch(`${backend}/category`),
+      $fetch(`${backend}/products/${_id}`),
+    ]);
 
-});
+    categories.value = categoriesData;
+    productName.value = product.productName || "";
+    category.value = product.category || "";
+    price.value = product.price || 0;
+    offer.value = product.offer || 0;
+    description.value = product.description || "";
+    existingImage.value = product.productImage ? `${backend}${product.productImage}` : "";
+    imagePreview.value = existingImage.value || null;
+  } catch (error) {
+    console.error("Error loading product:", error);
+    handleValidationErrors("Unable to load this plan right now.");
+  } finally {
+    isFetching.value = false;
+  }
+};
 
+onMounted(loadPageData);
 
-const submitNewProduct = async () => {
-  const error = validateForm();
-  if (error) {
-    handleValidationErrors(error); // Stop submission and show validation error
+const submitUpdatedProduct = async () => {
+  const validationError = validateForm();
+  if (validationError) {
+    handleValidationErrors(validationError);
     return;
   }
 
   try {
+    isLoading.value = true;
     const formData = new FormData();
     formData.append("productName", productName.value);
     formData.append("category", category.value);
     formData.append("price", price.value);
-    formData.append("offer", offer.value);
+    formData.append("offer", offer.value || 0);
     formData.append("description", description.value);
     if (productImage.value) {
       formData.append("productImage", productImage.value);
     }
-    console.log(formData);
-    
+
     const response = await $fetch(`${backend}/products/${_id}`, {
       method: "PUT",
       body: formData,
@@ -258,33 +340,15 @@ const submitNewProduct = async () => {
         isDisplayingSuccess.value = false;
         navigateTo("/dashboard/viewproducts");
       }, 3500);
+      return;
     }
-    if (response.success === false) {
-      showErrorMessage.value = true;
-      errorMsg.value = response.message;
-      setTimeout(() => {
-        showErrorMessage.value = false;
-      }, 3500);
-    }
+
+    handleValidationErrors(response.message || "Failed to update plan. Please try again.");
   } catch (error) {
-    console.error("Error uploading product:", error);
+    console.error("Error updating product:", error);
+    handleValidationErrors("Failed to update plan. Please try again.");
+  } finally {
+    isLoading.value = false;
   }
 };
-
-const { data: product } = await useFetch(`${backend}/products/${_id}`);
-onMounted(async () => {
-
-  const categoriesData = await $fetch(`${backend}/category`);
-  categories.value = categoriesData;
-  
-
-  //   console.log(product.value);
-  if (product) {
-    productName.value = product.value.productName;
-    category.value = product.value.category;
-    price.value = product.value.price;
-    offer.value = product.value.offer;
-    description.value = product.value.description;
-  }
-});
 </script>
